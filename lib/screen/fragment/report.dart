@@ -18,7 +18,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:skeleton_text/skeleton_text.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 String selectedPelajaran;
 
@@ -541,8 +541,14 @@ class ReportAppState extends State<ReportApp>
 
   @override
   void onError(String error) {
-    Toast.show("$error", context,
-        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+    Fluttertoast.showToast(
+        msg: "$error",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   @override
@@ -750,8 +756,14 @@ class ReportAppState extends State<ReportApp>
 
   @override
   void onSuccess(String success) {
-    Toast.show("$success", context,
-        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+    Fluttertoast.showToast(
+        msg: "$success",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   @override

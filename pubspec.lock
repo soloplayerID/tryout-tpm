@@ -21,21 +21,21 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.6.1"
+    version: "2.8.1"
   audioplayers:
     dependency: "direct main"
     description:
       name: audioplayers
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.20.0"
+    version: "0.20.1"
   auto_size_text:
     dependency: "direct main"
     description:
       name: auto_size_text
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "3.0.0-nullsafety.0"
   badges:
     dependency: "direct main"
     description:
@@ -84,7 +84,7 @@ packages:
       name: carousel_slider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.4"
+    version: "4.0.0"
   characters:
     dependency: transitive
     description:
@@ -98,7 +98,7 @@ packages:
       name: charcode
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0"
+    version: "1.3.1"
   charts_common:
     dependency: transitive
     description:
@@ -109,9 +109,11 @@ packages:
   charts_flutter:
     dependency: "direct main"
     description:
-      name: charts_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: charts_flutter
+      ref: HEAD
+      resolved-ref: "30477090290b348ed3101bc13017aae465f59017"
+      url: "git://github.com/google/charts.git"
+    source: git
     version: "0.11.0"
   chewie:
     dependency: transitive
@@ -127,13 +129,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
-  circle_button:
-    dependency: "direct main"
-    description:
-      name: circle_button
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
   clipboard:
     dependency: "direct main"
     description:
@@ -400,7 +395,7 @@ packages:
       name: intl
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.17.0"
+    version: "0.16.1"
   ionicons:
     dependency: "direct main"
     description:
@@ -422,13 +417,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
-  loading:
-    dependency: "direct main"
-    description:
-      name: loading
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.2"
   logging:
     dependency: transitive
     description:
@@ -443,20 +431,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.10"
-  md2_tab_indicator:
-    dependency: "direct main"
-    description:
-      name: md2_tab_indicator
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.2"
   meta:
     dependency: transitive
     description:
       name: meta
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.3.0"
+    version: "1.7.0"
   mime:
     dependency: "direct main"
     description:
@@ -555,6 +536,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
+  permission_handler:
+    dependency: "direct main"
+    description:
+      name: permission_handler
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "8.1.6"
+  permission_handler_platform_interface:
+    dependency: transitive
+    description:
+      name: permission_handler_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.6.1"
   petitparser:
     dependency: transitive
     description:
@@ -603,7 +598,7 @@ packages:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.0"
+    version: "5.0.0"
   quiver:
     dependency: transitive
     description:
@@ -748,14 +743,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.0"
-  toast:
-    dependency: "direct main"
-    description:
-      name: toast
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.5"
+    version: "0.4.2"
   tuple:
     dependency: "direct main"
     description:
@@ -790,14 +778,14 @@ packages:
       name: video_player
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.15"
+    version: "2.2.0"
   video_player_platform_interface:
     dependency: transitive
     description:
       name: video_player_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.1.0"
+    version: "4.2.0"
   video_player_web:
     dependency: transitive
     description:

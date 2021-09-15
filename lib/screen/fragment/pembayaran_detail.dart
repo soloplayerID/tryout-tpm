@@ -6,7 +6,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:TesUjian/src/resources/session.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class PembayaranDetail extends StatefulWidget {
   final String metode;
@@ -125,10 +125,14 @@ class PembayaranDetailState extends State<PembayaranDetail>
                     InkWell(
                       onTap: () async {
                         await FlutterClipboard.copy(widget.va);
-
-                        Toast.show("✓   Copied to Clipboard", context,
-                            duration: Toast.LENGTH_SHORT,
-                            gravity: Toast.BOTTOM);
+                        Fluttertoast.showToast(
+                            msg: "✓   Copied to Clipboard",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
                       },
                       child: Container(
                         child: Text(

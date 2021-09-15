@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:circle_button/circle_button.dart';
+import 'package:badges/badges.dart';
 import 'package:line_icons/line_icons.dart';
 
 class LandingScreen extends StatefulWidget {
@@ -122,12 +122,12 @@ class _LandingScreenState extends State<LandingScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                CircleButton(
-                  onTap: () => {},
-                  tooltip: 'Circle Button',
-                  width: 40.0,
-                  height: 40.0,
-                  backgroundColor: Colors.blue,
+                Badge(
+                  position: BadgePosition.topEnd(top: 0, end: 2),
+                  elevation: 0,
+                  shape: BadgeShape.circle,
+                  badgeColor: Colors.blue,
+                  borderSide: BorderSide(color: Colors.black),
                   child: Icon(
                     LineIcons.facebook,
                     color: Colors.white,
@@ -136,27 +136,26 @@ class _LandingScreenState extends State<LandingScreen> {
                 SizedBox(
                   width: 30,
                 ),
-                CircleButton(
-                  onTap: () => {},
-                  tooltip: 'Circle Button',
-                  width: 40.0,
-                  height: 40.0,
-                  backgroundColor: Colors.red,
+                Badge(
+                  position: BadgePosition.topEnd(top: 0, end: 2),
+                  elevation: 0,
+                  shape: BadgeShape.circle,
+                  badgeColor: Colors.red,
+                  borderSide: BorderSide(color: Colors.red),
                   child: Icon(
-                    LineIcons.googlePlus,
+                    LineIcons.googleLogo,
                     color: Colors.white,
                   ),
                 ),
                 SizedBox(
                   width: 30,
                 ),
-                CircleButton(
-                  onTap: () => {},
-                  tooltip: 'Circle Button',
-                  width: 40.0,
-                  height: 40.0,
-                  borderWidth: 0,
-                  backgroundColor: Colors.blueAccent,
+                Badge(
+                  position: BadgePosition.topEnd(top: 0, end: 2),
+                  elevation: 0,
+                  shape: BadgeShape.circle,
+                  badgeColor: Colors.blueAccent,
+                  borderSide: BorderSide(color: Colors.red),
                   child: Icon(
                     LineIcons.linkedin,
                     color: Colors.white,

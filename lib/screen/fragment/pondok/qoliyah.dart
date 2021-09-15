@@ -18,7 +18,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'landingBacaQuran.dart';
 
@@ -362,8 +362,14 @@ class _QoliyahScreenState extends State<QoliyahScreen> implements SoalState {
   }
 
   _onRecordDuplicate() {
-    Toast.show("hapus dulu file sebelumnya :)", context,
-        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+    Fluttertoast.showToast(
+        msg: "Hapus dulu file sebelumnya :)",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   Future<bool> _onWillPop() async {
@@ -960,8 +966,14 @@ class _QoliyahScreenState extends State<QoliyahScreen> implements SoalState {
   @override
   void onError(String error) {
     print(error);
-    Toast.show("$error", context,
-        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+    Fluttertoast.showToast(
+        msg: "$error",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   @override
@@ -1005,8 +1017,14 @@ class _QoliyahScreenState extends State<QoliyahScreen> implements SoalState {
           });
         });
         this._soalPresenter.kumpulkanPondok();
-        Toast.show("Soal selesai :)", context,
-            duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+        Fluttertoast.showToast(
+            msg: "Soal selesai :)",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
         Navigator.push(
             context,
             MaterialPageRoute(

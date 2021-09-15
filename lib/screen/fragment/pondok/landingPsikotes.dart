@@ -20,7 +20,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:skeleton_text/skeleton_text.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fancy_on_boarding/fancy_on_boarding.dart';
 
 import '../loading.dart';
@@ -324,15 +324,27 @@ class _LandingPsikotesState extends State<LandingPsikotes>
 
   @override
   void refreshTampilan() {
-    Toast.show("finish tryout", context,
-        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+    Fluttertoast.showToast(
+        msg: "Finish tryout",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
     Navigator.popAndPushNamed(context, '/home');
   }
 
   @override
   void onSuccess(String success) {
-    Toast.show("$success", context,
-        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+    Fluttertoast.showToast(
+        msg: "$success",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   @override
@@ -432,10 +444,14 @@ class _LandingPsikotesState extends State<LandingPsikotes>
                                           this._tryoutModel.idTryout);
                                       this.selected = index;
                                     } else {
-                                      Toast.show(
-                                          "SELESAIKAN DULU SOAL INI", context,
-                                          duration: Toast.LENGTH_LONG,
-                                          gravity: Toast.BOTTOM);
+                                      Fluttertoast.showToast(
+                                          msg: "SELESAIKAN DULU SOAL INI",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.red,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0);
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -908,8 +924,14 @@ class _LandingPsikotesState extends State<LandingPsikotes>
     switch (this._bayarModel.bayars[0].status) {
       case false:
         // print('false');
-        Toast.show("Selesaikan dulu pembayaran :)", context,
-            duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+        Fluttertoast.showToast(
+            msg: "Selesaikan dulu pembayaran :)",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
         Navigator.push(
             context,
             MaterialPageRoute(

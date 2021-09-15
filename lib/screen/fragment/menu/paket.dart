@@ -59,7 +59,8 @@ class _PaketScreenState extends State<PaketScreen> implements PaketState {
                 aspectRatio: 2.0,
               ),
               itemCount: 3,
-              itemBuilder: (BuildContext context, int itemIndex) => Container(
+              itemBuilder: (BuildContext context, int itemIndex, _) =>
+                  Container(
                 width: MediaQuery.of(context).size.width,
                 margin: EdgeInsets.symmetric(horizontal: 5.0),
                 padding: EdgeInsets.all(15),
@@ -171,7 +172,7 @@ class _PaketScreenState extends State<PaketScreen> implements PaketState {
                     aspectRatio: 2.0,
                   ),
                   itemCount: 3,
-                  itemBuilder: (BuildContext context, int itemIndex) =>
+                  itemBuilder: (BuildContext context, int itemIndex, _) =>
                       Container(
                     width: MediaQuery.of(context).size.width,
                     margin: EdgeInsets.symmetric(horizontal: 5.0),
@@ -383,7 +384,7 @@ class _PaketScreenState extends State<PaketScreen> implements PaketState {
                         aspectRatio: 2.0,
                       ),
                       itemCount: this._paketModel.pakets.length,
-                      itemBuilder: (BuildContext context, int itemIndex) =>
+                      itemBuilder: (BuildContext context, int itemIndex, _) =>
                           InkWell(
                         onTap: () {
                           this.onTryoutgo(this._paketModel.pakets[itemIndex].id,

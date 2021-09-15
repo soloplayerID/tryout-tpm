@@ -13,7 +13,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ProfileNilai extends StatefulWidget {
   @override
@@ -281,14 +281,26 @@ class ProfileNilaiState extends State<ProfileNilai>
 
   @override
   void onError(String error) {
-    Toast.show("$error", context,
-        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+    Fluttertoast.showToast(
+        msg: "$error",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   @override
   void onSuccess(String success) {
-    Toast.show("$success", context,
-        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+    Fluttertoast.showToast(
+        msg: "$success",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   @override
@@ -429,8 +441,14 @@ class ProfileNilaiState extends State<ProfileNilai>
     switch (this._bayarModel.bayars[0].status) {
       case false:
         // print('false');
-        Toast.show("Selesaikan dulu pembayaran :)", context,
-            duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+        Fluttertoast.showToast(
+            msg: "selesaikan dulu pembayaran :)",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -445,8 +463,14 @@ class ProfileNilaiState extends State<ProfileNilai>
         break;
       default:
         this._totalNilaiModel.pakets[selected].belumDikerjakan == 0
-            ? Toast.show("soal ini belum dikerjakan", context,
-                duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM)
+            ? Fluttertoast.showToast(
+                msg: "soal ini belum dikerjakan",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0)
             : Navigator.push(
                 context,
                 MaterialPageRoute(

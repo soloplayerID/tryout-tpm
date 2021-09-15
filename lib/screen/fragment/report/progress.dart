@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ProgressScreen extends StatefulWidget {
   @override
@@ -48,7 +48,8 @@ class _ProgressScreenState extends State<ProgressScreen>
                   aspectRatio: 2.0,
                 ),
                 itemCount: this._historyModel.historyActive.length,
-                itemBuilder: (BuildContext context, int itemIndex) => InkWell(
+                itemBuilder: (BuildContext context, int itemIndex, _) =>
+                    InkWell(
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         margin: EdgeInsets.symmetric(horizontal: 5.0),
@@ -179,8 +180,14 @@ class _ProgressScreenState extends State<ProgressScreen>
 
   @override
   void onSuccess(String success) {
-    Toast.show("$success", context,
-        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+    Fluttertoast.showToast(
+        msg: "$success",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   @override

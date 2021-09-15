@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_recorder2/flutter_audio_recorder2.dart';
 import 'package:path/path.dart' as path;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -42,7 +41,6 @@ class _PickVideoState extends State<PickVideo> {
   IconData _recordIcon = Icons.videocam;
 
   // Recorder properties
-  FlutterAudioRecorder2 audioRecorder;
 
   @override
   void initState() {
@@ -51,7 +49,6 @@ class _PickVideoState extends State<PickVideo> {
 
   @override
   void dispose() {
-    audioRecorder = null;
     super.dispose();
   }
 

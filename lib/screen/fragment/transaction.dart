@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 import 'package:select_dialog/select_dialog.dart';
 import 'package:TesUjian/screen/fragment/pembelian.dart';
 import 'package:TesUjian/screen/fragment/penjualan.dart';
@@ -7,7 +6,7 @@ import 'package:TesUjian/src/model/transaction.dart';
 import 'package:TesUjian/src/model/warehouse.dart';
 import 'package:TesUjian/src/presenter/transaction.dart';
 import 'package:TesUjian/src/state/transaction.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Transaction extends StatefulWidget {
   @override
@@ -119,13 +118,7 @@ class _TransactionState extends State<Transaction>
             labelColor: Color(0xff2D8EFF), //Google's sweet blue
             unselectedLabelColor: Colors.black87, //niceish grey
             isScrollable: true, //up to your taste
-            indicator: MD2Indicator(
-                //it begins here
-                indicatorHeight: 3,
-                indicatorColor: Color(0xff2D8EFF),
-                indicatorSize:
-                    MD2IndicatorSize.normal //3 different modes tiny-normal-full
-                ),
+
             tabs: <Widget>[
               Tab(text: "Penjualan"),
               Tab(
@@ -153,14 +146,26 @@ class _TransactionState extends State<Transaction>
 
   @override
   void onError(String error) {
-    Toast.show("$error", context,
-        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+    Fluttertoast.showToast(
+        msg: "$error",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   @override
   void onSuccess(String success) {
-    Toast.show("$success", context,
-        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+    Fluttertoast.showToast(
+        msg: "$success",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   @override

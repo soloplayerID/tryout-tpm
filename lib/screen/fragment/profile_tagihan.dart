@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 String selectedKategori = "Semua";
 
@@ -616,14 +616,26 @@ class TagihanState extends State<Tagihan>
 
   @override
   void onError(String error) {
-    Toast.show("$error", context,
-        duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+    Fluttertoast.showToast(
+        msg: "$error",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   @override
   void onSuccess(String success) {
-    Toast.show("$success", context,
-        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+    Fluttertoast.showToast(
+        msg: "$success",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   @override
@@ -635,8 +647,14 @@ class TagihanState extends State<Tagihan>
 
   @override
   void onCancel(String error) {
-    Toast.show("$error", context,
-        duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+    Fluttertoast.showToast(
+        msg: "$error",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
     this._tagihanPresenter.getBayars(GetStorage().read(ID_MURID));
   }
 }

@@ -9,7 +9,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:skeleton_text/skeleton_text.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class TotalNilaiScreen extends StatefulWidget {
   @override
@@ -52,7 +52,7 @@ class _TotalNilaiScreenState extends State<TotalNilaiScreen>
               aspectRatio: 2.0,
             ),
             itemCount: 3,
-            itemBuilder: (BuildContext context, int itemIndex) => Container(
+            itemBuilder: (BuildContext context, int itemIndex, _) => Container(
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.symmetric(horizontal: 5.0),
               padding: EdgeInsets.all(15),
@@ -163,7 +163,7 @@ class _TotalNilaiScreenState extends State<TotalNilaiScreen>
               aspectRatio: 2.0,
             ),
             itemCount: this._totalNilaiModel.pakets.length,
-            itemBuilder: (BuildContext context, int itemIndex) => InkWell(
+            itemBuilder: (BuildContext context, int itemIndex, _) => InkWell(
               onTap: () {
                 // Navigator.push(
                 //     context,
@@ -270,14 +270,26 @@ class _TotalNilaiScreenState extends State<TotalNilaiScreen>
 
   @override
   void onError(String error) {
-    Toast.show("$error", context,
-        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+    Fluttertoast.showToast(
+        msg: "$error",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   @override
   void onSuccess(String success) {
-    Toast.show("$success", context,
-        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+    Fluttertoast.showToast(
+        msg: "$success",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   @override

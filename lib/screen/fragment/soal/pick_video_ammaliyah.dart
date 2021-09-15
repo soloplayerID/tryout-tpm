@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:TesUjian/helper/getStorage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_recorder2/flutter_audio_recorder2.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:path/path.dart' as path;
 import 'package:image_picker/image_picker.dart';
@@ -43,9 +42,6 @@ String fileName;
 class _PickVideoAmmaliyahState extends State<PickVideoAmmaliyah> {
   IconData _recordIcon = Icons.videocam;
 
-  // Recorder properties
-  FlutterAudioRecorder2 audioRecorder;
-
   @override
   void initState() {
     super.initState();
@@ -53,7 +49,6 @@ class _PickVideoAmmaliyahState extends State<PickVideoAmmaliyah> {
 
   @override
   void dispose() {
-    audioRecorder = null;
     super.dispose();
   }
 

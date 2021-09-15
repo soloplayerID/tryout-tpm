@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:TesUjian/helper/getStorage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_recorder2/flutter_audio_recorder2.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:path/path.dart' as path;
 import 'package:image_picker/image_picker.dart';
@@ -42,29 +41,14 @@ String fileName;
 
 class _PickImageBerhitungAngkaState extends State<PickImageBerhitungAngka> {
   IconData _recordIcon = Icons.image;
-  String _recordText = 'Click To Start';
-  RecordingState _recordingState = RecordingState.UnSet;
-
-  // Recorder properties
-  FlutterAudioRecorder2 audioRecorder;
 
   @override
   void initState() {
     super.initState();
-
-    FlutterAudioRecorder2.hasPermissions.then((hasPermision) {
-      if (hasPermision) {
-        _recordingState = RecordingState.Set;
-        _recordIcon = Icons.image;
-        _recordText = 'Record';
-      }
-    });
   }
 
   @override
   void dispose() {
-    _recordingState = RecordingState.UnSet;
-    audioRecorder = null;
     super.dispose();
   }
 

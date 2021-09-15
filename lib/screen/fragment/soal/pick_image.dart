@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_recorder2/flutter_audio_recorder2.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart' as path;
 import 'package:image_picker/image_picker.dart';
@@ -41,29 +40,14 @@ String fileName;
 
 class _PickImageState extends State<PickImage> {
   IconData _recordIcon = Icons.image;
-  String _recordText = 'Click To Start';
-  RecordingState _recordingState = RecordingState.UnSet;
-
-  // Recorder properties
-  FlutterAudioRecorder2 audioRecorder;
 
   @override
   void initState() {
     super.initState();
-
-    FlutterAudioRecorder2.hasPermissions.then((hasPermision) {
-      if (hasPermision) {
-        _recordingState = RecordingState.Set;
-        _recordIcon = Icons.image;
-        _recordText = 'Record';
-      }
-    });
   }
 
   @override
   void dispose() {
-    _recordingState = RecordingState.UnSet;
-    audioRecorder = null;
     super.dispose();
   }
 
