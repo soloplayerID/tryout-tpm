@@ -1,10 +1,12 @@
+// ignore_for_file: must_call_super
+
 import 'dart:math';
 
 import 'package:TesUjian/screen/fragment/menu/history.dart';
 import 'package:TesUjian/screen/fragment/menu/jenjang.dart';
 import 'package:TesUjian/screen/fragment/menu/paket.dart';
 import 'package:TesUjian/screen/fragment/report/progress.dart';
-import 'package:TesUjian/screen/select_sekolah.dart';
+import 'package:TesUjian/screen/select_sekolah_jenjang.dart';
 import 'package:TesUjian/screen/tryoutPondok.dart';
 import 'package:TesUjian/src/model/home.dart';
 import 'package:TesUjian/src/presenter/home.dart';
@@ -80,7 +82,7 @@ class _HomeState extends State<Home> implements HomeState {
           child: Container(
             width: MediaQuery.of(context).size.width,
             height: double.infinity,
-            color: Color(0xff0066cc),
+            color: Color(0xfff5f5f5),
             child: Column(
               children: <Widget>[
                 Container(
@@ -94,31 +96,16 @@ class _HomeState extends State<Home> implements HomeState {
                       Text("Hello, " + this._homeModel.nama,
                           style: GoogleFonts.poppins(
                             textStyle: TextStyle(
-                                fontSize: 18, color: Color(0xffffffff)),
+                                fontSize: 18, color: Color(0xff485460)),
                           )),
                       InkWell(
                         onTap: () =>
                             Navigator.pushNamed(context, "/profile_detail"),
-                        child: new Container(
-                            width: 50,
-                            height: 50,
-                            padding: EdgeInsets.all(10),
-                            decoration: new BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0xff2D8EFF),
-                                image: this._homeModel.picture == ""
-                                    ? new DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: ExactAssetImage(
-                                            "assets/img/user.png"))
-                                    : new DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: NetworkImage(
-                                            // "assets/img/user.png"
-                                            this._homeModel.picture == ""
-                                                ? "assets/img/user.png"
-                                                : "http://103.41.207.247:3000/" +
-                                                    this._homeModel.picture)))),
+                        child: new Icon(
+                          Ionicons.person_circle_outline,
+                          size: 34,
+                          color: Color(0xff485460),
+                        ),
                       )
                     ],
                   ),
@@ -147,14 +134,14 @@ class _HomeState extends State<Home> implements HomeState {
                           Text("Ayo, Uji Kemampuanmu ",
                               style: GoogleFonts.poppins(
                                 textStyle: TextStyle(
-                                  fontSize: 24,
+                                  fontSize: 25,
                                   color: Color(0xff485460),
                                 ),
                               )),
                           Text("Dengan soal soal ujian kami ",
                               style: GoogleFonts.poppins(
                                 textStyle: TextStyle(
-                                  fontSize: 12,
+                                  fontSize: 14,
                                   color: Color(0xff7a7a7a),
                                 ),
                               )),
@@ -396,7 +383,7 @@ class _HomeState extends State<Home> implements HomeState {
   }
 
   @override
-  void toTryout(int idPaket, int idJenjang) {
+  void toTryoutPondok(int idPaket, int idJenjang) {
     Navigator.pop(context);
     Navigator.push(
         context,
@@ -415,7 +402,7 @@ class _HomeState extends State<Home> implements HomeState {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SelectSekolahsScreen(
+          builder: (context) => SelectSekolahJenjangsScreen(
             key: Key("1"),
             idPaket: idPaket,
             idJenjang: idJenjang,

@@ -1,4 +1,4 @@
-import 'package:TesUjian/src/response/cekPembayaran.dart';
+// ignore_for_file: deprecated_member_use
 
 class TotalNilai {
   int id;

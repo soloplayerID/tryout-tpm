@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:TesUjian/src/response/area.dart';
+import 'package:TesUjian/src/response/jenjang.dart';
 import 'package:TesUjian/src/response/provinsi.dart';
 import 'package:TesUjian/src/response/sekolah.dart';
 import 'package:http/http.dart' show Client, MultipartRequest;
@@ -35,7 +36,7 @@ class SekolahApi {
     final response = await _client
         .get(Uri.parse("${Paths.BASEURL}${Paths.ENDPOINT_PROVINSI}"));
     if (response.statusCode == 200) {
-      print(response.body);
+      print('get provinsi');
       ProvinsiResponse sekolahResponse =
           ProvinsiResponse.fromJson(json.decode(response.body));
       return sekolahResponse;
@@ -49,9 +50,40 @@ class SekolahApi {
     final response = await _client.get(Uri.parse(
         "${Paths.BASEURL}${Paths.ENDPOINT_AREA}?id_provinsi=$idProv"));
     if (response.statusCode == 200) {
+      print('Area:');
       print(response.body);
       AreaResponse sekolahResponse =
           AreaResponse.fromJson(json.decode(response.body));
+      return sekolahResponse;
+    } else {
+      Future.error("Yah, Internet Kamu error!");
+    }
+  }
+
+  // ignore: missing_return
+  Future<JenjangResponse> getjenjang(int idJenjang) async {
+    final response = await _client.get(Uri.parse(
+        "${Paths.BASEURL}${Paths.ENDPOINT_JENJANG}?id=$idJenjang"));
+    if (response.statusCode == 200) {
+      print('Jenjang:');
+      print(response.body);
+      JenjangResponse sekolahResponse =
+          JenjangResponse.fromJson(json.decode(response.body));
+      return sekolahResponse;
+    } else {
+      Future.error("Yah, Internet Kamu error!");
+    }
+  }
+
+  // ignore: missing_return
+  Future<JenjangResponse> getjenjangBetween(int idJenjang,int idJenjang2) async {
+    final response = await _client.get(
+        Uri.parse("${Paths.BASEURL}${Paths.ENDPOINT_JENJANG}?id=$idJenjang&id_jenjang=$idJenjang2"));
+    if (response.statusCode == 200) {
+      print('Jenjang:');
+      print(response.body);
+      JenjangResponse sekolahResponse =
+          JenjangResponse.fromJson(json.decode(response.body));
       return sekolahResponse;
     } else {
       Future.error("Yah, Internet Kamu error!");
@@ -63,6 +95,7 @@ class SekolahApi {
     final response = await _client.get(Uri.parse(
         "${Paths.BASEURL}${Paths.ENDPOINT_SEKOLAH}?id_area=$areaId&id_jenjang=$areaJenjang&offset=0&limit=100"));
     if (response.statusCode == 200) {
+      print('Sekolah:');
       print(response.body);
       SekolahResponse sekolahResponse =
           SekolahResponse.fromJson(json.decode(response.body));

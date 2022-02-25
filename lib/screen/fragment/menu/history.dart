@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:ui';
 
 import 'package:TesUjian/helper/getStorage.dart';
@@ -6,6 +8,7 @@ import 'package:TesUjian/screen/fragment/pembayaran_detail.dart';
 import 'package:TesUjian/screen/fragment/report.dart';
 import 'package:TesUjian/src/model/bayar.dart';
 import 'package:TesUjian/src/model/total_nilai.dart';
+import 'package:TesUjian/helper/harga.dart';
 import 'package:TesUjian/src/presenter/total_nilai.dart';
 import 'package:TesUjian/src/state/total_nilai.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -27,6 +30,7 @@ class HistoryWidgetState extends State<HistoryWidget>
   AnimationController _controller;
   int idMurid;
   BayarModel _bayarModel;
+  
   TotalNilaiModel _totalNilaiModel;
   TotalNilaiPresenter _totalNilaiPresenter;
 
@@ -62,7 +66,7 @@ class HistoryWidgetState extends State<HistoryWidget>
         : InkWell(
             onTap: () {
               this._totalNilaiPresenter.check(GetStorage().read(ID_MURID),
-                  this._totalNilaiModel.pakets[0].id);
+                  this._totalNilaiModel.pakets[0].id,Harga.silver);
               // Navigator.push(
               //     context,
               //     MaterialPageRoute(
@@ -82,7 +86,11 @@ class HistoryWidgetState extends State<HistoryWidget>
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Image.asset("assets/img/history.png", fit: BoxFit.fill),
+                  new Icon(
+                    Ionicons.book,
+                    size: 48,
+                    color: Color(0xff485460),
+                  ),
                   SizedBox(
                     width: 10,
                   ),
@@ -223,7 +231,7 @@ class HistoryWidgetState extends State<HistoryWidget>
   }
 
   @override
-  void onCheck(String idPembayaran) {
+  void onCheck(String idPembayaran, int skemaHarga) {
     if (idPembayaran == 'false') {
       showCupertinoModalBottomSheet(
         expand: false,
@@ -336,14 +344,14 @@ class HistoryWidgetState extends State<HistoryWidget>
     } else {
       print(idPembayaran);
       this._totalNilaiPresenter.checkStatus(
-          GetStorage().read(ID_MURID), this._totalNilaiModel.pakets[0].id);
+          GetStorage().read(ID_MURID), this._totalNilaiModel.pakets[0].id, int.parse(this._totalNilaiModel.pakets[0].jumlahBayar));
       // this._totalNilaiPresenter.checkPembayaranStatus(idPembayaran);
     }
   }
 
   @override
-  void onCheckStatus(int idMurid, int idTryout) {
-    this._totalNilaiPresenter.checkStatus(idMurid, idTryout);
+  void onCheckStatus(int idMurid, int idTryout, int harga) {
+    this._totalNilaiPresenter.checkStatus(idMurid, idTryout, harga);
   }
 
   @override

@@ -1,11 +1,11 @@
+// ignore_for_file: unused_field, unused_element, deprecated_member_use
+
 import 'dart:async';
 import 'dart:io';
 // import 'package:TesUjian/screen/fragment/soal/image_list_view.dart';
 // import 'package:TesUjian/screen/fragment/soal/video_list_view.dart';
 // import 'package:TesUjian/screen/fragment/soal/recorded_list_view.dart';
-import 'package:TesUjian/screen/fragment/soal/recorder_view.dart';
 import 'package:TesUjian/screen/fragment/soal/pick_image.dart';
-import 'package:TesUjian/screen/fragment/soal/pick_video.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
@@ -64,7 +64,6 @@ class _SoalTimerFotoScreenState extends State<SoalTimerFotoScreen>
   final int idtryoutdetail;
   final int idMatpel;
   final String matpel;
-  // ignore: unused_field
   SoalModel _soalModel;
   SoalPresenter _soalPresenter;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -1186,7 +1185,6 @@ class _SoalTimerFotoScreenState extends State<SoalTimerFotoScreen>
     });
   }
 
-  // ignore: unused_element
   showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = FlatButton(

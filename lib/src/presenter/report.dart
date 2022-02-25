@@ -15,7 +15,7 @@ import 'package:intl/intl.dart';
 abstract class ReportPresenterAbstract {
   set view(ReportNilaiState view) {}
   void getData(int idMurid) {}
-  void check(int idMurid, int idTryout) {}
+  void check(int idMurid, int idTryout, int harga) {}
   void getMatpels(int idTryout) {}
   void setMatpel(id, BuildContext context) {}
   void checkPembayaranStatus(String idBayar) {}
@@ -40,8 +40,8 @@ class ReportPresenter implements ReportPresenterAbstract {
   }
 
   @override
-  void check(int idMurid, int idTryout) {
-    this._bayarApi.checkStatus(idMurid, idTryout).then((value) {
+  void check(int idMurid, int idTryout,int harga) {
+    this._bayarApi.checkStatus(idMurid, idTryout, harga).then((value) {
       this._totalNilaiState.onCheck(value);
     }).catchError((err) {
       this._totalNilaiState.onError(err.toString());

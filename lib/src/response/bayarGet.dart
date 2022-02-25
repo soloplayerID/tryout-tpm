@@ -48,6 +48,7 @@ class Data {
   String id;
   String transactionId;
   String vaNumber;
+  String deepLink;
   String paymentType;
   String batasWaktu;
   int idMurid;
@@ -64,6 +65,7 @@ class Data {
       {this.id,
       this.transactionId,
       this.vaNumber,
+      this.deepLink,
       this.paymentType,
       this.batasWaktu,
       this.idMurid,
@@ -80,6 +82,7 @@ class Data {
     id = json['id'];
     transactionId = json['transaction_id'];
     vaNumber = json['va_number'];
+    deepLink = json['deeplink'] != null ? json['deeplink'] : null;
     paymentType = json['payment_type'];
     batasWaktu = json['batas_waktu'];
     idMurid = json['id_murid'];
@@ -98,6 +101,7 @@ class Data {
     data['id'] = this.id;
     data['transaction_id'] = this.transactionId;
     data['va_number'] = this.vaNumber;
+    data['deeplink'] = this.deepLink;
     data['payment_type'] = this.paymentType;
     data['batas_waktu'] = this.batasWaktu;
     data['id_murid'] = this.idMurid;

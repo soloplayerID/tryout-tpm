@@ -1,4 +1,5 @@
 import 'package:TesUjian/src/response/area.dart';
+import 'package:TesUjian/src/response/jenjang.dart';
 import 'package:TesUjian/src/response/provinsi.dart';
 import 'package:TesUjian/src/response/sekolah.dart';
 import 'package:TesUjian/src/response/tryoutGetResponse.dart';
@@ -8,10 +9,13 @@ class SelectSekolahModel {
   bool isloading = false;
   bool isSuccess = false;
   int idArea = 0;
+  int idJenajangnya = 0;
   int idProv = 0;
   int sekolahId = 0;
+  int sekolahTujuanid = 0;
   String namaProv = "";
   String namaArea = "";
+  String namaJenjang = "";
   String namaSekolah = "";
   int idPaket = 0;
   int jenjang = 0;
@@ -20,9 +24,11 @@ class SelectSekolahModel {
   bool statusMatpel = false;
   ProvinsiResponse provinsi = new ProvinsiResponse();
   AreaResponse area = new AreaResponse();
+  JenjangResponse jenjangnya = new JenjangResponse();
   SekolahResponse sekolah = new SekolahResponse();
   TryoutGetResponse tryoutGetResponse = new TryoutGetResponse();
   final TextEditingController provinsiController = new TextEditingController();
   final TextEditingController areaController = new TextEditingController();
+  final TextEditingController jenjangController = new TextEditingController();
   final TextEditingController sekolahController = new TextEditingController();
 }

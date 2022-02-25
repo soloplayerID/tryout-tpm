@@ -40,6 +40,7 @@ class Paths {
   static const String ENDPOINT_CHECKSTATUSPEMBAYARAN = "CheckStatus";
   static const String ENDPOINT_UPLOAD = "upload";
 
+  static const String IMLA_SOAL = "imla/soal";
   static const String PSIKOTES_SOAL = "psikotes/soal";
   static const String PSIKOTES_UPDATEJAWABAN = "psikotes/updateJawaban";
   static const String PRAKTEKIBADAH_UPDATEJAWABAN =

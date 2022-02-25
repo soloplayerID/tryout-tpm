@@ -58,10 +58,11 @@ class _JenjangScreenState extends State<JenjangScreen> implements JenjangState {
                   onTap: () {
                     this.onTryoutgo(jenjangs[index].id,
                         jenjangs[index].isParent, jenjangs[index].name);
+                    print('idnya');
                     print(jenjangs[index].id);
                   },
                   child: Container(
-                    padding: EdgeInsets.all(3),
+                    padding: EdgeInsets.all(6),
                     decoration: BoxDecoration(
                         color: Colors.white,
                         // border: Border.all(color: Color(0xfff5f5f5), width: 1),

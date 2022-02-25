@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:TesUjian/src/response/jenjang.dart';
 
 class Paket {

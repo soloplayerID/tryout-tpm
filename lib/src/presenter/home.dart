@@ -57,18 +57,16 @@ class HomePresenter implements HomePresenterAbstract {
 
   @override
   void save(paket, jenjang) {
-    print(jenjang);
     print("+++++++++++To Select Sekolah");
-    print(paket);
     this._homeModel.jenjang = 0;
     this._homeModel.idPaket = 0;
     this._homeState.refreshData(this._homeModel);
     if (this._homeModel.isPondok) {
-      this._homeState.toTryout(jenjang, paket);
-      print('pondok');
+      this._homeState.toTryoutPondok(jenjang, paket);
+      print('is pondok');
     } else {
       this._homeState.toSelectSekolah(jenjang, paket);
-      print('bukan');
+      print('bukan pondok');
     }
   }
 }

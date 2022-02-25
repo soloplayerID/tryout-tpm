@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 class TryoutSoalResponse {
   bool success;
   List<DataTryout> dataTryout;

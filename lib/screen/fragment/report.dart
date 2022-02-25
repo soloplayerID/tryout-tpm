@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field, deprecated_member_use, unused_local_variable
+
 import 'package:TesUjian/helper/getStorage.dart';
 import 'package:TesUjian/screen/checkout.dart';
 import 'package:TesUjian/screen/fragment/pembayaran_detail.dart';
@@ -613,7 +615,7 @@ class ReportAppState extends State<ReportApp>
                             onTap: () {
                               print(this._tryoutModel.idTryout);
                               this._reportPresenter.check(
-                                  GetStorage().read(ID_MURID), widget.idTryout);
+                                  GetStorage().read(ID_MURID), widget.idTryout, 0);
                               this.selected = index;
                               // if (total ==
                               //     this

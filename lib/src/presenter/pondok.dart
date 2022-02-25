@@ -17,9 +17,9 @@ abstract class PondokPresenterAbstract {
   void getProv() {}
   void getArea(int idProv) {}
   void getInfo(int idTryout) {}
-  void check(int idMurid, int idTryout) {}
+  void check(int idMurid, int idTryout, int harga) {}
   void checkMatpelStatus(int idTryout, int idTryoutDetail, int index) {}
-  void checkStatus(int idMurid, int idTryout) {}
+  void checkStatus(int idMurid, int idTryout, int harga) {}
   void checkPembayaranStatus(String idBayar) {}
   void finishTryout(int idTryout) {}
 }
@@ -92,7 +92,7 @@ class PondokPresenter implements PondokPresenterAbstract {
 
   @override
   void saveTryouts(int idPaket, int idJenjang) async {
-    print('masuk ke save');
+    print('masuk ke save pondok');
     this._tryoutModel.isloading = true;
     int idMurid = await Session.getId();
     this._tryoutModel.idMurid = idMurid;
@@ -106,8 +106,7 @@ class PondokPresenter implements PondokPresenterAbstract {
       "tgl":
           DateFormat("yyyy-MM-dd").format(DateTime.now().toLocal()).toString(),
     };
-    print(body);
-    print('woi');
+    print('mulai');
     this._tryoutApi.saveTryout(body).then((v) {
       this._tryoutModel.idTryout = v;
       this._tryoutState.refreshData(this._tryoutModel);
@@ -120,7 +119,7 @@ class PondokPresenter implements PondokPresenterAbstract {
           this._tryoutState.refreshData(this._tryoutModel);
         }).catchError((onError) {
           print(onError.toString());
-          print("info");
+          print("info error after get info");
           this._tryoutModel.isloading = false;
           this._tryoutState.refreshData(this._tryoutModel);
         });
@@ -191,14 +190,14 @@ class PondokPresenter implements PondokPresenterAbstract {
   }
 
   @override
-  void check(int idMurid, int idTryout) {
+  void check(int idMurid, int idTryout, int harga) {
     this._tryoutModel.isloading = true;
-    this._bayarApi.checkStatus(idMurid, idTryout).then((value) {
+    this._bayarApi.checkStatus(idMurid, idTryout, harga).then((value) {
       this._tryoutModel.isloading = false;
       if (value == 'false') {
-        this._tryoutState.onCheck(value);
+        this._tryoutState.onCheck(value,0);
       } else {
-        this._tryoutState.onCheckStatus(idMurid, idTryout);
+        this._tryoutState.onCheckStatus(idMurid, idTryout, harga);
       }
     }).catchError((err) {
       this._tryoutState.onError(err.toString());
@@ -206,13 +205,13 @@ class PondokPresenter implements PondokPresenterAbstract {
   }
 
   @override
-  void checkStatus(int idMurid, int idTryout) {
+  void checkStatus(int idMurid, int idTryout, int harga) {
     this._tryoutModel.isloading = true;
     this._bayarModel.bayars.clear();
     this._tryoutState.refreshDataBayar(this._bayarModel);
     // this._totalNilaiState.removeDataBayar('test');
 
-    this._bayarApi.checkPembayaran(idMurid, idTryout).then((value) {
+    this._bayarApi.checkPembayaran(idMurid, idTryout, harga).then((value) {
       this._tryoutModel.isloading = false;
       String tanggal = DateFormat("d, MMMM - y")
           .format(DateTime.parse(value.dataBayar.tgl))

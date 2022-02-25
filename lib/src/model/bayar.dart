@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 class Bayar {
   bool status;
   int idTryout;
@@ -10,6 +12,7 @@ class Bayar {
   String metodePembayaran;
   String bank;
   String vaNumber;
+  String deepLink;
   Bayar({
     this.status,
     this.idTryout,
@@ -22,6 +25,7 @@ class Bayar {
     this.metodePembayaran,
     this.bank,
     this.vaNumber,
+    this.deepLink,
   });
 }
 

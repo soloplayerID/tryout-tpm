@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field, duplicate_ignore, unused_element, deprecated_member_use
+
 import 'dart:async';
 import 'dart:io';
 // import 'package:TesUjian/screen/fragment/soal/image_list_view.dart';

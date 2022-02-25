@@ -1,12 +1,13 @@
+// ignore_for_file: unused_element, deprecated_member_use
+
 import 'dart:async';
 import 'dart:io';
 // import 'package:TesUjian/screen/fragment/soal/image_list_view.dart';
 // import 'package:TesUjian/screen/fragment/soal/video_list_view.dart';
 // import 'package:TesUjian/screen/fragment/soal/recorded_list_view.dart';
-import 'package:TesUjian/screen/fragment/soal/pick_image.dart';
+import 'package:TesUjian/screen/fragment/soal/recorder_view.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:html/dom.dart' as htmlParser;
 
 import 'package:TesUjian/screen/fragment/loading.dart';
 import 'package:TesUjian/screen/notfound.dart';
@@ -15,22 +16,29 @@ import 'package:TesUjian/src/presenter/soal.dart';
 import 'package:TesUjian/src/state/soal.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_html/style.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../soal/detail_image_screen.dart';
 
 class SoalImlaScreen extends StatefulWidget {
   final int idtryoutdetail;
   final int idMatpel;
   final String matpel;
   final int jenjang;
+  final int idPaket;
+  final int idTryout;
+  final int sekolahTujuan;
 
   const SoalImlaScreen(
-      {Key key, this.idtryoutdetail, this.idMatpel, this.matpel, this.jenjang})
+      {Key key,
+      this.idtryoutdetail,
+      this.idMatpel,
+      this.matpel,
+      this.jenjang,
+      this.idPaket,
+      this.idTryout,
+      this.sekolahTujuan})
       : super(key: key);
   @override
   _SoalImlaScreenState createState() =>
@@ -72,7 +80,7 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
     print(widget.jenjang);
     this.rekam = 0;
     this._soalPresenter.view = this;
-    this._soalPresenter.getSoal(idMatpel, idtryoutdetail);
+    this._soalPresenter.getSoalImla(idMatpel);
     records = [];
     pictures = [];
     videos = [];
@@ -114,6 +122,13 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
         // file exits, it is safe to call delete on it
         await file.delete();
         print('keapus');
+        setState(() {
+          this
+              ._soalModel
+              .tryoutSoalResponse
+              .dataTryout[this._soalModel.currentIndex]
+              .jawabanUser = null;
+        });
 
         _onDeleteRec();
       }
@@ -130,6 +145,13 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
         // file exits, it is safe to call delete on it
         await file.delete();
         print('keapus');
+        setState(() {
+          this
+              ._soalModel
+              .tryoutSoalResponse
+              .dataTryout[this._soalModel.currentIndex]
+              .jawabanUser = null;
+        });
 
         _onDeleteVid();
       }
@@ -146,6 +168,13 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
         // file exits, it is safe to call delete on it
         await file.delete();
         print('keapus');
+        setState(() {
+          this
+              ._soalModel
+              .tryoutSoalResponse
+              .dataTryout[this._soalModel.currentIndex]
+              .jawabanUser = null;
+        });
 
         _onDeletePict();
       }
@@ -158,6 +187,7 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
     AudioPlayer audioPlayer = AudioPlayer();
 
     if (!_isPlaying) {
+      // audioPlayer.play(filePath, isLocal: true);
       audioPlayer.play(filePath, isLocal: true);
       setState(() {
         _selectedIndex = index;
@@ -183,6 +213,13 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
           _completedPercentage =
               _currentDuration.toDouble() / _totalDuration.toDouble();
         });
+      });
+    } else {
+      _audioPlayerSoal.stop();
+      setState(() {
+        _selectedIndex = index;
+        _completedPercentage = 0.0;
+        _isPlayingSoal = false;
       });
     }
   }
@@ -278,6 +315,13 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
     }).onDone(() {
       pictures.sort();
       pictures = pictures.reversed.toList();
+      setState(() {
+        this
+            ._soalModel
+            .tryoutSoalResponse
+            .dataTryout[this._soalModel.currentIndex]
+            .statusSoal = 0;
+      });
     });
   }
 
@@ -356,7 +400,7 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
         key: _scaffoldKey,
         body: this._soalModel.isloading
             ? Loading()
-            : this._soalModel.tryoutSoalResponse.dataTryout.length == 0
+            : this._soalModel.tryoutSoalPondok.data.length == 0
                 ? NotFound(
                     errors: 'Soal Belum Siap',
                   )
@@ -429,7 +473,7 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
                                       fontSize: 18, color: Color(0xffffffff)),
                                 )),
                             Text(
-                                "${this._soalModel.tryoutSoalResponse.dataTryout.length} Soal",
+                                "${this._soalModel.tryoutSoalPondok.data.length} Soal",
                                 style: GoogleFonts.poppins(
                                     textStyle: TextStyle(
                                         fontSize: 12, color: Colors.white60))),
@@ -442,8 +486,8 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
                                 child: ListView.builder(
                                   itemCount: this
                                       ._soalModel
-                                      .tryoutSoalResponse
-                                      .dataTryout
+                                      .tryoutSoalPondok
+                                      .data
                                       .length,
                                   scrollDirection: Axis.horizontal,
                                   itemExtent: 30,
@@ -458,8 +502,10 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
                                                     itemIndex ||
                                                 this
                                                         ._soalModel
-                                                        .tryoutSoalResponse
-                                                        .dataTryout[itemIndex]
+                                                        .tryoutSoalPondok
+                                                        .data[this
+                                                            ._soalModel
+                                                            .currentIndex]
                                                         .jawabanUser !=
                                                     null
                                             ? Colors.white
@@ -484,9 +530,10 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
                                                         itemIndex ||
                                                     this
                                                             ._soalModel
-                                                            .tryoutSoalResponse
-                                                            .dataTryout[
-                                                                itemIndex]
+                                                            .tryoutSoalPondok
+                                                            .data[this
+                                                                ._soalModel
+                                                                .currentIndex]
                                                             .jawabanUser !=
                                                         null
                                                 ? Colors.black
@@ -514,25 +561,13 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                this
-                                                ._soalModel
-                                                .tryoutSoalResponse
-                                                .dataTryout[this
-                                                    ._soalModel
-                                                    .currentIndex]
-                                                .isEssay ==
-                                            2 &&
-                                        widget.jenjang == 16
-                                    ? Column(
+                                Column(
                                         children: [
                                           ExpansionTile(
                                             title: Text(this
-                                                ._soalModel
-                                                .tryoutSoalResponse
-                                                .dataTryout[this
-                                                    ._soalModel
-                                                    .currentIndex]
-                                                .soal),
+                                          ._soalModel
+                                          .tryoutSoalPondok
+                                          .data[this._soalModel.currentIndex].soal),
                                             // subtitle: Text(
                                             //     _getDateFromFilePatah(filePath: widget.records.elementAt(i))),
                                             onExpansionChanged: ((newState) {
@@ -580,12 +615,12 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
                                                                   .play_arrow),
                                                           onPressed: () => _onPlaySoal(
                                                               filePath: this
-                                                                  ._soalModel
-                                                                  .tryoutSoalResponse
-                                                                  .dataTryout[this
-                                                                      ._soalModel
-                                                                      .currentIndex]
-                                                                  .soal,
+                                                            ._soalModel
+                                                            .tryoutSoalPondok
+                                                            .data[this
+                                                                ._soalModel
+                                                                .currentIndex]
+                                                            .soal,
                                                               index: 0),
                                                         ),
                                                       ],
@@ -596,38 +631,6 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
                                             ],
                                           )
                                         ],
-                                      )
-                                    : Html(
-                                        data: htmlParser.DocumentFragment.html(
-                                                this
-                                                    ._soalModel
-                                                    .tryoutSoalResponse
-                                                    .dataTryout[this
-                                                        ._soalModel
-                                                        .currentIndex]
-                                                    .soal)
-                                            .text,
-                                        style: {
-                                          "table": Style(
-                                            backgroundColor: Color.fromARGB(
-                                                0x50, 0xee, 0xee, 0xee),
-                                          ),
-                                          "tr": Style(
-                                            border: Border(
-                                                bottom: BorderSide(
-                                                    color: Colors.grey)),
-                                          ),
-                                          "th": Style(
-                                            padding: EdgeInsets.all(6),
-                                            backgroundColor: Colors.grey,
-                                          ),
-                                          "td": Style(
-                                            padding: EdgeInsets.all(6),
-                                          ),
-                                          "p": Style(
-                                              fontFamily: 'serif',
-                                              textAlign: TextAlign.justify),
-                                        },
                                       ),
                                 SizedBox(
                                   height: 50,
@@ -636,41 +639,134 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
                                     ? Container(
                                         child: Column(
                                           children: [
+                                            Column(
+                                              children: [
+                                                Column(
+                                                  children:
+                                                      records.map((value) {
+                                                    if (value.endsWith(this
+                                                        ._soalModel
+                                                        .tryoutSoalPondok
+                                                        .data[this
+                                                            ._soalModel
+                                                            .currentIndex]
+                                                        .idTryoutDetailSoals
+                                                            .toString() +
+                                                        '.aac')) {
+                                                      return ExpansionTile(
+                                                        title: Text(
+                                                            'Rekaman soal ${value.toString()}'),
+                                                        // subtitle: Text(
+                                                        //     _getDateFromFilePatah(filePath: widget.records.elementAt(i))),
+                                                        onExpansionChanged:
+                                                            ((newState) {
+                                                          if (newState) {
+                                                            setState(() {
+                                                              _selectedIndex =
+                                                                  0;
+                                                            });
+                                                          }
+                                                        }),
+                                                        children: [
+                                                          Container(
+                                                            height: 100,
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(10),
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                LinearProgressIndicator(
+                                                                  minHeight: 5,
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .black,
+                                                                  valueColor: AlwaysStoppedAnimation<
+                                                                          Color>(
+                                                                      Colors
+                                                                          .green),
+                                                                  value: _selectedIndex ==
+                                                                          0
+                                                                      ? _completedPercentage
+                                                                      : 0,
+                                                                ),
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    IconButton(
+                                                                      icon: _selectedIndex ==
+                                                                              0
+                                                                          ? _isPlaying
+                                                                              ? Icon(Icons.pause)
+                                                                              : Icon(Icons.play_arrow)
+                                                                          : Icon(Icons.play_arrow),
+                                                                      onPressed: () => _onPlaySoal(
+                                                                          filePath: this
+                                                                              ._soalModel
+                                                                              .tryoutSoalResponse
+                                                                              .dataTryout[this._soalModel.currentIndex]
+                                                                              .jawabanUser,
+                                                                          index: 0),
+                                                                    ),
+                                                                    IconButton(
+                                                                      icon: Icon(
+                                                                          Icons
+                                                                              .delete),
+                                                                      onPressed:
+                                                                          () =>
+                                                                              deleteFileRec(value),
+                                                                    )
+                                                                  ],
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    } else {
+                                                      return Container();
+                                                      //Return an empty Container for non-matching case
+                                                    }
+                                                  }).toList(),
+                                                ),
+                                              ],
+                                            ),
                                             this
                                                         ._soalModel
-                                                        .tryoutSoalResponse
-                                                        .dataTryout[this
+                                                        .tryoutSoalPondok
+                                                        .data[this
                                                             ._soalModel
                                                             .currentIndex]
-                                                        .jawabanUser ==
-                                                    null
-                                                ? Container()
-                                                : Container(
-                                                    alignment: Alignment
-                                                        .center, // This is needed
-                                                    child: Text(this
-                                                        ._soalModel
-                                                        .tryoutSoalResponse
-                                                        .dataTryout[this
-                                                            ._soalModel
-                                                            .currentIndex]
-                                                        .jawabanUser)),
-                                            this
-                                                        ._soalModel
-                                                        .tryoutSoalResponse
-                                                        .dataTryout[this
-                                                            ._soalModel
-                                                            .currentIndex]
-                                                        .statusSoal ==
+                                                        .status ==
                                                     0
                                                 ? Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .spaceAround,
                                                     children: [
-                                                      // RecorderView(
+                                                      RecorderView(
+                                                        onSaved:
+                                                            onSuccessRecord,
+                                                        onDuplicate:
+                                                            _onRecordDuplicate,
+                                                        number: this
+                                                        ._soalModel
+                                                        .tryoutSoalPondok
+                                                        .data[this
+                                                            ._soalModel
+                                                            .currentIndex]
+                                                        .idTryoutDetailSoals,
+                                                      ),
+                                                      // SizedBox(
+                                                      //   height: 10,
+                                                      // ),
+                                                      // PickImage(
                                                       //   onSaved:
-                                                      //       onSuccessRecord,
+                                                      //       onSuccessTakePict,
                                                       //   onDuplicate:
                                                       //       _onRecordDuplicate,
                                                       //   number: this
@@ -680,24 +776,8 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
                                                       //           ._soalModel
                                                       //           .currentIndex]
                                                       //       .idTryoutDetailSoals,
+                                                      //   jepret: this.jepret,
                                                       // ),
-                                                      // SizedBox(
-                                                      //   height: 10,
-                                                      // ),
-                                                      PickImage(
-                                                        onSaved:
-                                                            onSuccessTakePict,
-                                                        onDuplicate:
-                                                            _onRecordDuplicate,
-                                                        number: this
-                                                            ._soalModel
-                                                            .tryoutSoalResponse
-                                                            .dataTryout[this
-                                                                ._soalModel
-                                                                .currentIndex]
-                                                            .idTryoutDetailSoals,
-                                                        jepret: this.jepret,
-                                                      ),
                                                       // SizedBox(
                                                       //   height: 10,
                                                       // ),
@@ -717,46 +797,7 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
                                                       // ),
                                                     ],
                                                   )
-                                                : Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceEvenly,
-                                                    children: [
-                                                      ElevatedButton(
-                                                        child: Text('Preview'),
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          primary:
-                                                              Colors.blueAccent,
-                                                        ),
-                                                        onPressed: () {
-                                                          Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          DetailImageScreen(
-                                                                            urlImage:
-                                                                                'http://103.41.207.247:3000/' + this._soalModel.tryoutSoalResponse.dataTryout[this._soalModel.currentIndex].jawabanUser,
-                                                                          )));
-                                                        },
-                                                      ),
-                                                      PickImage(
-                                                        onSaved:
-                                                            onSuccessTakePict,
-                                                        onDuplicate:
-                                                            _onRecordDuplicate,
-                                                        number: this
-                                                            ._soalModel
-                                                            .tryoutSoalResponse
-                                                            .dataTryout[this
-                                                                ._soalModel
-                                                                .currentIndex]
-                                                            .idTryoutDetailSoals,
-                                                        jepret: this.jepret,
-                                                      ),
-                                                    ],
-                                                  ),
+                                                : Container(),
                                             SizedBox(
                                               height: 20,
                                             ),
@@ -764,15 +805,14 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
                                               child: InkWell(
                                                 splashColor: Color(0xff7474BF),
                                                 onTap: () {
-                                                  print(pictures);
                                                   print(this
                                                       ._soalModel
-                                                      .tryoutSoalResponse
-                                                      .dataTryout[this
+                                                      .tryoutSoalPondok
+                                                      .data[this
                                                           ._soalModel
                                                           .currentIndex]
-                                                      .statusSoal);
-                                                  this._soalPresenter.submit();
+                                                      .jawabanUser);
+                                                  // this._soalPresenter.submit();
                                                   // this
                                                   //             ._soalModel
                                                   //             .status ==
@@ -1123,7 +1163,7 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
                                       fontSize: 18, color: Color(0xffffffff)),
                                 )),
                             Text(
-                                "${this._soalModel.tryoutSoalResponse.dataTryout.length} Soal",
+                                "${this._soalModel.tryoutSoalPondok.data.length} Soal",
                                 style: GoogleFonts.poppins(
                                     textStyle: TextStyle(
                                         fontSize: 12, color: Colors.white60))),
@@ -1239,7 +1279,6 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
     });
   }
 
-  // ignore: unused_element
   showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = FlatButton(
@@ -1254,6 +1293,18 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
         // print(this._soalModel.currentIndex);
         int totalSoal = this._soalModel.currentIndex + 1;
         print(totalSoal);
+        records.clear();
+        appDirectory.list().listen((onData) {
+          if (onData.path.endsWith(".aac")) {
+            deleteFileRec(onData.path);
+          }
+        }).onDone(() {
+          records.sort();
+          records = records.reversed.toList();
+          setState(() {
+            this._soalModel.status = 1;
+          });
+        });
         Navigator.pop(context);
         if (this
                 ._soalModel
@@ -1266,14 +1317,14 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
           this._soalPresenter.kumpulkanFile();
         }
         Fluttertoast.showToast(
-            msg: "Soal selesai :)",
+            msg: "Soal selesai",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
             backgroundColor: Colors.red,
             textColor: Colors.white,
             fontSize: 16.0);
-        // if (this._soalModel.tryoutSoalResponse.dataTryout.length == totalSoal) {
+        // if (this._soalModel.tryoutSoalPondok.data.length == totalSoal) {
         // } else {
         //   Navigator.pop(context);
         // }
@@ -1316,12 +1367,10 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
 
   @override
   void onSuccessTakePict(String fileNya) {
-    print("====lokasi");
     pictures.clear();
     appDirectory.list().listen((onData) {
       if (onData.path.endsWith(".jpg")) {
         pictures.add(onData.path);
-        deleteFilePict(onData.path);
       }
     }).onDone(() {
       pictures.sort();

@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:TesUjian/helper/getStorage.dart';
 import 'package:TesUjian/screen/checkout.dart';
 import 'package:TesUjian/screen/fragment/average_nilai.dart';
@@ -437,7 +439,7 @@ class _LandingBacaQuranState extends State<LandingBacaQuran>
                                             .jumlahSoal) {
                                       this._tryoutPresenter.check(
                                           GetStorage().read(ID_MURID),
-                                          this._tryoutModel.idTryout);
+                                          this._tryoutModel.idTryout,0);
                                       this.selected = index;
                                     } else {
                                       Fluttertoast.showToast(
@@ -797,7 +799,7 @@ class _LandingBacaQuranState extends State<LandingBacaQuran>
   }
 
   @override
-  void onCheck(String error) {
+  void onCheck(String error, int skemaHarga) {
     if (error == 'false') {
       showCupertinoModalBottomSheet(
         expand: false,
@@ -1449,8 +1451,8 @@ class _LandingBacaQuranState extends State<LandingBacaQuran>
   }
 
   @override
-  void onCheckStatus(int idMurid, int idTryout) {
-    this._tryoutPresenter.checkStatus(idMurid, idTryout);
+  void onCheckStatus(int idMurid, int idTryout, int harga) {
+    this._tryoutPresenter.checkStatus(idMurid, idTryout, harga);
   }
 
   @override
@@ -1462,6 +1464,15 @@ class _LandingBacaQuranState extends State<LandingBacaQuran>
 
   @override
   void onCheckMatpelStatusPondok(int statusMatpel, int indexs) {
-    // TODO: implement onCheckMatpelStatusPondok
+  }
+
+  @override
+  void onCheckBayarSilver(BayarModel bayarModel) {
+    
+  }
+
+  @override
+  void onCheckStatusSilver(int idMurid, int idTryout, int harga) {
+    
   }
 }

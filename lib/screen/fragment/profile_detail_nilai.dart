@@ -1,5 +1,6 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:TesUjian/screen/fragment/loading.dart';
-import 'package:TesUjian/screen/fragment/profil/total_nilai.dart';
 import 'package:TesUjian/src/model/total_nilai_detail.dart';
 import 'package:TesUjian/src/presenter/totalNilaiDetail.dart';
 import 'package:TesUjian/src/state/total_nilai_detail.dart';
@@ -7,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:TesUjian/src/resources/session.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class ProfileDetailNilai extends StatefulWidget {

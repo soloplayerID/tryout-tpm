@@ -1,4 +1,7 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:TesUjian/helper/getStorage.dart';
+import 'package:TesUjian/helper/harga.dart';
 import 'package:TesUjian/screen/checkout.dart';
 import 'package:TesUjian/screen/fragment/average_nilai.dart';
 import 'package:TesUjian/screen/fragment/loading.dart';
@@ -26,6 +29,7 @@ import 'package:skeleton_text/skeleton_text.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'fragment/soal/soal_timer_foto.dart';
+import 'fragment/tagihan/webview_gopay.dart';
 
 class TryoutScreen extends StatefulWidget {
   final int idPaket;
@@ -80,8 +84,8 @@ class _TryoutScreenState extends State<TryoutScreen>
             .save(this.idPaket, this.idJenjang, this.sekolahTujuan);
       }
     } else {
+      print('langsung ke getMatpels');
       this._tryoutPresenter.getMatpels(this.idTryout);
-      // this._tryoutPresenter.getInfo(this.idTryout);
     }
   }
 
@@ -91,558 +95,562 @@ class _TryoutScreenState extends State<TryoutScreen>
         body: this._tryoutModel.isloading ||
                 this._tryoutModel.tryoutInfoResponse.dataTryout.paket == null
             ? Loading()
-            : Container(
-                width: MediaQuery.of(context).size.width,
-                height: double.infinity,
-                color: Color(0xffecedf2),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 300.0,
-                        padding: EdgeInsets.only(bottom: 0),
-                        child: Stack(
-                          children: <Widget>[
-                            ClipPath(
-                              clipper: TClipper(),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 300.0,
-                                decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                  colors: [
-                                    Color(0xff25509e),
-                                    Color(0xff25509e),
-                                  ],
-                                  begin: const FractionalOffset(0.0, 0.0),
-                                  end: const FractionalOffset(1.0, 0.0),
-                                )),
-                              ),
-                            ),
-                            Positioned(
-                                top: 20,
-                                left: 0,
-                                child: IconButton(
-                                  icon: Icon(
-                                    Ionicons.arrow_back,
-                                    color: Colors.white,
-                                  ),
-                                  iconSize: 24,
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                )),
-                            Positioned(
-                              top: 90,
-                              left: 35,
-                              child: Text(
-                                "${this._tryoutModel.tryoutInfoResponse.dataTryout.tingkat.jenjang} | ${this._tryoutModel.tryoutInfoResponse.dataTryout.paket.namaPaket}",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    color: Colors.white),
-                              ),
-                            ),
-                            Positioned(
-                              top: 120,
-                              left: 35,
-                              child: Text(
-                                "Ayo Semangat Mengerjakan",
-                                style: TextStyle(
-                                    fontSize: 14, color: Colors.white),
-                              ),
-                            ),
-                            Positioned(
-                              // top: 140,
-                              right: 15,
-                              bottom: 40,
-                              child: Image.asset(
-                                "assets/img/lesson.png",
-                                fit: BoxFit.fitHeight,
-                              ),
-                            ),
-                            Positioned(
-                                // top: 140,
-                                left: 15,
-                                bottom: 20,
-                                child: Text(
-                                  "Hi, Pilih Mata Pelajarannya Disini",
-                                  style: GoogleFonts.poppins(
-                                      color: Color(0xff1f1f1f), fontSize: 14),
-                                ))
-                          ],
-                        ),
-                      ),
-                      Container(
+            : SafeArea(
+              child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: double.infinity,
+                  color: Color(0xffecedf2),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
                           width: MediaQuery.of(context).size.width,
-                          child: this._tryoutModel.isloading
-                              ? GridView.builder(
-                                  padding: EdgeInsets.all(10),
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2,
-                                          crossAxisSpacing: 10,
-                                          mainAxisSpacing: 10),
-                                  shrinkWrap: true,
-                                  primary: true,
-                                  physics: ClampingScrollPhysics(),
-                                  itemCount: 6,
-                                  itemBuilder: (ctx, index) {
-                                    return InkWell(
-                                        child: SkeletonAnimation(
-                                      child: Container(
-                                        padding: EdgeInsets.all(3),
-                                        decoration: BoxDecoration(
-                                          color: Colors.grey[300],
-                                        ),
-                                      ),
-                                    ));
-                                  })
-                              : (this
-                                          ._tryoutModel
-                                          .tryoutInfoResponse
-                                          .dataTryout
-                                          .status ==
-                                      false)
-                                  ? GridView.builder(
-                                      padding: EdgeInsets.all(10),
-                                      gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: 2,
-                                              childAspectRatio: 2.5,
-                                              crossAxisSpacing: 10,
-                                              mainAxisSpacing: 10),
-                                      shrinkWrap: true,
-                                      physics: ClampingScrollPhysics(),
-                                      itemCount: this
-                                          ._tryoutModel
-                                          .tryoutDetailResponse
-                                          .data
-                                          .length,
-                                      itemBuilder: (ctx, index) {
-                                        // var nilai = this
-                                        //     ._tryoutModel
-                                        //     .tryoutDetailResponse
-                                        //     .data[index]
-                                        //     .nilai;
-                                        // var total = this
-                                        //         ._tryoutModel
-                                        //         .tryoutDetailResponse
-                                        //         .data[index]
-                                        //         .totalBenar +
-                                        //     this
-                                        //         ._tryoutModel
-                                        //         .tryoutDetailResponse
-                                        //         .data[index]
-                                        //         .totalSalah;
-                                        return InkWell(
-                                          onTap: () {
-                                            print(this._tryoutModel.idTryout);
-                                            print(this
-                                                ._tryoutModel
-                                                .tryoutDetailResponse
-                                                .data[index]
-                                                .id);
-                                            this
-                                                ._tryoutPresenter
-                                                .checkMatpelStatus(
-                                                    this._tryoutModel.idTryout,
-                                                    this
-                                                        ._tryoutModel
-                                                        .tryoutDetailResponse
-                                                        .data[index]
-                                                        .id,
-                                                    index);
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.all(10),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                            ),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Icon(
-                                                  LineIcons.book,
-                                                  size: 24,
-                                                  color: Colors.red,
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                        this
-                                                            ._tryoutModel
-                                                            .tryoutDetailResponse
-                                                            .data[index]
-                                                            .nama,
-                                                        style:
-                                                            GoogleFonts.poppins(
-                                                          textStyle: TextStyle(
-                                                            fontSize: 12,
-                                                            color: Color(
-                                                                0xff485460),
-                                                          ),
-                                                        )),
-                                                    Text(
-                                                        // " ${this._tryoutModel.tryoutDetailResponse.data[index].totalBenar + this._tryoutModel.tryoutDetailResponse.data[index].totalSalah} / ${this._tryoutModel.tryoutDetailResponse.data[index].jumlahSoal} Soal",
-                                                        "${this._tryoutModel.tryoutDetailResponse.data[index].jumlahSoal} Soal",
-                                                        style:
-                                                            GoogleFonts.poppins(
-                                                          textStyle: TextStyle(
-                                                            fontSize: 10,
-                                                            color: Color(
-                                                                0xff7a7a7a),
-                                                          ),
-                                                        )),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      })
-                                  : GridView.builder(
-                                      padding: EdgeInsets.all(10),
-                                      gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: 2,
-                                              childAspectRatio: 2.5,
-                                              crossAxisSpacing: 10,
-                                              mainAxisSpacing: 10),
-                                      shrinkWrap: true,
-                                      physics: ClampingScrollPhysics(),
-                                      itemCount: this
-                                          ._tryoutModel
-                                          .tryoutDetailResponse
-                                          .data
-                                          .length,
-                                      itemBuilder: (ctx, index) {
-                                        //
-                                        return InkWell(
-                                          onTap: () {
-                                            print(this._tryoutModel.idTryout);
-                                            print(this
-                                                ._tryoutModel
-                                                .tryoutDetailResponse
-                                                .data[index]
-                                                .id);
-                                            Fluttertoast.showToast(
-                                                msg: "soal sudah selesai :)",
-                                                toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.BOTTOM,
-                                                timeInSecForIosWeb: 1,
-                                                backgroundColor: Colors.red,
-                                                textColor: Colors.white,
-                                                fontSize: 16.0);
-                                            // this._tryoutPresenter.checkMatpelStatus(
-                                            //     this._tryoutModel.idTryout,
-                                            //     this
-                                            //         ._tryoutModel
-                                            //         .tryoutDetailResponse
-                                            //         .data[index]
-                                            //         .id,
-                                            //     index);
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.all(10),
-                                            decoration: BoxDecoration(
-                                              color: Colors.grey[300],
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                            ),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Icon(
-                                                  LineIcons.book,
-                                                  size: 24,
-                                                  color: Colors.red,
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                        this
-                                                            ._tryoutModel
-                                                            .tryoutDetailResponse
-                                                            .data[index]
-                                                            .nama,
-                                                        style:
-                                                            GoogleFonts.poppins(
-                                                          textStyle: TextStyle(
-                                                            fontSize: 12,
-                                                            color: Color(
-                                                                0xff485460),
-                                                          ),
-                                                        )),
-                                                    Text(
-                                                        // " ${this._tryoutModel.tryoutDetailResponse.data[index].totalBenar + this._tryoutModel.tryoutDetailResponse.data[index].totalSalah} / ${this._tryoutModel.tryoutDetailResponse.data[index].jumlahSoal} Soal",
-                                                        "${this._tryoutModel.tryoutDetailResponse.data[index].jumlahSoal} Soal",
-                                                        style:
-                                                            GoogleFonts.poppins(
-                                                          textStyle: TextStyle(
-                                                            fontSize: 10,
-                                                            color: Color(
-                                                                0xff7a7a7a),
-                                                          ),
-                                                        )),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      })),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      (this._tryoutModel.tryoutInfoResponse.dataTryout.status ==
-                              false)
-                          ? Center(
-                              child: InkWell(
-                                splashColor: Color(0xff7474BF),
-                                onTap: () {
-                                  print(this
-                                      ._tryoutModel
-                                      .tryoutInfoResponse
-                                      .dataTryout
-                                      .idSekolahTujuan);
-                                  print(this._tryoutModel.idTryout);
-                                  this._tryoutPresenter.finishTryout(this
-                                      ._tryoutModel
-                                      .tryoutInfoResponse
-                                      .dataTryout
-                                      .id);
-                                },
+                          height: 300.0,
+                          padding: EdgeInsets.only(bottom: 0),
+                          child: Stack(
+                            children: <Widget>[
+                              ClipPath(
+                                clipper: TClipper(),
                                 child: Container(
-                                  margin: EdgeInsets.only(top: 10.0),
-                                  height: 43,
-                                  width:
-                                      MediaQuery.of(context).size.width / 1.2,
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 300.0,
                                   decoration: BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black26,
-                                            offset: Offset(0, 28),
-                                            blurRadius: 40,
-                                            spreadRadius: -12)
-                                      ],
-                                      color: Color(0xff1d63dc),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10))),
-                                  child: Center(
-                                    child: Text(
-                                      "Finish Tryout",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
+                                      gradient: LinearGradient(
+                                    colors: [
+                                      Color(0xff25509e),
+                                      Color(0xff25509e),
+                                    ],
+                                    begin: const FractionalOffset(0.0, 0.0),
+                                    end: const FractionalOffset(1.0, 0.0),
+                                  )),
+                                ),
+                              ),
+                              Positioned(
+                                  top: 20,
+                                  left: 0,
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Ionicons.arrow_back,
+                                      color: Colors.white,
+                                    ),
+                                    iconSize: 24,
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  )),
+                              Positioned(
+                                top: 90,
+                                left: 35,
+                                child: Text(
+                                  "${this._tryoutModel.tryoutInfoResponse.dataTryout.tingkat.jenjang} | ${this._tryoutModel.tryoutInfoResponse.dataTryout.paket.namaPaket}",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                      color: Colors.white),
+                                ),
+                              ),
+                              Positioned(
+                                top: 120,
+                                left: 35,
+                                child: Text(
+                                  "Ayo Semangat Mengerjakan",
+                                  style: TextStyle(
+                                      fontSize: 14, color: Colors.white),
+                                ),
+                              ),
+                              Positioned(
+                                // top: 140,
+                                right: 15,
+                                bottom: 40,
+                                child: Image.asset(
+                                  "assets/img/lesson.png",
+                                  fit: BoxFit.fitHeight,
+                                ),
+                              ),
+                              Positioned(
+                                  // top: 140,
+                                  left: 15,
+                                  bottom: 20,
+                                  child: Text(
+                                    "Hii, Pilih Mata Pelajarannya Disini",
+                                    style: GoogleFonts.poppins(
+                                        color: Color(0xff1f1f1f), fontSize: 14),
+                                  ))
+                            ],
+                          ),
+                        ),
+                        Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: this._tryoutModel.isloading
+                                ? GridView.builder(
+                                    padding: EdgeInsets.all(10),
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 2,
+                                            crossAxisSpacing: 10,
+                                            mainAxisSpacing: 10),
+                                    shrinkWrap: true,
+                                    primary: true,
+                                    physics: ClampingScrollPhysics(),
+                                    itemCount: 6,
+                                    itemBuilder: (ctx, index) {
+                                      return InkWell(
+                                          child: SkeletonAnimation(
+                                        child: Container(
+                                          padding: EdgeInsets.all(3),
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[300],
+                                          ),
+                                        ),
+                                      ));
+                                    })
+                                : (this
+                                            ._tryoutModel
+                                            .tryoutInfoResponse
+                                            .dataTryout
+                                            .status ==
+                                        false)
+                                    ? GridView.builder(
+                                        padding: EdgeInsets.all(10),
+                                        gridDelegate:
+                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 2,
+                                                childAspectRatio: 2.5,
+                                                crossAxisSpacing: 10,
+                                                mainAxisSpacing: 10),
+                                        shrinkWrap: true,
+                                        physics: ClampingScrollPhysics(),
+                                        itemCount: this
+                                            ._tryoutModel
+                                            .tryoutDetailResponse
+                                            .data
+                                            .length,
+                                        itemBuilder: (ctx, index) {
+                                          // var nilai = this
+                                          //     ._tryoutModel
+                                          //     .tryoutDetailResponse
+                                          //     .data[index]
+                                          //     .nilai;
+                                          // var total = this
+                                          //         ._tryoutModel
+                                          //         .tryoutDetailResponse
+                                          //         .data[index]
+                                          //         .totalBenar +
+                                          //     this
+                                          //         ._tryoutModel
+                                          //         .tryoutDetailResponse
+                                          //         .data[index]
+                                          //         .totalSalah;
+                                          return InkWell(
+                                            onTap: () {
+                                              print(this._tryoutModel.idTryout);
+                                              print(this
+                                                  ._tryoutModel
+                                                  .tryoutDetailResponse
+                                                  .data[index]
+                                                  .id);
+                                              this
+                                                  ._tryoutPresenter
+                                                  .checkMatpelStatus(
+                                                      this._tryoutModel.idTryout,
+                                                      this
+                                                          ._tryoutModel
+                                                          .tryoutDetailResponse
+                                                          .data[index]
+                                                          .id,
+                                                      index);
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                              ),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Icon(
+                                                    LineIcons.book,
+                                                    size: 24,
+                                                    color: Colors.red,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.center,
+                                                    children: [
+                                                      Text(
+                                                          this
+                                                              ._tryoutModel
+                                                              .tryoutDetailResponse
+                                                              .data[index]
+                                                              .nama,
+                                                          style:
+                                                              GoogleFonts.poppins(
+                                                            textStyle: TextStyle(
+                                                              fontSize: 12,
+                                                              color: Color(
+                                                                  0xff485460),
+                                                            ),
+                                                          )),
+                                                      Text(
+                                                          // " ${this._tryoutModel.tryoutDetailResponse.data[index].totalBenar + this._tryoutModel.tryoutDetailResponse.data[index].totalSalah} / ${this._tryoutModel.tryoutDetailResponse.data[index].jumlahSoal} Soal",
+                                                          "${this._tryoutModel.tryoutDetailResponse.data[index].jumlahSoal} Soal",
+                                                          style:
+                                                              GoogleFonts.poppins(
+                                                            textStyle: TextStyle(
+                                                              fontSize: 10,
+                                                              color: Color(
+                                                                  0xff7a7a7a),
+                                                            ),
+                                                          )),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        })
+                                    : GridView.builder(
+                                        padding: EdgeInsets.all(10),
+                                        gridDelegate:
+                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 2,
+                                                childAspectRatio: 2.5,
+                                                crossAxisSpacing: 10,
+                                                mainAxisSpacing: 10),
+                                        shrinkWrap: true,
+                                        physics: ClampingScrollPhysics(),
+                                        itemCount: this
+                                            ._tryoutModel
+                                            .tryoutDetailResponse
+                                            .data
+                                            .length,
+                                        itemBuilder: (ctx, index) {
+                                          //
+                                          return InkWell(
+                                            onTap: () {
+                                              print(this._tryoutModel.idTryout);
+                                              print(this
+                                                  ._tryoutModel
+                                                  .tryoutDetailResponse
+                                                  .data[index]
+                                                  .id);
+                                              Fluttertoast.showToast(
+                                                  msg: "soal sudah selesai :)",
+                                                  toastLength: Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.BOTTOM,
+                                                  timeInSecForIosWeb: 1,
+                                                  backgroundColor: Colors.red,
+                                                  textColor: Colors.white,
+                                                  fontSize: 16.0);
+                                              // this._tryoutPresenter.checkMatpelStatus(
+                                              //     this._tryoutModel.idTryout,
+                                              //     this
+                                              //         ._tryoutModel
+                                              //         .tryoutDetailResponse
+                                              //         .data[index]
+                                              //         .id,
+                                              //     index);
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey[300],
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                              ),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Icon(
+                                                    LineIcons.book,
+                                                    size: 24,
+                                                    color: Colors.red,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.center,
+                                                    children: [
+                                                      Text(
+                                                          this
+                                                              ._tryoutModel
+                                                              .tryoutDetailResponse
+                                                              .data[index]
+                                                              .nama,
+                                                          style:
+                                                              GoogleFonts.poppins(
+                                                            textStyle: TextStyle(
+                                                              fontSize: 12,
+                                                              color: Color(
+                                                                  0xff485460),
+                                                            ),
+                                                          )),
+                                                      Text(
+                                                          // " ${this._tryoutModel.tryoutDetailResponse.data[index].totalBenar + this._tryoutModel.tryoutDetailResponse.data[index].totalSalah} / ${this._tryoutModel.tryoutDetailResponse.data[index].jumlahSoal} Soal",
+                                                          "${this._tryoutModel.tryoutDetailResponse.data[index].jumlahSoal} Soal",
+                                                          style:
+                                                              GoogleFonts.poppins(
+                                                            textStyle: TextStyle(
+                                                              fontSize: 10,
+                                                              color: Color(
+                                                                  0xff7a7a7a),
+                                                            ),
+                                                          )),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        })),
+                        SizedBox(
+                          height: 25,
+                        ),
+                        (this._tryoutModel.tryoutInfoResponse.dataTryout.status ==
+                                false)
+                            ? Center(
+                                child: InkWell(
+                                  splashColor: Color(0xff7474BF),
+                                  onTap: () {
+                                    print(this
+                                        ._tryoutModel
+                                        .tryoutInfoResponse
+                                        .dataTryout
+                                        .idSekolahTujuan);
+                                    print(this._tryoutModel.idTryout);
+                                    this._tryoutPresenter.finishTryout(this
+                                        ._tryoutModel
+                                        .tryoutInfoResponse
+                                        .dataTryout
+                                        .id);
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(top: 10.0),
+                                    height: 43,
+                                    width:
+                                        MediaQuery.of(context).size.width / 1.2,
+                                    decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Colors.black26,
+                                              offset: Offset(0, 28),
+                                              blurRadius: 40,
+                                              spreadRadius: -12)
+                                        ],
+                                        color: Color(0xff1d63dc),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                    child: Center(
+                                      child: Text(
+                                        "Finish Tryout",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            )
-                          : Container(
-                              child: Column(
-                                children: [
-                                  Center(
-                                    child: InkWell(
-                                      splashColor: Color(0xff7474BF),
-                                      onTap: () {
-                                        if (widget.idJenjang == 16) {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      AverageNilai(
-                                                        title:
-                                                            "${this._tryoutModel.tryoutInfoResponse.dataTryout.tingkat.jenjang} | ${this._tryoutModel.tryoutInfoResponse.dataTryout.paket.namaPaket}",
-                                                        idMurid: GetStorage()
-                                                            .read(ID_MURID),
-                                                        idTryout: this
-                                                            ._tryoutModel
-                                                            .idTryout,
-                                                        // idArea: this
-                                                        //     ._tryoutModel
-                                                        //     .idArea,
-                                                      )));
-                                        } else {
-                                          print(this
-                                              ._tryoutModel
-                                              .tryoutInfoResponse
-                                              .dataTryout
-                                              .idSekolahTujuan);
-                                          print(this._tryoutModel.idTryout);
-                                          // this.areaJenjangTujuan();
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      AverageNilai(
-                                                        title:
-                                                            "${this._tryoutModel.tryoutInfoResponse.dataTryout.tingkat.jenjang} | ${this._tryoutModel.tryoutInfoResponse.dataTryout.paket.namaPaket}",
-                                                        idMurid: GetStorage()
-                                                            .read(ID_MURID),
-                                                        idTryout: this
-                                                            ._tryoutModel
-                                                            .idTryout,
-                                                        // idArea: this
-                                                        //     ._tryoutModel
-                                                        //     .idArea,
-                                                        idSekolahTujuan: this
-                                                            ._tryoutModel
-                                                            .tryoutInfoResponse
-                                                            .dataTryout
-                                                            .idSekolahTujuan,
-                                                      )));
-                                        }
-                                      },
-                                      child: Container(
-                                        margin: EdgeInsets.only(top: 50.0),
-                                        height: 43,
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                1.2,
-                                        decoration: BoxDecoration(
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  color: Colors.black26,
-                                                  offset: Offset(0, 28),
-                                                  blurRadius: 40,
-                                                  spreadRadius: -12)
-                                            ],
-                                            color: Color(0xff1fc8db),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10))),
-                                        child: Center(
-                                          child: Text(
-                                            "Cek nilai rata-rata",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
+                              )
+                            : Container(
+                                child: Column(
+                                  children: [
+                                    Center(
+                                      child: InkWell(
+                                        splashColor: Color(0xff7474BF),
+                                        onTap: () {
+                                          if (widget.idJenjang == 16) {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        AverageNilai(
+                                                          title:
+                                                              "${this._tryoutModel.tryoutInfoResponse.dataTryout.tingkat.jenjang} | ${this._tryoutModel.tryoutInfoResponse.dataTryout.paket.namaPaket}",
+                                                          idMurid: GetStorage()
+                                                              .read(ID_MURID),
+                                                          idTryout: this
+                                                              ._tryoutModel
+                                                              .idTryout,
+                                                          // idArea: this
+                                                          //     ._tryoutModel
+                                                          //     .idArea,
+                                                        )));
+                                          } else {
+                                            print(this
+                                                ._tryoutModel
+                                                .tryoutInfoResponse
+                                                .dataTryout
+                                                .idSekolahTujuan);
+                                            print(this._tryoutModel.idTryout);
+                                            // Navigator.push(
+                                            //     context,
+                                            //     MaterialPageRoute(
+                                            //         builder: (context) =>
+                                            //             AverageNilai(
+                                            //               title:
+                                            //                   "${this._tryoutModel.tryoutInfoResponse.dataTryout.tingkat.jenjang} | ${this._tryoutModel.tryoutInfoResponse.dataTryout.paket.namaPaket}",
+                                            //               idMurid: GetStorage()
+                                            //                   .read(ID_MURID),
+                                            //               idTryout: this
+                                            //                   ._tryoutModel
+                                            //                   .idTryout,
+                                            //               // idArea: this
+                                            //               //     ._tryoutModel
+                                            //               //     .idArea,
+                                            //               idSekolahTujuan: this
+                                            //                   ._tryoutModel
+                                            //                   .tryoutInfoResponse
+                                            //                   .dataTryout
+                                            //                   .idSekolahTujuan,
+                                            //             )));
+                                            this._tryoutPresenter.checkSilver(
+                                                GetStorage().read(ID_MURID),
+                                                this._tryoutModel.idTryout, Harga.silver);
+                                          }
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.only(top: 50.0),
+                                          height: 43,
+                                          width:
+                                              MediaQuery.of(context).size.width /
+                                                  1.2,
+                                          decoration: BoxDecoration(
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.black26,
+                                                    offset: Offset(0, 28),
+                                                    blurRadius: 40,
+                                                    spreadRadius: -12)
+                                              ],
+                                              color: Color(0xff1fc8db),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10))),
+                                          child: Center(
+                                            child: Text(
+                                              "Cek nilai rata-rata",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  Center(
-                                    child: InkWell(
-                                      splashColor: Color(0xff7474BF),
-                                      onTap: () {
-                                        showMatpel(context);
-                                      },
-                                      child: Container(
-                                        margin: EdgeInsets.only(top: 10.0),
-                                        height: 43,
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                1.2,
-                                        decoration: BoxDecoration(
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  color: Colors.black26,
-                                                  offset: Offset(0, 28),
-                                                  blurRadius: 40,
-                                                  spreadRadius: -12)
-                                            ],
-                                            color: Color(0xff1d63dc),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10))),
-                                        child: Center(
-                                          child: Text(
-                                            "Cek Pembahasan",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
+                                    Center(
+                                      child: InkWell(
+                                        splashColor: Color(0xff7474BF),
+                                        onTap: () {
+                                          showMatpel(context);
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.only(top: 10.0),
+                                          height: 43,
+                                          width:
+                                              MediaQuery.of(context).size.width /
+                                                  1.2,
+                                          decoration: BoxDecoration(
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.black26,
+                                                    offset: Offset(0, 28),
+                                                    blurRadius: 40,
+                                                    spreadRadius: -12)
+                                              ],
+                                              color: Color(0xff1d63dc),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10))),
+                                          child: Center(
+                                            child: Text(
+                                              "Cek Pembahasan",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-
-                      SizedBox(
-                        height: 5,
-                      ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: [
-                      //     Container(
-                      //       height: 40,
-                      //       width: MediaQuery.of(context).size.width / 2.5,
-                      //       child: RaisedButton(
-                      //         padding: EdgeInsets.all(10),
-                      //         color: Colors.orange,
-                      //         disabledColor: Colors.red,
-                      //         onPressed: () async {},
-                      //         shape: RoundedRectangleBorder(
-                      //             borderRadius: BorderRadius.circular(10.0)),
-                      //         child: Text(
-                      //           'cek Nilai rata-rata',
-                      //           style: GoogleFonts.poppins(
-                      //             color: Colors.white,
-                      //             fontSize: 14,
-                      //             fontWeight: FontWeight.bold,
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //     SizedBox(
-                      //       width: 10,
-                      //     ),
-                      //     Container(
-                      //       height: 40,
-                      //       width: MediaQuery.of(context).size.width / 2.5,
-                      //       child: RaisedButton(
-                      //         padding: EdgeInsets.all(10),
-                      //         color: Colors.blue,
-                      //         disabledColor: Colors.red,
-                      //         onPressed: () async {
-                      //           showMatpel(context);
-                      //         },
-                      //         shape: RoundedRectangleBorder(
-                      //             borderRadius: BorderRadius.circular(10.0)),
-                      //         child: Text(
-                      //           'Cek Pembahasan',
-                      //           style: GoogleFonts.poppins(
-                      //             color: Colors.white,
-                      //             fontSize: 14,
-                      //             fontWeight: FontWeight.bold,
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                    ],
+            
+                        SizedBox(
+                          height: 5,
+                        ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     Container(
+                        //       height: 40,
+                        //       width: MediaQuery.of(context).size.width / 2.5,
+                        //       child: RaisedButton(
+                        //         padding: EdgeInsets.all(10),
+                        //         color: Colors.orange,
+                        //         disabledColor: Colors.red,
+                        //         onPressed: () async {},
+                        //         shape: RoundedRectangleBorder(
+                        //             borderRadius: BorderRadius.circular(10.0)),
+                        //         child: Text(
+                        //           'cek Nilai rata-rata',
+                        //           style: GoogleFonts.poppins(
+                        //             color: Colors.white,
+                        //             fontSize: 14,
+                        //             fontWeight: FontWeight.bold,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //     SizedBox(
+                        //       width: 10,
+                        //     ),
+                        //     Container(
+                        //       height: 40,
+                        //       width: MediaQuery.of(context).size.width / 2.5,
+                        //       child: RaisedButton(
+                        //         padding: EdgeInsets.all(10),
+                        //         color: Colors.blue,
+                        //         disabledColor: Colors.red,
+                        //         onPressed: () async {
+                        //           showMatpel(context);
+                        //         },
+                        //         shape: RoundedRectangleBorder(
+                        //             borderRadius: BorderRadius.circular(10.0)),
+                        //         child: Text(
+                        //           'Cek Pembahasan',
+                        //           style: GoogleFonts.poppins(
+                        //             color: Colors.white,
+                        //             fontSize: 14,
+                        //             fontWeight: FontWeight.bold,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                      ],
+                    ),
                   ),
                 ),
-              ));
+            ));
   }
 
   @override
@@ -774,7 +782,7 @@ class _TryoutScreenState extends State<TryoutScreen>
                                             .jumlahSoal) {
                                       this._tryoutPresenter.check(
                                           GetStorage().read(ID_MURID),
-                                          this._tryoutModel.idTryout);
+                                          this._tryoutModel.idTryout, Harga.gold);
                                       this.selected = index;
                                     } else {
                                       Fluttertoast.showToast(
@@ -1056,7 +1064,7 @@ class _TryoutScreenState extends State<TryoutScreen>
   }
 
   @override
-  void onCheck(String error) {
+  void onCheck(String error, int skemaHarga) {
     if (error == 'false') {
       showCupertinoModalBottomSheet(
         expand: false,
@@ -1133,6 +1141,7 @@ class _TryoutScreenState extends State<TryoutScreen>
                                           key: Key(
                                               "${this._tryoutModel.idTryout}checkout"),
                                           idTryout: this._tryoutModel.idTryout,
+                                          idSkemaHarga: skemaHarga,
                                           namaPaket: this
                                               ._tryoutModel
                                               .tryoutInfoResponse
@@ -1175,6 +1184,65 @@ class _TryoutScreenState extends State<TryoutScreen>
   }
 
   @override
+  void onCheckBayarSilver(BayarModel bayarModel) {
+    switch (this._bayarModel.bayars[0].status) {
+      case false:
+        // print('false');
+        Fluttertoast.showToast(
+            msg: "Selesaikan dulu pembayaran :)",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        if (bayarModel.bayars[0].deepLink != null) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => WebViewPage(
+                        bayarModel.bayars[0].deepLink,
+                        bayarModel.bayars[0].bank,
+                      )));
+        } else {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PembayaranDetail(
+                        metode: bayarModel.bayars[0].bank,
+                        jumlah: bayarModel.bayars[0].amount,
+                        va: bayarModel.bayars[0].vaNumber,
+                        batasWaktu: bayarModel.bayars[0].batasWaktu,
+                        status: bayarModel.bayars[0].transactionStatus,
+                      )));
+        }
+        break;
+      default:
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  AverageNilai(
+                    title:
+                        "${this._tryoutModel.tryoutInfoResponse.dataTryout.tingkat.jenjang} | ${this._tryoutModel.tryoutInfoResponse.dataTryout.paket.namaPaket}",
+                    idMurid: GetStorage()
+                        .read(ID_MURID),
+                    idTryout: this
+                        ._tryoutModel
+                        .idTryout,
+                    // idArea: this
+                    //     ._tryoutModel
+                    //     .idArea,
+                    idSekolahTujuan: this
+                        ._tryoutModel
+                        .tryoutInfoResponse
+                        .dataTryout
+                        .idSekolahTujuan,
+                  )));
+    }
+  }
+
+  @override
   void onCheckBayar(BayarModel bayarModel) {
     switch (this._bayarModel.bayars[0].status) {
       case false:
@@ -1187,17 +1255,26 @@ class _TryoutScreenState extends State<TryoutScreen>
             backgroundColor: Colors.red,
             textColor: Colors.white,
             fontSize: 16.0);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => PembayaranDetail(
-                      metode: this._bayarModel.bayars[0].bank,
-                      jumlah: this._bayarModel.bayars[0].amount,
-                      va: this._bayarModel.bayars[0].vaNumber,
-                      batasTanggal: this._bayarModel.bayars[0].batasTanggal,
-                      batasWaktu: this._bayarModel.bayars[0].batasWaktu,
-                      status: this._bayarModel.bayars[0].transactionStatus,
-                    )));
+        if (bayarModel.bayars[0].deepLink != null) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => WebViewPage(
+                        bayarModel.bayars[0].deepLink,
+                        bayarModel.bayars[0].bank,
+                      )));
+        } else {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PembayaranDetail(
+                        metode: bayarModel.bayars[0].bank,
+                        jumlah: bayarModel.bayars[0].amount,
+                        va: bayarModel.bayars[0].vaNumber,
+                        batasWaktu: bayarModel.bayars[0].batasWaktu,
+                        status: bayarModel.bayars[0].transactionStatus,
+                      )));
+        }
         break;
       default:
         var total = this
@@ -1708,8 +1785,13 @@ class _TryoutScreenState extends State<TryoutScreen>
   }
 
   @override
-  void onCheckStatus(int idMurid, int idTryout) {
-    this._tryoutPresenter.checkStatus(idMurid, idTryout);
+  void onCheckStatus(int idMurid, int idTryout, int harga) {
+    this._tryoutPresenter.checkStatus(idMurid, idTryout, harga);
+  }
+
+  @override
+  void onCheckStatusSilver(int idMurid, int idTryout, int harga) {
+    this._tryoutPresenter.checkStatusSilver(idMurid, idTryout, harga);
   }
 
   @override
@@ -1721,6 +1803,5 @@ class _TryoutScreenState extends State<TryoutScreen>
 
   @override
   void onCheckMatpelStatusPondok(int statusMatpel, int indexs) {
-    // TODO: implement onCheckMatpelStatusPondok
   }
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:TesUjian/helper/getStorage.dart';
 import 'package:TesUjian/screen/fragment/loading.dart';
 import 'package:TesUjian/screen/fragment/profil/kategori_tagihan.dart';
@@ -47,571 +49,573 @@ class TagihanState extends State<Tagihan>
   Widget build(BuildContext context) {
     return this._bayarModel.isloading
         ? Loading()
-        : Scaffold(
-            body: Container(
-              width: MediaQuery.of(context).size.width,
-              height: double.infinity,
-              child: Column(
-                children: [
-                  Container(
-                      padding: EdgeInsets.only(left: 15, right: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 20, top: 40),
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.of(context).pop(true);
-                                },
-                                child: Icon(LineIcons.arrowLeft),
+        : SafeArea(
+          child: Scaffold(
+              body: Container(
+                width: MediaQuery.of(context).size.width,
+                height: double.infinity,
+                child: Column(
+                  children: [
+                    Container(
+                        padding: EdgeInsets.only(left: 15, right: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 20, top: 40),
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).pop(true);
+                                  },
+                                  child: Icon(LineIcons.arrowLeft),
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(15),
-                            child: Text(
-                              "Daftar Transaksi",
-                              style: GoogleFonts.poppins(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
+                            Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: Text(
+                                "Daftar Transaksi",
+                                style: GoogleFonts.poppins(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
-                          ),
-                        ],
-                      )),
-                  Container(
-                    padding: EdgeInsets.only(top: 10, bottom: 10),
-                    height: 50,
-                    color: Color(0xffecedf2),
-                    child: ListView.builder(
-                        itemCount: kategori.length,
-                        shrinkWrap: true,
-                        physics: ClampingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return KategoriTagihan(
-                            categorie: kategori[index],
-                            isSelected: selectedKategori == kategori[index],
-                            context: this,
-                          );
-                        }),
-                  ),
-                  Expanded(
-                      child: Container(
-                    padding: EdgeInsets.all(
-                      20,
+                          ],
+                        )),
+                    Container(
+                      padding: EdgeInsets.only(top: 10, bottom: 10),
+                      height: 50,
+                      color: Color(0xffecedf2),
+                      child: ListView.builder(
+                          itemCount: kategori.length,
+                          shrinkWrap: true,
+                          physics: ClampingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return KategoriTagihan(
+                              categorie: kategori[index],
+                              isSelected: selectedKategori == kategori[index],
+                              context: this,
+                            );
+                          }),
                     ),
-                    width: MediaQuery.of(context).size.width,
-                    height: double.infinity,
-                    color: Color(0xffecedf2),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        children: [
-                          selectedKategori == 'Semua'
-                              ? this._bayarModel.bayars == null
-                                  ? Container(
-                                      child: Text('Data Kosong'),
-                                    )
-                                  : ListView.builder(
-                                      itemCount: this._bayarModel.bayars.length,
-                                      scrollDirection: Axis.vertical,
-                                      primary: false,
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemBuilder: (BuildContext context,
-                                              int itemIndex) =>
-                                          Container(
-                                            margin: EdgeInsets.symmetric(
-                                                vertical: 5.0),
-                                            height: 100,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Color(0xffeeeeee),
-                                                    blurRadius: 7,
-                                                  )
-                                                ]),
-                                            padding: EdgeInsets.all(10),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      padding: EdgeInsets.only(
-                                                          left: 10),
-                                                      child: Text(
-                                                          this
-                                                                  ._bayarModel
-                                                                  .bayars[
-                                                                      itemIndex]
-                                                                  .transactionStatus +
-                                                              ' ' +
-                                                              this
-                                                                  ._bayarModel
-                                                                  .bayars[
-                                                                      itemIndex]
-                                                                  .metodePembayaran,
-                                                          style: GoogleFonts
-                                                              .poppins(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize:
-                                                                      14)),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    Container(
-                                                      padding: EdgeInsets.only(
-                                                          left: 10),
-                                                      child: Text(
-                                                          'Tagihan Rp.' +
-                                                              this
-                                                                  ._bayarModel
-                                                                  .bayars[
-                                                                      itemIndex]
-                                                                  .amount),
-                                                    ),
-                                                  ],
-                                                ),
-                                                this
-                                                        ._bayarModel
-                                                        .bayars[itemIndex]
-                                                        .status
-                                                    ? Container(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: 20),
-                                                        child: Text('Lunas',
+                    Expanded(
+                        child: Container(
+                      padding: EdgeInsets.all(
+                        20,
+                      ),
+                      width: MediaQuery.of(context).size.width,
+                      height: double.infinity,
+                      color: Color(0xffecedf2),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          children: [
+                            selectedKategori == 'Semua'
+                                ? this._bayarModel.bayars == null
+                                    ? Container(
+                                        child: Text('Data Kosong'),
+                                      )
+                                    : ListView.builder(
+                                        itemCount: this._bayarModel.bayars.length,
+                                        scrollDirection: Axis.vertical,
+                                        primary: false,
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemBuilder: (BuildContext context,
+                                                int itemIndex) =>
+                                            Container(
+                                              margin: EdgeInsets.symmetric(
+                                                  vertical: 5.0),
+                                              height: 100,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Color(0xffeeeeee),
+                                                      blurRadius: 7,
+                                                    )
+                                                  ]),
+                                              padding: EdgeInsets.all(10),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
+                                                    children: [
+                                                      Container(
+                                                        padding: EdgeInsets.only(
+                                                            left: 10),
+                                                        child: Text(
+                                                            this
+                                                                    ._bayarModel
+                                                                    .bayars[
+                                                                        itemIndex]
+                                                                    .transactionStatus +
+                                                                ' ' +
+                                                                this
+                                                                    ._bayarModel
+                                                                    .bayars[
+                                                                        itemIndex]
+                                                                    .metodePembayaran,
                                                             style: GoogleFonts
                                                                 .poppins(
                                                                     color: Colors
-                                                                        .green,
+                                                                        .black,
                                                                     fontSize:
-                                                                        16)),
-                                                      )
-                                                    : Row(
-                                                        children: [
-                                                          Container(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    top: 20),
-                                                            child: RaisedButton(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(1),
-                                                              color: Color(
-                                                                  0xff2e97f2),
-                                                              disabledColor:
-                                                                  Colors.red,
-                                                              onPressed: () {},
-                                                              shape: RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              18.0),
-                                                                  side: BorderSide(
-                                                                      color: Colors
-                                                                          .white)),
-                                                              child: Text(
-                                                                'Bayar',
-                                                                style:
-                                                                    GoogleFonts
-                                                                        .poppins(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize: 12,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    top: 20),
-                                                            child: RaisedButton(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(1),
-                                                              color: Colors.red,
-                                                              disabledColor:
-                                                                  Colors.red,
-                                                              onPressed: () {
-                                                                this
-                                                                    ._tagihanPresenter
-                                                                    .cancel(this
-                                                                        ._bayarModel
-                                                                        .bayars[
-                                                                            itemIndex]
-                                                                        .orderId);
-                                                              },
-                                                              shape: RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              18.0),
-                                                                  side: BorderSide(
-                                                                      color: Colors
-                                                                          .white)),
-                                                              child: Text(
-                                                                'Cancel',
-                                                                style:
-                                                                    GoogleFonts
-                                                                        .poppins(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize: 12,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          )
-                                                        ],
+                                                                        14)),
                                                       ),
-                                              ],
-                                            ),
-                                          ))
-                              : selectedKategori == 'Menunggu Pembayaran'
-                                  ? this._bayarModel.bayars == null
-                                      ? Container()
-                                      : ListView.builder(
-                                          itemCount:
-                                              this._bayarModel.bayars.length,
-                                          scrollDirection: Axis.vertical,
-                                          primary: false,
-                                          shrinkWrap: true,
-                                          physics:
-                                              NeverScrollableScrollPhysics(),
-                                          itemBuilder: (BuildContext context,
-                                                  int itemIndex) =>
-                                              this
+                                                      SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Container(
+                                                        padding: EdgeInsets.only(
+                                                            left: 10),
+                                                        child: Text(
+                                                            'Tagihan Rp.' +
+                                                                this
+                                                                    ._bayarModel
+                                                                    .bayars[
+                                                                        itemIndex]
+                                                                    .amount),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  this
                                                           ._bayarModel
                                                           .bayars[itemIndex]
-                                                          .status ==
-                                                      false
-                                                  ? Container(
-                                                      height: 100,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.white,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                              color: Color(
-                                                                  0xffeeeeee),
-                                                              blurRadius: 7,
-                                                            )
-                                                          ]),
-                                                      padding:
-                                                          EdgeInsets.all(10),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Container(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        left:
-                                                                            10),
-                                                                child: Text(
-                                                                    this
-                                                                            ._bayarModel
-                                                                            .bayars[
-                                                                                itemIndex]
-                                                                            .transactionStatus +
-                                                                        ' ' +
-                                                                        this
-                                                                            ._bayarModel
-                                                                            .bayars[
-                                                                                itemIndex]
-                                                                            .metodePembayaran,
-                                                                    style: GoogleFonts.poppins(
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontSize:
-                                                                            14)),
-                                                              ),
-                                                              SizedBox(
-                                                                height: 10,
-                                                              ),
-                                                              Container(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        left:
-                                                                            10),
-                                                                child: Text('Tagihan Rp.' +
-                                                                    this
-                                                                        ._bayarModel
-                                                                        .bayars[
-                                                                            itemIndex]
-                                                                        .amount),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          this
-                                                                  ._bayarModel
-                                                                  .bayars[
-                                                                      itemIndex]
-                                                                  .status
-                                                              ? Container(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .only(
-                                                                              top: 20),
-                                                                  child: Text(
-                                                                      'Lunas',
-                                                                      style: GoogleFonts.poppins(
-                                                                          color: Colors
-                                                                              .green,
-                                                                          fontSize:
-                                                                              16)),
-                                                                )
-                                                              : Row(
-                                                                  children: [
-                                                                    Container(
-                                                                      padding: EdgeInsets
-                                                                          .only(
-                                                                              top: 20),
-                                                                      child:
-                                                                          RaisedButton(
-                                                                        padding:
-                                                                            EdgeInsets.all(1),
-                                                                        color: Color(
-                                                                            0xff2e97f2),
-                                                                        disabledColor:
-                                                                            Colors.red,
-                                                                        onPressed:
-                                                                            () {},
-                                                                        shape: RoundedRectangleBorder(
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(18.0),
-                                                                            side: BorderSide(color: Colors.white)),
-                                                                        child:
-                                                                            Text(
-                                                                          'Bayar',
-                                                                          style:
-                                                                              GoogleFonts.poppins(
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontSize:
-                                                                                12,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    Container(
-                                                                      padding: EdgeInsets
-                                                                          .only(
-                                                                              top: 20),
-                                                                      child:
-                                                                          RaisedButton(
-                                                                        padding:
-                                                                            EdgeInsets.all(1),
-                                                                        color: Colors
-                                                                            .red,
-                                                                        disabledColor:
-                                                                            Colors.red,
-                                                                        onPressed:
-                                                                            () {
-                                                                          this._tagihanPresenter.cancel(this
-                                                                              ._bayarModel
-                                                                              .bayars[itemIndex]
-                                                                              .orderId);
-                                                                        },
-                                                                        shape: RoundedRectangleBorder(
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(18.0),
-                                                                            side: BorderSide(color: Colors.white)),
-                                                                        child:
-                                                                            Text(
-                                                                          'Cancel',
-                                                                          style:
-                                                                              GoogleFonts.poppins(
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontSize:
-                                                                                12,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                        ],
-                                                      ),
-                                                    )
-                                                  : Container(
-                                                      // child: Center(
-                                                      //     child: Text(
-                                                      //         'Data Kosong')),
-                                                      ))
-                                  : selectedKategori == 'Lunas'
-                                      ? this._bayarModel.bayars == null
-                                          ? Container()
-                                          : ListView.builder(
-                                              itemCount: this
-                                                  ._bayarModel
-                                                  .bayars
-                                                  .length,
-                                              scrollDirection: Axis.vertical,
-                                              primary: false,
-                                              shrinkWrap: true,
-                                              physics:
-                                                  NeverScrollableScrollPhysics(),
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                          int itemIndex) =>
-                                                      this
-                                                                  ._bayarModel
-                                                                  .bayars[
-                                                                      itemIndex]
-                                                                  .status ==
-                                                              true
-                                                          ? Container(
-                                                              height: 100,
-                                                              width:
-                                                                  MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width,
-                                                              decoration: BoxDecoration(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10),
-                                                                  boxShadow: [
-                                                                    BoxShadow(
-                                                                      color: Color(
-                                                                          0xffeeeeee),
-                                                                      blurRadius:
-                                                                          7,
-                                                                    )
-                                                                  ]),
+                                                          .status
+                                                      ? Container(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  top: 20),
+                                                          child: Text('Lunas',
+                                                              style: GoogleFonts
+                                                                  .poppins(
+                                                                      color: Colors
+                                                                          .green,
+                                                                      fontSize:
+                                                                          16)),
+                                                        )
+                                                      : Row(
+                                                          children: [
+                                                            Container(
                                                               padding:
-                                                                  EdgeInsets
-                                                                      .all(10),
-                                                              child: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Column(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    children: [
-                                                                      Container(
-                                                                        padding:
-                                                                            EdgeInsets.only(left: 10),
-                                                                        child: Text(
-                                                                            this._bayarModel.bayars[itemIndex].transactionStatus +
-                                                                                ' ' +
-                                                                                this._bayarModel.bayars[itemIndex].metodePembayaran,
-                                                                            style: GoogleFonts.poppins(color: Colors.black, fontSize: 14)),
-                                                                      ),
-                                                                      SizedBox(
-                                                                        height:
-                                                                            10,
-                                                                      ),
-                                                                      Container(
-                                                                        padding:
-                                                                            EdgeInsets.only(left: 10),
-                                                                        child: Text('Tagihan Rp.' +
-                                                                            this._bayarModel.bayars[itemIndex].amount),
-                                                                      ),
-                                                                    ],
+                                                                  EdgeInsets.only(
+                                                                      top: 20),
+                                                              child: RaisedButton(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(1),
+                                                                color: Color(
+                                                                    0xff2e97f2),
+                                                                disabledColor:
+                                                                    Colors.red,
+                                                                onPressed: () {},
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                                18.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .white)),
+                                                                child: Text(
+                                                                  'Bayar',
+                                                                  style:
+                                                                      GoogleFonts
+                                                                          .poppins(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize: 12,
                                                                   ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              padding:
+                                                                  EdgeInsets.only(
+                                                                      top: 20),
+                                                              child: RaisedButton(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(1),
+                                                                color: Colors.red,
+                                                                disabledColor:
+                                                                    Colors.red,
+                                                                onPressed: () {
                                                                   this
+                                                                      ._tagihanPresenter
+                                                                      .cancel(this
                                                                           ._bayarModel
                                                                           .bayars[
                                                                               itemIndex]
-                                                                          .status
-                                                                      ? Container(
-                                                                          padding:
-                                                                              EdgeInsets.only(top: 20),
-                                                                          child: Text(
-                                                                              'Lunas',
-                                                                              style: GoogleFonts.poppins(color: Colors.green, fontSize: 16)),
-                                                                        )
-                                                                      : Row(
-                                                                          children: [
-                                                                            Container(
-                                                                              padding: EdgeInsets.only(top: 20),
-                                                                              child: RaisedButton(
-                                                                                padding: EdgeInsets.all(1),
-                                                                                color: Color(0xff2e97f2),
-                                                                                disabledColor: Colors.red,
-                                                                                onPressed: () {},
-                                                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0), side: BorderSide(color: Colors.white)),
-                                                                                child: Text(
-                                                                                  'Bayar',
-                                                                                  style: GoogleFonts.poppins(
-                                                                                    color: Colors.white,
-                                                                                    fontSize: 12,
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            Container(
-                                                                              padding: EdgeInsets.only(top: 20),
-                                                                              child: RaisedButton(
-                                                                                padding: EdgeInsets.all(1),
-                                                                                disabledColor: Colors.red,
-                                                                                onPressed: () {
-                                                                                  this._tagihanPresenter.cancel(this._bayarModel.bayars[itemIndex].orderId);
-                                                                                },
-                                                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0), side: BorderSide(color: Colors.white)),
-                                                                                child: Text(
-                                                                                  'Cancel',
-                                                                                  style: GoogleFonts.poppins(
-                                                                                    color: Colors.white,
-                                                                                    fontSize: 12,
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            )
-                                                                          ],
-                                                                        ),
-                                                                ],
+                                                                          .orderId);
+                                                                },
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                                18.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .white)),
+                                                                child: Text(
+                                                                  'Cancel',
+                                                                  style:
+                                                                      GoogleFonts
+                                                                          .poppins(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize: 12,
+                                                                  ),
+                                                                ),
                                                               ),
                                                             )
-                                                          : Container())
-                                      : Container()
-                        ],
+                                                          ],
+                                                        ),
+                                                ],
+                                              ),
+                                            ))
+                                : selectedKategori == 'Menunggu Pembayaran'
+                                    ? this._bayarModel.bayars == null
+                                        ? Container()
+                                        : ListView.builder(
+                                            itemCount:
+                                                this._bayarModel.bayars.length,
+                                            scrollDirection: Axis.vertical,
+                                            primary: false,
+                                            shrinkWrap: true,
+                                            physics:
+                                                NeverScrollableScrollPhysics(),
+                                            itemBuilder: (BuildContext context,
+                                                    int itemIndex) =>
+                                                this
+                                                            ._bayarModel
+                                                            .bayars[itemIndex]
+                                                            .status ==
+                                                        false
+                                                    ? Container(
+                                                        height: 100,
+                                                        width:
+                                                            MediaQuery.of(context)
+                                                                .size
+                                                                .width,
+                                                        decoration: BoxDecoration(
+                                                            color: Colors.white,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(10),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: Color(
+                                                                    0xffeeeeee),
+                                                                blurRadius: 7,
+                                                              )
+                                                            ]),
+                                                        padding:
+                                                            EdgeInsets.all(10),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Container(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          left:
+                                                                              10),
+                                                                  child: Text(
+                                                                      this
+                                                                              ._bayarModel
+                                                                              .bayars[
+                                                                                  itemIndex]
+                                                                              .transactionStatus +
+                                                                          ' ' +
+                                                                          this
+                                                                              ._bayarModel
+                                                                              .bayars[
+                                                                                  itemIndex]
+                                                                              .metodePembayaran,
+                                                                      style: GoogleFonts.poppins(
+                                                                          color: Colors
+                                                                              .black,
+                                                                          fontSize:
+                                                                              14)),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 10,
+                                                                ),
+                                                                Container(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          left:
+                                                                              10),
+                                                                  child: Text('Tagihan Rp.' +
+                                                                      this
+                                                                          ._bayarModel
+                                                                          .bayars[
+                                                                              itemIndex]
+                                                                          .amount),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            this
+                                                                    ._bayarModel
+                                                                    .bayars[
+                                                                        itemIndex]
+                                                                    .status
+                                                                ? Container(
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .only(
+                                                                                top: 20),
+                                                                    child: Text(
+                                                                        'Lunas',
+                                                                        style: GoogleFonts.poppins(
+                                                                            color: Colors
+                                                                                .green,
+                                                                            fontSize:
+                                                                                16)),
+                                                                  )
+                                                                : Row(
+                                                                    children: [
+                                                                      Container(
+                                                                        padding: EdgeInsets
+                                                                            .only(
+                                                                                top: 20),
+                                                                        child:
+                                                                            RaisedButton(
+                                                                          padding:
+                                                                              EdgeInsets.all(1),
+                                                                          color: Color(
+                                                                              0xff2e97f2),
+                                                                          disabledColor:
+                                                                              Colors.red,
+                                                                          onPressed:
+                                                                              () {},
+                                                                          shape: RoundedRectangleBorder(
+                                                                              borderRadius:
+                                                                                  BorderRadius.circular(18.0),
+                                                                              side: BorderSide(color: Colors.white)),
+                                                                          child:
+                                                                              Text(
+                                                                            'Bayar',
+                                                                            style:
+                                                                                GoogleFonts.poppins(
+                                                                              color:
+                                                                                  Colors.white,
+                                                                              fontSize:
+                                                                                  12,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      Container(
+                                                                        padding: EdgeInsets
+                                                                            .only(
+                                                                                top: 20),
+                                                                        child:
+                                                                            RaisedButton(
+                                                                          padding:
+                                                                              EdgeInsets.all(1),
+                                                                          color: Colors
+                                                                              .red,
+                                                                          disabledColor:
+                                                                              Colors.red,
+                                                                          onPressed:
+                                                                              () {
+                                                                            this._tagihanPresenter.cancel(this
+                                                                                ._bayarModel
+                                                                                .bayars[itemIndex]
+                                                                                .orderId);
+                                                                          },
+                                                                          shape: RoundedRectangleBorder(
+                                                                              borderRadius:
+                                                                                  BorderRadius.circular(18.0),
+                                                                              side: BorderSide(color: Colors.white)),
+                                                                          child:
+                                                                              Text(
+                                                                            'Cancel',
+                                                                            style:
+                                                                                GoogleFonts.poppins(
+                                                                              color:
+                                                                                  Colors.white,
+                                                                              fontSize:
+                                                                                  12,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                          ],
+                                                        ),
+                                                      )
+                                                    : Container(
+                                                        // child: Center(
+                                                        //     child: Text(
+                                                        //         'Data Kosong')),
+                                                        ))
+                                    : selectedKategori == 'Lunas'
+                                        ? this._bayarModel.bayars == null
+                                            ? Container()
+                                            : ListView.builder(
+                                                itemCount: this
+                                                    ._bayarModel
+                                                    .bayars
+                                                    .length,
+                                                scrollDirection: Axis.vertical,
+                                                primary: false,
+                                                shrinkWrap: true,
+                                                physics:
+                                                    NeverScrollableScrollPhysics(),
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                            int itemIndex) =>
+                                                        this
+                                                                    ._bayarModel
+                                                                    .bayars[
+                                                                        itemIndex]
+                                                                    .status ==
+                                                                true
+                                                            ? Container(
+                                                                height: 100,
+                                                                width:
+                                                                    MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width,
+                                                                decoration: BoxDecoration(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                                10),
+                                                                    boxShadow: [
+                                                                      BoxShadow(
+                                                                        color: Color(
+                                                                            0xffeeeeee),
+                                                                        blurRadius:
+                                                                            7,
+                                                                      )
+                                                                    ]),
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(10),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Container(
+                                                                          padding:
+                                                                              EdgeInsets.only(left: 10),
+                                                                          child: Text(
+                                                                              this._bayarModel.bayars[itemIndex].transactionStatus +
+                                                                                  ' ' +
+                                                                                  this._bayarModel.bayars[itemIndex].metodePembayaran,
+                                                                              style: GoogleFonts.poppins(color: Colors.black, fontSize: 14)),
+                                                                        ),
+                                                                        SizedBox(
+                                                                          height:
+                                                                              10,
+                                                                        ),
+                                                                        Container(
+                                                                          padding:
+                                                                              EdgeInsets.only(left: 10),
+                                                                          child: Text('Tagihan Rp.' +
+                                                                              this._bayarModel.bayars[itemIndex].amount),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    this
+                                                                            ._bayarModel
+                                                                            .bayars[
+                                                                                itemIndex]
+                                                                            .status
+                                                                        ? Container(
+                                                                            padding:
+                                                                                EdgeInsets.only(top: 20),
+                                                                            child: Text(
+                                                                                'Lunas',
+                                                                                style: GoogleFonts.poppins(color: Colors.green, fontSize: 16)),
+                                                                          )
+                                                                        : Row(
+                                                                            children: [
+                                                                              Container(
+                                                                                padding: EdgeInsets.only(top: 20),
+                                                                                child: RaisedButton(
+                                                                                  padding: EdgeInsets.all(1),
+                                                                                  color: Color(0xff2e97f2),
+                                                                                  disabledColor: Colors.red,
+                                                                                  onPressed: () {},
+                                                                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0), side: BorderSide(color: Colors.white)),
+                                                                                  child: Text(
+                                                                                    'Bayar',
+                                                                                    style: GoogleFonts.poppins(
+                                                                                      color: Colors.white,
+                                                                                      fontSize: 12,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              Container(
+                                                                                padding: EdgeInsets.only(top: 20),
+                                                                                child: RaisedButton(
+                                                                                  padding: EdgeInsets.all(1),
+                                                                                  disabledColor: Colors.red,
+                                                                                  onPressed: () {
+                                                                                    this._tagihanPresenter.cancel(this._bayarModel.bayars[itemIndex].orderId);
+                                                                                  },
+                                                                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0), side: BorderSide(color: Colors.white)),
+                                                                                  child: Text(
+                                                                                    'Cancel',
+                                                                                    style: GoogleFonts.poppins(
+                                                                                      color: Colors.white,
+                                                                                      fontSize: 12,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              )
+                                                                            ],
+                                                                          ),
+                                                                  ],
+                                                                ),
+                                                              )
+                                                            : Container())
+                                        : Container()
+                          ],
+                        ),
                       ),
-                    ),
-                  )),
-                ],
+                    )),
+                  ],
+                ),
               ),
             ),
-          );
+        );
   }
 
   @override

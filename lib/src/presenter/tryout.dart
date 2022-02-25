@@ -17,9 +17,11 @@ abstract class TryoutPresenterAbstract {
   void getProv() {}
   void getArea(int idProv) {}
   void getInfo(int idTryout) {}
-  void check(int idMurid, int idTryout) {}
+  void checkSilver(int idMurid, int idTryout, int harga) {}
+  void check(int idMurid, int idTryout,int harga) {}
   void checkMatpelStatus(int idTryout, int idTryoutDetail, int index) {}
-  void checkStatus(int idMurid, int idTryout) {}
+  void checkStatusSilver(int idMurid, int idTryout, int harga) {}
+  void checkStatus(int idMurid, int idTryout, int harga) {}
   void checkPembayaranStatus(String idBayar) {}
   void finishTryout(int idTryout) {}
 }
@@ -58,8 +60,7 @@ class TryoutPresenter implements TryoutPresenterAbstract {
       "tgl":
           DateFormat("yyyy-MM-dd").format(DateTime.now().toLocal()).toString(),
     };
-    print(body);
-    print('woi');
+    print('mulai save');
     this._tryoutApi.saveTryout(body).then((v) {
       this._tryoutModel.idTryout = v;
       this._tryoutState.refreshData(this._tryoutModel);
@@ -107,7 +108,7 @@ class TryoutPresenter implements TryoutPresenterAbstract {
           DateFormat("yyyy-MM-dd").format(DateTime.now().toLocal()).toString(),
     };
     print(body);
-    print('woi');
+    print('mulai save tryout');
     this._tryoutApi.saveTryout(body).then((v) {
       this._tryoutModel.idTryout = v;
       this._tryoutState.refreshData(this._tryoutModel);
@@ -165,7 +166,7 @@ class TryoutPresenter implements TryoutPresenterAbstract {
 
   @override
   void getMatpels(int idTryout) {
-    print('getmatpel');
+    print('===getmatpel===');
     this._tryoutModel.isloading = true;
     this._tryoutModel.idTryout = idTryout;
     this._tryoutState.refreshData(this._tryoutModel);
@@ -178,7 +179,7 @@ class TryoutPresenter implements TryoutPresenterAbstract {
         this._tryoutState.refreshData(this._tryoutModel);
       }).catchError((onError) {
         print(onError.toString());
-        print("info");
+        print("error info");
         this._tryoutModel.isloading = false;
         this._tryoutState.refreshData(this._tryoutModel);
       });
@@ -191,14 +192,16 @@ class TryoutPresenter implements TryoutPresenterAbstract {
   }
 
   @override
-  void check(int idMurid, int idTryout) {
+  void check(int idMurid, int idTryout, int harga) {
+    // print('harga :$harga');
     this._tryoutModel.isloading = true;
-    this._bayarApi.checkStatus(idMurid, idTryout).then((value) {
+    this._bayarApi.checkStatus(idMurid, idTryout, harga).then((value) {
       this._tryoutModel.isloading = false;
       if (value == 'false') {
-        this._tryoutState.onCheck(value);
+        this._tryoutState.onCheck(value, harga);
       } else {
-        this._tryoutState.onCheckStatus(idMurid, idTryout);
+        print('true');
+        this._tryoutState.onCheckStatus(idMurid, idTryout, harga);
       }
     }).catchError((err) {
       this._tryoutState.onError(err.toString());
@@ -206,13 +209,30 @@ class TryoutPresenter implements TryoutPresenterAbstract {
   }
 
   @override
-  void checkStatus(int idMurid, int idTryout) {
+  void checkSilver(int idMurid, int idTryout, int harga) {
+    // print('harga :$harga');
+    this._tryoutModel.isloading = true;
+    this._bayarApi.checkStatus(idMurid, idTryout, harga).then((value) {
+      this._tryoutModel.isloading = false;
+      if (value == 'false') {
+        this._tryoutState.onCheck(value, harga);
+      } else {
+        print('true');
+        this._tryoutState.onCheckStatusSilver(idMurid, idTryout, harga);
+      }
+    }).catchError((err) {
+      this._tryoutState.onError(err.toString());
+    });
+  }
+
+  @override
+  void checkStatusSilver(int idMurid, int idTryout, int harga) {
     this._tryoutModel.isloading = true;
     this._bayarModel.bayars.clear();
     this._tryoutState.refreshDataBayar(this._bayarModel);
     // this._totalNilaiState.removeDataBayar('test');
 
-    this._bayarApi.checkPembayaran(idMurid, idTryout).then((value) {
+    this._bayarApi.checkPembayaran(idMurid, idTryout, harga).then((value) {
       this._tryoutModel.isloading = false;
       String tanggal = DateFormat("d, MMMM - y")
           .format(DateTime.parse(value.dataBayar.tgl))
@@ -232,6 +252,50 @@ class TryoutPresenter implements TryoutPresenterAbstract {
           status: value.dataBayar.status,
           transactionStatus: 'Pending',
           transactionTime: tanggal,
+          deepLink: value.dataBayar.deeplink != null
+              ? value.dataBayar.deeplink
+              : null,
+          vaNumber: value.dataBayar.vaNumber));
+      this._tryoutModel.isloading = false;
+      this._tryoutState.refreshDataBayar(this._bayarModel);
+      this._tryoutState.onCheckBayarSilver(this._bayarModel);
+    }).catchError((err) {
+      this._tryoutModel.isloading = false;
+      this._tryoutState.refreshData(this._tryoutModel);
+      this._tryoutState.onError(err.toString());
+    });
+  }
+
+  @override
+  void checkStatus(int idMurid, int idTryout, int harga) {
+    this._tryoutModel.isloading = true;
+    this._bayarModel.bayars.clear();
+    this._tryoutState.refreshDataBayar(this._bayarModel);
+    // this._totalNilaiState.removeDataBayar('test');
+
+    this._bayarApi.checkPembayaran(idMurid, idTryout, harga).then((value) {
+      this._tryoutModel.isloading = false;
+      String tanggal = DateFormat("d, MMMM - y")
+          .format(DateTime.parse(value.dataBayar.tgl))
+          .toString();
+      List<String> time = value.dataBayar.batasWaktu.split("T");
+      List<String> times = time[1].split(".");
+      String batasTanggal = DateFormat("d, MMMM - y")
+          .format(DateTime.parse(value.dataBayar.batasWaktu))
+          .toString();
+      this._bayarModel.bayars.add(new Bayar(
+          amount: value.dataBayar.jumlah,
+          bank: value.dataBayar.metodePembayaran,
+          batasTanggal: batasTanggal,
+          batasWaktu: times[0].substring(1, 5),
+          idTryout: value.dataBayar.idTryout,
+          orderId: value.dataBayar.id,
+          status: value.dataBayar.status,
+          transactionStatus: 'Pending',
+          transactionTime: tanggal,
+          deepLink: value.dataBayar.deeplink != null
+              ? value.dataBayar.deeplink
+              : null,
           vaNumber: value.dataBayar.vaNumber));
       this._tryoutModel.isloading = false;
       this._tryoutState.refreshDataBayar(this._bayarModel);

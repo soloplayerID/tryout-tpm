@@ -8,5 +8,5 @@ abstract class HomeState {
   void showJenjang(BuildContext context, int idParent);
   void showPaket(BuildContext context);
   void toSelectSekolah(int idPaket, int idJenjang);
-  void toTryout(int idPaket, int idJenjang);
+  void toTryoutPondok(int idPaket, int idJenjang);
 }

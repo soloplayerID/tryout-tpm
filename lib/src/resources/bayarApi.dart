@@ -23,6 +23,7 @@ class BayarApi {
     final response = await _client.get(Uri.parse(
         "${Paths.BASEURL}${Paths.ENDPOINT_BAYAR}?id_murid=$idMurid&offset=0&limit=123"));
     if (response.statusCode == 200) {
+      print(response.body);
       BayarGetResponse bayarGetResponse =
           BayarGetResponse.fromJson(json.decode(response.body));
       return bayarGetResponse;
@@ -32,9 +33,9 @@ class BayarApi {
   }
 
   // ignore: missing_return
-  Future<String> checkStatus(int idMurid, int idTryout) async {
+  Future<String> checkStatus(int idMurid, int idTryout, int jumlah) async {
     final response = await _client.get(Uri.parse(
-        "${Paths.BASEURL}${Paths.ENDPOINT_CHECKPEMBAYARAN}?id_murid=$idMurid&id_tryout=$idTryout"));
+        "${Paths.BASEURL}${Paths.ENDPOINT_CHECKPEMBAYARAN}?id_murid=$idMurid&id_tryout=$idTryout&jumlah=$jumlah"));
     if (response.statusCode == 200) {
       Map<String, dynamic> res = jsonDecode(response.body);
       if (res['success']) {
@@ -48,10 +49,11 @@ class BayarApi {
   }
 
   // ignore: missing_return
-  Future<BayarCheckResponse> checkPembayaran(int idMurid, int idTryout) async {
+  Future<BayarCheckResponse> checkPembayaran(int idMurid, int idTryout,int harga) async {
     final response = await _client.get(Uri.parse(
-        "${Paths.BASEURL}${Paths.ENDPOINT_CHECKPEMBAYARAN}?id_murid=$idMurid&id_tryout=$idTryout"));
+        "${Paths.BASEURL}${Paths.ENDPOINT_CHECKPEMBAYARAN}?id_murid=$idMurid&id_tryout=$idTryout&jumlah=$harga"));
     if (response.statusCode == 200) {
+      print(response.body);
       BayarCheckResponse bayarCheckResponse =
           BayarCheckResponse.fromJson(json.decode(response.body));
       return bayarCheckResponse;
@@ -61,9 +63,9 @@ class BayarApi {
   }
 
   // ignore: missing_return
-  Future<HargaGetResponse> hargaGet() async {
+  Future<HargaGetResponse> hargaGet(int idSkema) async {
     final response = await _client
-        .get(Uri.parse("${Paths.BASEURL}${Paths.ENDPOINT_HARGA_GET}"));
+        .get(Uri.parse("${Paths.BASEURL}${Paths.ENDPOINT_HARGA_GET}?harga=$idSkema"));
     if (response.statusCode == 200) {
       HargaGetResponse hargaCheckResponse =
           HargaGetResponse.fromJson(json.decode(response.body));

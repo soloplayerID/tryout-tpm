@@ -4,5 +4,5 @@ abstract class SelectSekolahState {
   void refreshData(SelectSekolahModel selectSekolahModel);
   void onSuccess(String success);
   void onError(String error);
-  void toTryout(int idMurid, int idJenjang, int idPaket);
+  void toTryout(int idMurid, int idJenjang, int idPaket, int idSekolahTujuan, int idTryout);
 }

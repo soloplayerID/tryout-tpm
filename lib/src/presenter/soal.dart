@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_return_types_on_setters
+
 import 'dart:io';
 
 import 'package:TesUjian/src/model/soal.dart';
@@ -11,6 +13,7 @@ abstract class SoalPresenterAbstract {
   set view(SoalState view) {}
   void getSoal(int idmatpel, int idTryoutDetail) {}
   void getSoalPsikotes(int idTryoutDetail) {}
+  void getSoalImla(int idTryoutDetail) {}
   void getSoalBacaQuran(int idTryoutDetail) {}
   void getSoalHukumTajwids(int idTryoutDetail) {}
   void getSoalHafalanJuz(int idTryoutDetail) {}
@@ -54,6 +57,23 @@ class SoalPresenter implements SoalPresenterAbstract {
     this._soalState.refreshData(this._soalModel);
     this._tryoutApi.getSoal(idmatpel, idTryoutDetail).then((value) {
       this._soalModel.tryoutSoalResponse = value;
+      this._soalModel.isloading = false;
+      this._soalState.refreshData(this._soalModel);
+    }).catchError((onError) {
+      this._soalModel.isloading = false;
+      this._soalState.refreshData(this._soalModel);
+      this._soalState.onError(onError.toString());
+    });
+  }
+
+  @override
+  void getSoalImla(int idTryoutDetail) {
+    print("=========================getsoals||||$idTryoutDetail");
+    this._soalModel.isloading = true;
+    this._soalModel.idTryoutDetail = idTryoutDetail;
+    this._soalState.refreshData(this._soalModel);
+    this._tryoutApi.getSoalImla(idTryoutDetail).then((value) {
+      this._soalModel.tryoutSoalPondok = value;
       this._soalModel.isloading = false;
       this._soalState.refreshData(this._soalModel);
     }).catchError((onError) {
@@ -306,73 +326,6 @@ class SoalPresenter implements SoalPresenterAbstract {
         .status = true;
 
     this._soalState.refreshData(this._soalModel);
-    // this._soalModel.isloading = true;
-    // this._soalState.refreshData(this._soalModel);
-    // // print(jawaban[this._soalModel.currentIndex]);
-    // final hasil = jawaban.firstWhere(
-    //     (element) => element.endsWith(number.toString() + '.aac'), orElse: () {
-    //   return null;
-    // });
-    // if (hasil == null) {
-    //   this._soalState.onError('jawab dulu pertanyaannya :)');
-    //   this._soalModel.isloading = false;
-    //   this._soalState.refreshData(this._soalModel);
-    // } else {
-    //   var request = http.MultipartRequest(
-    //     'PUT',
-    //     Uri.parse("${Paths.BASEURL}${Paths.ENDPOINT_KUMPULKAN_V2}"),
-    //   );
-    //   Map<String, String> headers = {"Content-type": "multipart/form-data"};
-    //   request.files.add(http.MultipartFile('filename',
-    //       File(hasil).readAsBytes().asStream(), File(hasil).lengthSync(),
-    //       filename: hasil.split("/").last));
-    //   request.headers.addAll(headers);
-    //   request.fields.addAll({
-    //     "id": "$number",
-    //     "jawaban_user": hasil.split("/").last,
-    //   });
-    //   var response = await request.send();
-    //   final respStr = await response.stream.bytesToString();
-    //   print("This is response:" + respStr.toString());
-    //   if (response.statusCode == 200) {
-    //     this
-    //         ._soalModel
-    //         .tryoutSoalResponse
-    //         .dataTryout[this._soalModel.currentIndex]
-    //         .jawabanUser = hasil.split("/").last;
-    //     this
-    //         ._soalModel
-    //         .tryoutSoalResponse
-    //         .dataTryout[this._soalModel.currentIndex]
-    //         .status = true;
-    //     int totalSoal = this._soalModel.tryoutSoalResponse.dataTryout.length;
-    //     if ((this._soalModel.currentIndex + 1) < totalSoal) {
-    //       this._soalModel.currentIndex++;
-    //     }
-    //     this._soalModel.isloading = false;
-    //     this._soalState.refreshData(this._soalModel);
-    //   } else {
-    //     this._soalModel.isloading = false;
-    //     this._soalState.refreshData(this._soalModel);
-    //     this._soalState.onError("Yah, Internet Kamu error!");
-    //   }
-    // }
-    // // this
-    // //     ._soalModel
-    // //     .tryoutSoalResponse
-    // //     .dataTryout[this._soalModel.currentIndex]
-    // //     .jawabanUser = 'test';
-    // // this
-    // //     ._soalModel
-    // //     .tryoutSoalResponse
-    // //     .dataTryout[this._soalModel.currentIndex]
-    // //     .status = true;
-    // // int totalSoal = this._soalModel.tryoutSoalResponse.dataTryout.length;
-    // // if ((this._soalModel.currentIndex + 1) < totalSoal) {
-    // //   this._soalModel.currentIndex++;
-    // // }
-    // // this._soalModel.jawabanEssay.clear();
-    // // this._soalState.refreshData(this._soalModel);
   }
 
   @override
@@ -401,10 +354,8 @@ class SoalPresenter implements SoalPresenterAbstract {
         (element) async {
       if (element.jawabanUser != null) {
         print(element.idTryoutDetailSoals);
-        print(' hehe ');
-        print(element.jawabanUser);
+        print(' saveTryoutDetailSoal ');
         Map<String, String> body = <String, String>{
-          // "id": this._soalModel.idTryoutDetail.toString(),
           "id": element.idTryoutDetailSoals.toString(),
           "jawaban_user": element.jawabanUser,
         };
@@ -413,7 +364,7 @@ class SoalPresenter implements SoalPresenterAbstract {
       }
     });
     this._tryoutApi.finishMatpel(this._soalModel.idTryoutDetail).then((value) {
-      print(value);
+      print('finishMatpel');
     }).catchError((onError) {
       this._soalState.onError(onError.toString());
     });

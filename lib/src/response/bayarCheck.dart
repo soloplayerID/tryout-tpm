@@ -33,6 +33,9 @@ class DataBayar {
   String tgl;
   bool status;
   int idTryout;
+  String qrcode;
+  String deeplink;
+  String statusGopay;
   String createdAt;
   String updatedAt;
 
@@ -48,13 +51,16 @@ class DataBayar {
       this.tgl,
       this.status,
       this.idTryout,
+      this.qrcode,
+      this.deeplink,
+      this.statusGopay,
       this.createdAt,
       this.updatedAt});
 
   DataBayar.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     transactionId = json['transaction_id'];
-    vaNumber = json['va_number'];
+    vaNumber = json['va_number'] != null ? json['va_number'] : null;
     paymentType = json['payment_type'];
     batasWaktu = json['batas_waktu'];
     idMurid = json['id_murid'];
@@ -63,6 +69,11 @@ class DataBayar {
     tgl = json['tgl'];
     status = json['status'];
     idTryout = json['id_tryout'];
+    qrcode = json['qrcode'] != null
+        ? json['qrcode']
+        : null;
+    deeplink = json['deeplink'] != null ? json['deeplink'] : null;
+    statusGopay = json['status_gopay'] != null ? json['status_gopay'] : null;
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
   }
@@ -79,6 +90,9 @@ class DataBayar {
     data['jumlah'] = this.jumlah;
     data['tgl'] = this.tgl;
     data['status'] = this.status;
+    data['qrcode'] = this.qrcode;
+    data['deeplink'] = this.deeplink;
+    data['status_gopay'] = this.statusGopay;
     data['id_tryout'] = this.idTryout;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;

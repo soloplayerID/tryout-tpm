@@ -32,7 +32,7 @@ class TagihanPresenter implements TagihanPresenterAbstract {
 
   @override
   void getBayars(int idMurid) {
-    print('1');
+    print('===get bayar===');
     this._bayarModel.bayars.clear();
     this._bayarModel.isloading = true;
     this._tagihanBayarState.refreshData(this._bayarModel);
@@ -58,7 +58,8 @@ class TagihanPresenter implements TagihanPresenterAbstract {
             status: element.status,
             metodePembayaran: element.metodePembayaran,
             transactionStatus: payment[0] + ' ' + payment[1],
-            vaNumber: element.vaNumber));
+            deepLink: element.deepLink,
+            vaNumber: element.vaNumber == null ? 'gopay' : element.vaNumber));
       });
       this._bayarModel.isloading = false;
       this._tagihanBayarState.refreshData(this._bayarModel);

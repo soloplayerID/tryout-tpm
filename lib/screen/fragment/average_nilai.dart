@@ -1,11 +1,8 @@
-import 'package:TesUjian/screen/fragment/average_nilai/raised_gradient_button.dart';
 import 'package:TesUjian/screen/fragment/loading.dart';
 import 'package:TesUjian/src/model/rasioGrades.dart';
 import 'package:TesUjian/src/presenter/rasioGrades.dart';
 import 'package:TesUjian/src/state/RasioGrades.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:ionicons/ionicons.dart';
 
 class AverageNilai extends StatefulWidget {
   final String title;
@@ -293,7 +290,7 @@ class _AverageNilaiState extends State<AverageNilai>
                                 child: Column(
                                   children: [
                                     Container(
-                                      margin: EdgeInsets.only(top: 20),
+                                      margin: EdgeInsets.only(top: 20,left: 5),
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Text(this
@@ -462,12 +459,12 @@ class _AverageNilaiState extends State<AverageNilai>
 
   @override
   void onError(String error) {
-    // TODO: implement onError
+    
   }
 
   @override
   void onSuccess(String success) {
-    // TODO: implement onSuccess
+    
   }
 
   @override

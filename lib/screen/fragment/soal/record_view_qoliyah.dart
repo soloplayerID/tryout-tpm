@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use, unused_field, unused_import
+
 import 'dart:convert';
 import 'dart:io';
 

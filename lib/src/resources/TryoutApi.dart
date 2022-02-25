@@ -45,7 +45,6 @@ class TryoutApi {
         "${Paths.BASEURL}${Paths.ENDPOINT_TRYOUT}?id_murid=$idMurid&id_jenjang=$idJenjang&id_paket=$idPaket&offset=0&limit=123"));
     if (response.statusCode == 200) {
       Map<String, dynamic> res = jsonDecode(response.body);
-      print(res);
       print("ENDPOINT_TRYOUT");
       if (res['success']) {
         TryoutGetResponse tryoutGetResponse =
@@ -61,12 +60,10 @@ class TryoutApi {
 
   // ignore: missing_return
   Future<TryoutDetailResponse> getMatpels(int id) async {
-    print("idnya" + id.toString());
     final response = await _client.get(Uri.parse(
         "${Paths.BASEURL}${Paths.ENDPOINT_TRYOUT_MATPELS}?id_tryout=$id"));
     if (response.statusCode == 200) {
       Map<String, dynamic> res = jsonDecode(response.body);
-      print(res);
       print("ENDPOINT_TRYOUT_MATPELS");
       if (res['success']) {
         TryoutDetailResponse tryoutDetailResponse =
@@ -147,13 +144,10 @@ class TryoutApi {
     final response = await _client
         .get(Uri.parse("${Paths.BASEURL}${Paths.ENDPOINT_TRYOUT_INFO}?id=$id"));
     print(id);
-    print(response.body);
-    print("getInfo");
+    print("hasil getInfo");
     if (response.statusCode == 200) {
       Map<String, dynamic> res = jsonDecode(response.body);
-      print(id);
-      print(res);
-      print("getInfo");
+      print("hasil getInfo success");
       if (res['success']) {
         TryoutInfoResponse tryoutInfoResponse =
             TryoutInfoResponse.fromJson(json.decode(response.body));
@@ -183,6 +177,35 @@ class TryoutApi {
           TryoutSoalResponse tryoutSoalResponse =
               TryoutSoalResponse.fromJson(json.decode(response.body));
           return tryoutSoalResponse;
+        } else {
+          Future.error("${res['data']}");
+        }
+      } else {
+        Future.error("Yah, Internet Kamu error!");
+      }
+    } catch (err) {
+      print(err);
+      print("sdsdsd");
+      Future.error(err.toString());
+    }
+  }
+
+  // ignore: missing_return
+  Future<TryoutSoalPondok> getSoalImla(
+      // ignore: non_constant_identifier_names
+      int id_tryout_detail) async {
+    try {
+      print(id_tryout_detail);
+      final response = await _client.get(Uri.parse(
+          "${Paths.BASEURL}${Paths.IMLA_SOAL}?id_tryout=$id_tryout_detail"));
+      if (response.statusCode == 200) {
+        Map<String, dynamic> res = jsonDecode(response.body);
+        print(res);
+        print("getSoals");
+        if (res['success']) {
+          TryoutSoalPondok tryoutSoalPsikotes =
+              TryoutSoalPondok.fromJson(json.decode(response.body));
+          return tryoutSoalPsikotes;
         } else {
           Future.error("${res['data']}");
         }

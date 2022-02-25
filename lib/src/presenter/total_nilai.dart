@@ -14,8 +14,8 @@ import 'package:intl/intl.dart';
 abstract class TotalNilaiPresenterAbstract {
   set view(TotalNilaiState view) {}
   void getData(int idMurid) {}
-  void check(int idMurid, int idTryout) {}
-  void checkStatus(int idMurid, int idTryout) {}
+  void check(int idMurid, int idTryout, int harga) {}
+  void checkStatus(int idMurid, int idTryout, int harga) {}
   void checkPembayaranStatus(String diBayar) {}
   void checkout(int idMurid, int idTryout, String metode, String jumlah) {}
 }
@@ -79,16 +79,16 @@ class TotalNilaiPresenter implements TotalNilaiPresenterAbstract {
   }
 
   @override
-  void check(int idMurid, int idTryout) {
+  void check(int idMurid, int idTryout, int harga) {
     // this._totalNilaiModel.isloading = true;
     // this._totalNilaiState.refreshData(this._totalNilaiModel);
     // this._totalNilaiState.removeDataBayar('test');
-    this._bayarApi.checkStatus(idMurid, idTryout).then((value) {
+    this._bayarApi.checkStatus(idMurid, idTryout, harga).then((value) {
       this._totalNilaiModel.isloading = false;
       if (value == 'false') {
-        this._totalNilaiState.onCheck(value);
+        this._totalNilaiState.onCheck(value, harga);
       } else {
-        this._totalNilaiState.onCheckStatus(idMurid, idTryout);
+        this._totalNilaiState.onCheckStatus(idMurid, idTryout, harga);
       }
     }).catchError((err) {
       this._totalNilaiModel.isloading = false;
@@ -98,13 +98,13 @@ class TotalNilaiPresenter implements TotalNilaiPresenterAbstract {
   }
 
   @override
-  void checkStatus(int idMurid, int idTryout) {
+  void checkStatus(int idMurid, int idTryout, int harga) {
     this._totalNilaiModel.isloading = true;
     this._totalNilaiState.refreshData(this._totalNilaiModel);
     this._bayarModel.bayars.clear();
     // this._totalNilaiState.removeDataBayar('test');
 
-    this._bayarApi.checkPembayaran(idMurid, idTryout).then((value) {
+    this._bayarApi.checkPembayaran(idMurid, idTryout, harga).then((value) {
       this._totalNilaiModel.isloading = false;
       String tanggal = DateFormat("d, MMMM - y")
           .format(DateTime.parse(value.dataBayar.tgl))
@@ -173,7 +173,7 @@ class TotalNilaiPresenter implements TotalNilaiPresenterAbstract {
     };
     // print(param);
     this._bayarApi.bayarPost(json.encode(param)).then((value) {
-      this._totalNilaiState.onCheck(value);
+      this._totalNilaiState.onCheck(value, int.parse(jumlah));
     }).catchError((err) {
       this._totalNilaiState.onError(err.toString());
     });

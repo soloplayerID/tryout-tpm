@@ -14,6 +14,9 @@ class TryoutModel {
   int jenjang = 0;
   int idMurid = 0;
   int idTryout = 0;
+  int silver = 12000;
+  int gold = 10000;
+  int platinum = 8000;
   bool statusMatpel = false;
   TryoutDetailResponse tryoutDetailResponse = new TryoutDetailResponse();
   TryoutDetailPondokResponse tryoutDetailPondokResponse =

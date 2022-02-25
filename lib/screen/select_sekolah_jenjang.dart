@@ -13,14 +13,16 @@ import 'package:ionicons/ionicons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class SelectSekolahsScreen extends StatefulWidget {
+import 'fragment/sekolah/selectjenjang.dart';
+
+class SelectSekolahJenjangsScreen extends StatefulWidget {
   final int idPaket;
   final int idJenjang;
   final int idTryout;
   final String namaJenjang;
   final String namaPaket;
 
-  const SelectSekolahsScreen(
+  const SelectSekolahJenjangsScreen(
       {Key key,
       this.idPaket,
       this.idJenjang,
@@ -33,7 +35,7 @@ class SelectSekolahsScreen extends StatefulWidget {
       _SelectSekolahsScreenState(this.idPaket, this.idJenjang, this.idTryout);
 }
 
-class _SelectSekolahsScreenState extends State<SelectSekolahsScreen>
+class _SelectSekolahsScreenState extends State<SelectSekolahJenjangsScreen>
     with SingleTickerProviderStateMixin
     implements SelectSekolahState {
   final int idPaket;
@@ -54,8 +56,8 @@ class _SelectSekolahsScreenState extends State<SelectSekolahsScreen>
   // ignore: must_call_super
   void initState() {
     tabController = new TabController(length: 2, vsync: this);
-    this._selectSekolahPresenter.checkTryout(this.idPaket, this.idJenjang);
     this._selectSekolahPresenter.getProv();
+    this._selectSekolahPresenter.checkTryout(this.idPaket, this.idJenjang);
     this._selectSekolahPresenter.view = this;
   }
 
@@ -65,7 +67,7 @@ class _SelectSekolahsScreenState extends State<SelectSekolahsScreen>
         body: this._selectSekolahModel.isloading
             ? Loading()
             : SafeArea(
-              child: Container(
+                child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: double.infinity,
                   color: Color(0xffecedf2),
@@ -153,7 +155,7 @@ class _SelectSekolahsScreenState extends State<SelectSekolahsScreen>
                             style: TextStyle(color: Colors.grey, fontSize: 14),
                             decoration: InputDecoration(
                                 icon: Icon(
-                                  Ionicons.map,
+                                  Ionicons.globe_outline,
                                   color: Color(0xff2D8EFF),
                                   size: 18,
                                 ),
@@ -235,7 +237,53 @@ class _SelectSekolahsScreenState extends State<SelectSekolahsScreen>
                             style: TextStyle(color: Colors.grey, fontSize: 14),
                             decoration: InputDecoration(
                                 icon: Icon(
-                                  Ionicons.school,
+                                  Ionicons.book_outline,
+                                  color: Color(0xff2D8EFF),
+                                  size: 18,
+                                ),
+                                hintText: "Jenjang",
+                                border: InputBorder.none,
+                                errorStyle:
+                                    TextStyle(color: Colors.red, fontSize: 9),
+                                fillColor: Colors.grey,
+                                hintStyle: TextStyle(
+                                    color: Color(0xff2D8EFF), fontSize: 12)),
+                            onTap: (() => {
+                                  this._selectSekolahModel.idArea == 0
+                                      ? Fluttertoast.showToast(
+                                          msg: "Area Harus Dipilih",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.red,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0)
+                                      : this.selectJenjang()
+                                }),
+                            controller: this._selectSekolahModel.jenjangController,
+                            readOnly: true,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 25,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width / 1.2,
+                          height: 30,
+                          margin: EdgeInsets.only(
+                              top: 4, left: 16, bottom: 1, right: 16),
+                          decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              border: Border(
+                                bottom: BorderSide(
+                                    width: 1, color: Color(0xff2D8EFF)),
+                              )),
+                          child: TextFormField(
+                            // initialValue: new DateFormat("d, MMMM - y").format(this._signUpModel.tanggalLahir.toLocal()).toString(),
+                            style: TextStyle(color: Colors.grey, fontSize: 14),
+                            decoration: InputDecoration(
+                                icon: Icon(
+                                  Ionicons.school_outline,
                                   color: Color(0xff2D8EFF),
                                   size: 18,
                                 ),
@@ -247,7 +295,7 @@ class _SelectSekolahsScreenState extends State<SelectSekolahsScreen>
                                 hintStyle: TextStyle(
                                     color: Color(0xff2D8EFF), fontSize: 12)),
                             onTap: (() => {
-                                  this._selectSekolahModel.idArea == 0
+                                  this._selectSekolahModel.idArea == 0 && this._selectSekolahModel.isloading
                                       ? Fluttertoast.showToast(
                                           msg: "Area Harus Dipilih",
                                           toastLength: Toast.LENGTH_SHORT,
@@ -288,8 +336,9 @@ class _SelectSekolahsScreenState extends State<SelectSekolahsScreen>
                                           idPaket: idPaket,
                                           idJenjang: idJenjang,
                                           idTryout: idTryout,
-                                          sekolahTujuan:
-                                              this._selectSekolahModel.sekolahId,
+                                          sekolahTujuan: this
+                                              ._selectSekolahModel
+                                              .sekolahId,
                                         ),
                                       ));
                             },
@@ -323,7 +372,7 @@ class _SelectSekolahsScreenState extends State<SelectSekolahsScreen>
                     ),
                   ),
                 ),
-            ));
+              ));
   }
 
   @override
@@ -576,7 +625,34 @@ class _SelectSekolahsScreenState extends State<SelectSekolahsScreen>
           this._selectSekolahModel.area.data[value].area;
       this
           ._selectSekolahPresenter
-          .getSekolah(this._selectSekolahModel.area.data[value].id, idJenjang);
+          .getJenjang(idJenjang);
+      this.refreshData(this._selectSekolahModel);
+      // Navigator.of(context).pop();
+    });
+  }
+
+  @override
+  // ignore: override_on_non_overriding_member
+  void selectJenjang() async {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SelectJenjang(
+            key: Key("1"),
+            areaResponse: this._selectSekolahModel.jenjangnya,
+          ),
+        )).then((value) {
+      print(this._selectSekolahModel.jenjangnya.data[value].id);
+      this._selectSekolahModel.idJenajangnya =
+          this._selectSekolahModel.jenjangnya.data[value].id;
+      this._selectSekolahModel.namaJenjang =
+          this._selectSekolahModel.jenjangnya.data[value].jenjang;
+      this._selectSekolahModel.jenjangController.text =
+          this._selectSekolahModel.jenjangnya.data[value].jenjang;
+      this
+          ._selectSekolahPresenter
+          .getSekolahJenjang(this._selectSekolahModel.idArea, this._selectSekolahModel.jenjangnya.data[value].id);
+          this._selectSekolahModel.isloading=false;
       this.refreshData(this._selectSekolahModel);
       // Navigator.of(context).pop();
     });
@@ -609,16 +685,18 @@ class _SelectSekolahsScreenState extends State<SelectSekolahsScreen>
   @override
   void toTryout(int idMurid, int idJenjang, int idPaket, int idSekolahTujuan,
       int idTryout) {
-    Navigator.pop(context);
     print('idTryout:$idTryout');
+    Navigator.pop(context);
     Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => TryoutScreen(
-              key: Key("1"),
-              idPaket: idPaket,
-              idJenjang: idJenjang,
-              idTryout: idTryout,),
+            key: Key("1"),
+            idPaket: idPaket,
+            idJenjang: idJenjang,
+            idTryout: idTryout,
+            sekolahTujuan: idSekolahTujuan,
+          ),
         ));
   }
 }

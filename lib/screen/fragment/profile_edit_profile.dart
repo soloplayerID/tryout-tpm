@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field, deprecated_member_use
+
 import 'dart:io';
 import 'package:TesUjian/helper/paths.dart';
 import 'package:TesUjian/screen/fragment/menu/jenjang.dart';
@@ -7,7 +9,7 @@ import 'package:TesUjian/src/resources/session.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:TesUjian/helper/getStorage.dart';
-import 'package:TesUjian/screen/fragment/selectsekolah.dart';
+import 'package:TesUjian/screen/fragment/sekolah/selectsekolah.dart';
 import 'package:TesUjian/src/model/profile.dart';
 import 'package:TesUjian/src/presenter/profile_header.dart';
 import 'package:TesUjian/src/state/profile_header.dart';

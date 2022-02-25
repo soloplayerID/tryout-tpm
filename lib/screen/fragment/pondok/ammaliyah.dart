@@ -1,10 +1,12 @@
+// ignore_for_file: unused_field, unused_element, deprecated_member_use
+
 import 'dart:async';
 import 'dart:io';
 // import 'package:TesUjian/screen/fragment/soal/image_list_view.dart';
 // import 'package:TesUjian/screen/fragment/soal/video_list_view.dart';
 // import 'package:TesUjian/screen/fragment/soal/recorded_list_view.dart';
 import 'package:TesUjian/screen/fragment/soal/detail_video_screen.dart';
-import 'package:TesUjian/screen/fragment/soal/pick_video.dart';
+
 import 'package:TesUjian/screen/fragment/soal/pick_video_ammaliyah.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:path_provider/path_provider.dart';
@@ -57,7 +59,6 @@ class _AmmaliyahScreenState extends State<AmmaliyahScreen>
   final int idtryoutdetail;
   final int idMatpel;
   final String matpel;
-  // ignore: unused_field
   SoalModel _soalModel;
   SoalPresenter _soalPresenter;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -402,14 +403,14 @@ class _AmmaliyahScreenState extends State<AmmaliyahScreen>
                       children: [
                         Container(
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height / 3.69,
+                          height: 160,
                           padding:
                               EdgeInsets.only(top: 20, left: 20, right: 20),
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
-                                Color(0xff25509e),
-                                Color(0xff25509e),
+                                Color(0xff949AEE),
+                                Color(0xff949AEE),
                               ],
                               begin: const FractionalOffset(0.0, 0.0),
                               end: const FractionalOffset(1.0, 0.0),
@@ -420,9 +421,6 @@ class _AmmaliyahScreenState extends State<AmmaliyahScreen>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              SizedBox(
-                                height: 8,
-                              ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -435,45 +433,46 @@ class _AmmaliyahScreenState extends State<AmmaliyahScreen>
                                     },
                                     child: Icon(
                                       LineIcons.bars,
-                                      color: Colors.white,
-                                      size: 24,
+                                      color: Color(0xffFFFFFF),
+                                      size: 18,
                                     ),
                                   ),
-                                  RaisedButton(
-                                    padding: EdgeInsets.all(1),
-                                    color: Colors.transparent,
-                                    onPressed: () {
-                                      showAlertDialog(context);
-                                    },
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(18.0),
-                                        side: BorderSide(
-                                            color: Colors.white, width: 2)),
-                                    child: Text(
-                                      'Kumpulkan',
+                                  Text("$matpel",
                                       style: GoogleFonts.poppins(
-                                        color: Colors.white,
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                  ),
+                                        textStyle: TextStyle(
+                                            fontSize: 18,
+                                            color: Color(0xffFFFFFF)),
+                                      )),
+                                  Text(
+                                      "${this._soalModel.tryoutSoalPondok.data.length} Soal",
+                                      style: GoogleFonts.poppins(
+                                          textStyle: TextStyle(
+                                              fontSize: 14,
+                                              color: Color(0xffFFFFFF)))),
+                                  // SizedBox(width: 80),
+                                  // RaisedButton(
+                                  //   padding: EdgeInsets.all(1),
+                                  //   color: Colors.transparent,
+                                  //   onPressed: () {
+                                  //     showAlertDialog(context);
+                                  //   },
+                                  //   shape: RoundedRectangleBorder(
+                                  //       borderRadius: BorderRadius.circular(10.0),
+                                  //       side: BorderSide(
+                                  //           color: Colors.white, width: 2)),
+                                  //   child: Text(
+                                  //     'Kumpulkan',
+                                  //     style: GoogleFonts.poppins(
+                                  //       color: Colors.white,
+                                  //       fontSize: 10,
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                               SizedBox(
                                 height: 15,
                               ),
-                              Text("$matpel",
-                                  style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
-                                        fontSize: 18, color: Color(0xffffffff)),
-                                  )),
-                              Text(
-                                  "${this._soalModel.tryoutSoalPondok.data.length} Soal",
-                                  style: GoogleFonts.poppins(
-                                      textStyle: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.white60))),
                               SizedBox(
                                 height: 15,
                               ),
@@ -503,7 +502,7 @@ class _AmmaliyahScreenState extends State<AmmaliyahScreen>
                                                           .data[itemIndex]
                                                           .jawabanUser !=
                                                       null
-                                              ? Colors.white
+                                              ? Color(0xfff2a711)
                                               : Colors.transparent,
                                           onPressed: () {
                                             this
@@ -519,7 +518,7 @@ class _AmmaliyahScreenState extends State<AmmaliyahScreen>
                                                   width: 1)),
                                           child: Text(
                                             '${itemIndex + 1}',
-                                            style: GoogleFonts.poppins(
+                                            style: GoogleFonts.amiko(
                                               color: this
                                                               ._soalModel
                                                               .currentIndex ==
@@ -530,9 +529,9 @@ class _AmmaliyahScreenState extends State<AmmaliyahScreen>
                                                               .data[itemIndex]
                                                               .jawabanUser !=
                                                           null
-                                                  ? Colors.black
+                                                  ? Colors.white
                                                   : Colors.white,
-                                              fontSize: 12,
+                                              fontSize: 14,
                                             ),
                                           ),
                                         ),
@@ -718,6 +717,44 @@ class _AmmaliyahScreenState extends State<AmmaliyahScreen>
                                         SizedBox(
                                           height: 20,
                                         ),
+                                        Center(
+                                          child: InkWell(
+                                            splashColor: Color(0xff7474BF),
+                                            onTap: () {
+                                              showAlertDialog(context);
+                                            },
+                                            child: Container(
+                                              margin:
+                                                  EdgeInsets.only(top: 10.0),
+                                              height: 35,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  1.4,
+                                              decoration: BoxDecoration(
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        color: Colors.black26,
+                                                        offset: Offset(0, 28),
+                                                        blurRadius: 40,
+                                                        spreadRadius: -12)
+                                                  ],
+                                                  color: Color(0xff68BC98),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(10))),
+                                              child: Center(
+                                                child: Text(
+                                                  'Kumpulkan',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
                                         // Center(
                                         //   child: InkWell(
                                         //     splashColor: Color(0xff7474BF),
@@ -943,7 +980,6 @@ class _AmmaliyahScreenState extends State<AmmaliyahScreen>
     });
   }
 
-  // ignore: unused_element
   showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = FlatButton(

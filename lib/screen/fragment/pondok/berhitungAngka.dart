@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field, unused_element, deprecated_member_use
+
 import 'dart:async';
 import 'dart:io';
 // import 'package:TesUjian/screen/fragment/soal/image_list_view.dart';
@@ -62,7 +64,6 @@ class _BerhitungAngkaScreenState extends State<BerhitungAngkaScreen>
   final int idtryoutdetail;
   final int idMatpel;
   final String matpel;
-  // ignore: unused_field
   SoalModel _soalModel;
   SoalPresenter _soalPresenter;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -959,7 +960,6 @@ class _BerhitungAngkaScreenState extends State<BerhitungAngkaScreen>
     });
   }
 
-  // ignore: unused_element
   showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = FlatButton(

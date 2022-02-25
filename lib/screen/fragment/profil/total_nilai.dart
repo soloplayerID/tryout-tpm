@@ -300,19 +300,17 @@ class _TotalNilaiScreenState extends State<TotalNilaiScreen>
   }
 
   @override
-  void onCheck(String error) {
+  void onCheck(String error, int skemaHarga) {
     // ignore: todo
     // TODO: implement onCheck
   }
 
   @override
-  void onCheckStatus(int idMurid, int idTryout) {
-    // TODO: implement onCheckStatus
+  void onCheckStatus(int idMurid, int idTryout, int harga) {
   }
 
   @override
   void onCheckBayar(BayarModel bayarModel) {
-    // TODO: implement onCheckBayar
   }
 
   @override

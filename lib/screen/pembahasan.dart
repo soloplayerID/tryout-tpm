@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:TesUjian/screen/fragment/loading.dart';
 import 'package:TesUjian/screen/notfound.dart';
 import 'package:TesUjian/src/model/pembahasan.dart';

@@ -16,7 +16,6 @@ class _SelectSekolahScreenState extends State<SelectSekolahScreen> {
   SekolahResponse _sekolahResponse;
   _SelectSekolahScreenState(SekolahResponse sekolahResponse) {
     this._sekolahResponse = sekolahResponse;
-    print(sekolahResponse);
   }
 
   @override

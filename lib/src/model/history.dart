@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 class HistoryMatpel {
   int id;
   int idMatpel;

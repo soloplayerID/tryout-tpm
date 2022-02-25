@@ -1,7 +1,7 @@
 import 'package:TesUjian/screen/fragment/menu/jenjang.dart';
 import 'package:TesUjian/screen/fragment/selectarea.dart';
 import 'package:TesUjian/screen/fragment/selectprovinsi.dart';
-import 'package:TesUjian/screen/fragment/selectsekolah.dart';
+import 'package:TesUjian/screen/fragment/sekolah/selectsekolah.dart';
 import 'package:TesUjian/src/model/signup.dart';
 import 'package:TesUjian/src/presenter/signup.dart';
 import 'package:TesUjian/src/state/signup.dart';

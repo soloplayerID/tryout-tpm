@@ -56,7 +56,7 @@ class Data {
   bool status;
   String jenjang;
   int idPaket;
-  bool statusKoreksi;
+  int statusKoreksi;
   int idSekolahTujuan;
   String createdAt;
   String updatedAt;

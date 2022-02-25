@@ -1,11 +1,11 @@
+// ignore_for_file: unused_element, deprecated_member_use
+
 import 'dart:async';
 import 'dart:io';
 // import 'package:TesUjian/screen/fragment/soal/image_list_view.dart';
 // import 'package:TesUjian/screen/fragment/soal/video_list_view.dart';
 // import 'package:TesUjian/screen/fragment/soal/recorded_list_view.dart';
 import 'package:TesUjian/screen/fragment/soal/recorder_view.dart';
-import 'package:TesUjian/screen/fragment/soal/pick_image.dart';
-import 'package:TesUjian/screen/fragment/soal/pick_video.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:html/dom.dart' as htmlParser;
@@ -1313,7 +1313,6 @@ class _SoalTextVoiceScreenState extends State<SoalTextVoiceScreen>
     });
   }
 
-  // ignore: unused_element
   showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = FlatButton(
