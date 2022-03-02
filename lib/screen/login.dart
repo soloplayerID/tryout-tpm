@@ -1,4 +1,3 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:TesUjian/screen/fragment/loading.dart';
 import 'package:TesUjian/src/model/login.dart';
@@ -270,62 +269,62 @@ class _LoginUI extends State<Login> implements LoginState {
                             SizedBox(
                               height: 40,
                             ),
-                            Text("Atau, Masuk Pake Akun",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      fontSize: 12, color: Color(0xff383838)),
-                                )),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Badge(
-                                  position:
-                                      BadgePosition.topEnd(top: 0, end: 2),
-                                  elevation: 0,
-                                  shape: BadgeShape.circle,
-                                  badgeColor: Colors.blue,
-                                  borderSide: BorderSide(color: Colors.black),
-                                  child: Icon(
-                                    LineIcons.facebook,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 30,
-                                ),
-                                Badge(
-                                  position:
-                                      BadgePosition.topEnd(top: 0, end: 2),
-                                  elevation: 0,
-                                  shape: BadgeShape.circle,
-                                  badgeColor: Colors.red,
-                                  borderSide: BorderSide(color: Colors.red),
-                                  child: Icon(
-                                    LineIcons.googleLogo,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 30,
-                                ),
-                                Badge(
-                                  position:
-                                      BadgePosition.topEnd(top: 0, end: 2),
-                                  elevation: 0,
-                                  shape: BadgeShape.circle,
-                                  badgeColor: Colors.blueAccent,
-                                  borderSide: BorderSide(color: Colors.red),
-                                  child: Icon(
-                                    LineIcons.linkedin,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            )
+                            // Text("Atau, Masuk Pake Akun",
+                            //     textAlign: TextAlign.center,
+                            //     style: GoogleFonts.poppins(
+                            //       textStyle: TextStyle(
+                            //           fontSize: 12, color: Color(0xff383838)),
+                            //     )),
+                            // SizedBox(
+                            //   height: 20,
+                            // ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: <Widget>[
+                            //     Badge(
+                            //       position:
+                            //           BadgePosition.topEnd(top: 0, end: 2),
+                            //       elevation: 0,
+                            //       shape: BadgeShape.circle,
+                            //       badgeColor: Colors.blue,
+                            //       borderSide: BorderSide(color: Colors.black),
+                            //       child: Icon(
+                            //         LineIcons.facebook,
+                            //         color: Colors.white,
+                            //       ),
+                            //     ),
+                            //     SizedBox(
+                            //       width: 30,
+                            //     ),
+                            //     Badge(
+                            //       position:
+                            //           BadgePosition.topEnd(top: 0, end: 2),
+                            //       elevation: 0,
+                            //       shape: BadgeShape.circle,
+                            //       badgeColor: Colors.red,
+                            //       borderSide: BorderSide(color: Colors.red),
+                            //       child: Icon(
+                            //         LineIcons.googleLogo,
+                            //         color: Colors.white,
+                            //       ),
+                            //     ),
+                            //     SizedBox(
+                            //       width: 30,
+                            //     ),
+                            //     Badge(
+                            //       position:
+                            //           BadgePosition.topEnd(top: 0, end: 2),
+                            //       elevation: 0,
+                            //       shape: BadgeShape.circle,
+                            //       badgeColor: Colors.blueAccent,
+                            //       borderSide: BorderSide(color: Colors.red),
+                            //       child: Icon(
+                            //         LineIcons.linkedin,
+                            //         color: Colors.white,
+                            //       ),
+                            //     ),
+                            //   ],
+                            // )
                           ],
                         ),
                       )

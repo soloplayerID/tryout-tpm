@@ -398,6 +398,7 @@ class ProfileNilaiState extends State<ProfileNilai>
                                               ._totalNilaiModel
                                               .pakets[selected]
                                               .id,
+                                              idSkemaHarga: skemaHarga,
                                           namaPaket: this
                                               ._totalNilaiModel
                                               .pakets[selected]

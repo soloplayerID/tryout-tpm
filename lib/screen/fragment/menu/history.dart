@@ -310,6 +310,7 @@ class HistoryWidgetState extends State<HistoryWidget>
                                               ._totalNilaiModel
                                               .pakets[0]
                                               .id,
+                                              idSkemaHarga: skemaHarga,
                                           namaPaket: this
                                               ._totalNilaiModel
                                               .pakets[0]

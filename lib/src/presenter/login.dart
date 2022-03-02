@@ -46,7 +46,7 @@ class LoginPresenter implements LoginPresenterAbstract {
           .write(constants.EMAIL_USER, res.dataLogin.dataMurid.email);
       this._loginModel.isloading = false;
       this._loginState.refreshData(this._loginModel);
-      this._loginState.onSuccess("yeh, Berhasil");
+      this._loginState.onSuccess("yey, Berhasil :D");
     }).catchError((onError) {
       this._loginModel.isloading = false;
       this._loginState.refreshData(this._loginModel);

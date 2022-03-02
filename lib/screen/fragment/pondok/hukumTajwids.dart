@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:TesUjian/screen/fragment/soal/recorder_view_hukumTajwids.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:html/dom.dart' as htmlParser;
 
 import 'package:TesUjian/screen/fragment/loading.dart';
 import 'package:TesUjian/screen/notfound.dart';
@@ -15,6 +16,8 @@ import 'package:TesUjian/src/model/soal.dart';
 import 'package:TesUjian/src/presenter/soal.dart';
 import 'package:TesUjian/src/state/soal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html/style.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -549,66 +552,66 @@ class _HukumTajwidsScreenState extends State<HukumTajwidsScreen>
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  // Html(
-                                  //   data: htmlParser.DocumentFragment.html(this
-                                  //           ._soalModel
-                                  //           .tryoutSoalPondok
-                                  //           .data[this._soalModel.currentIndex]
-                                  //           .soal)
-                                  //       .text,
-                                  //   style: {
-                                  //     "table": Style(
-                                  //       backgroundColor: Color.fromARGB(
-                                  //           0x50, 0xee, 0xee, 0xee),
-                                  //     ),
-                                  //     "tr": Style(
-                                  //       border: Border(
-                                  //           bottom:
-                                  //               BorderSide(color: Colors.grey)),
-                                  //     ),
-                                  //     "th": Style(
-                                  //       padding: EdgeInsets.all(6),
-                                  //       backgroundColor: Colors.grey,
-                                  //     ),
-                                  //     "td": Style(
-                                  //       padding: EdgeInsets.all(6),
-                                  //     ),
-                                  //     "p": Style(
-                                  //         fontFamily: 'serif',
-                                  //         textAlign: TextAlign.justify),
-                                  //   },
-                                  // ),
-                                  Image.network(
-                                    'http://103.41.207.247:3000/' +
-                                        this
+                                  Html(
+                                    data: htmlParser.DocumentFragment.html(this
                                             ._soalModel
                                             .tryoutSoalPondok
                                             .data[this._soalModel.currentIndex]
-                                            .soal,
-                                    width: 200.0,
-                                  ),
-                                  ElevatedButton(
-                                    child: Text('Preview'),
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Colors.blueAccent,
-                                    ),
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder:
-                                                  (context) => DetailImageScreen(
-                                                        urlImage: 'http://103.41.207.247:3000/' +
-                                                            this
-                                                                ._soalModel
-                                                                .tryoutSoalPondok
-                                                                .data[this
-                                                                    ._soalModel
-                                                                    .currentIndex]
-                                                                .soal,
-                                                      )));
+                                            .soal)
+                                        .text,
+                                    style: {
+                                      "table": Style(
+                                        backgroundColor: Color.fromARGB(
+                                            0x50, 0xee, 0xee, 0xee),
+                                      ),
+                                      "tr": Style(
+                                        border: Border(
+                                            bottom:
+                                                BorderSide(color: Colors.grey)),
+                                      ),
+                                      "th": Style(
+                                        padding: EdgeInsets.all(6),
+                                        backgroundColor: Colors.grey,
+                                      ),
+                                      "td": Style(
+                                        padding: EdgeInsets.all(6),
+                                      ),
+                                      "p": Style(
+                                          fontFamily: 'serif',
+                                          textAlign: TextAlign.justify),
                                     },
                                   ),
+                                  // Image.network(
+                                  //   'http://103.41.207.247:3000/' +
+                                  //       this
+                                  //           ._soalModel
+                                  //           .tryoutSoalPondok
+                                  //           .data[this._soalModel.currentIndex]
+                                  //           .soal,
+                                  //   width: 200.0,
+                                  // ),
+                                  // ElevatedButton(
+                                  //   child: Text('Preview'),
+                                  //   style: ElevatedButton.styleFrom(
+                                  //     primary: Colors.blueAccent,
+                                  //   ),
+                                  //   onPressed: () {
+                                  //     Navigator.push(
+                                  //         context,
+                                  //         MaterialPageRoute(
+                                  //             builder:
+                                  //                 (context) => DetailImageScreen(
+                                  //                       urlImage: 'http://103.41.207.247:3000/' +
+                                  //                           this
+                                  //                               ._soalModel
+                                  //                               .tryoutSoalPondok
+                                  //                               .data[this
+                                  //                                   ._soalModel
+                                  //                                   .currentIndex]
+                                  //                               .soal,
+                                  //                     )));
+                                  //   },
+                                  // ),
                                   SizedBox(
                                     height: 30,
                                   ),

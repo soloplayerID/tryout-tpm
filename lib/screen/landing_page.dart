@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:badges/badges.dart';
-import 'package:line_icons/line_icons.dart';
 
 class LandingScreen extends StatefulWidget {
   @override
@@ -109,60 +107,60 @@ class _LandingScreenState extends State<LandingScreen> {
               ],
             ),
             SizedBox(
-              height: 30,
-            ),
-            Text("Atau, Masuk Pake Akun",
-                textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(
-                  textStyle: TextStyle(fontSize: 12, color: Color(0xff383838)),
-                )),
-            SizedBox(
               height: 20,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Badge(
-                  position: BadgePosition.topEnd(top: 0, end: 2),
-                  elevation: 0,
-                  shape: BadgeShape.circle,
-                  badgeColor: Colors.blue,
-                  borderSide: BorderSide(color: Colors.black),
-                  child: Icon(
-                    LineIcons.facebook,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(
-                  width: 30,
-                ),
-                Badge(
-                  position: BadgePosition.topEnd(top: 0, end: 2),
-                  elevation: 0,
-                  shape: BadgeShape.circle,
-                  badgeColor: Colors.red,
-                  borderSide: BorderSide(color: Colors.red),
-                  child: Icon(
-                    LineIcons.googleLogo,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(
-                  width: 30,
-                ),
-                Badge(
-                  position: BadgePosition.topEnd(top: 0, end: 2),
-                  elevation: 0,
-                  shape: BadgeShape.circle,
-                  badgeColor: Colors.blueAccent,
-                  borderSide: BorderSide(color: Colors.red),
-                  child: Icon(
-                    LineIcons.linkedin,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            )
+            // Text("Atau, Masuk Pake Akun",
+            //     textAlign: TextAlign.center,
+            //     style: GoogleFonts.poppins(
+            //       textStyle: TextStyle(fontSize: 12, color: Color(0xff383838)),
+            //     )),
+            // SizedBox(
+            //   height: 20,
+            // ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: <Widget>[
+            //     Badge(
+            //       position: BadgePosition.topEnd(top: 0, end: 2),
+            //       elevation: 0,
+            //       shape: BadgeShape.circle,
+            //       badgeColor: Colors.blue,
+            //       borderSide: BorderSide(color: Colors.black),
+            //       child: Icon(
+            //         LineIcons.facebook,
+            //         color: Colors.white,
+            //       ),
+            //     ),
+            //     SizedBox(
+            //       width: 30,
+            //     ),
+            //     Badge(
+            //       position: BadgePosition.topEnd(top: 0, end: 2),
+            //       elevation: 0,
+            //       shape: BadgeShape.circle,
+            //       badgeColor: Colors.red,
+            //       borderSide: BorderSide(color: Colors.red),
+            //       child: Icon(
+            //         LineIcons.googleLogo,
+            //         color: Colors.white,
+            //       ),
+            //     ),
+            //     SizedBox(
+            //       width: 30,
+            //     ),
+            //     Badge(
+            //       position: BadgePosition.topEnd(top: 0, end: 2),
+            //       elevation: 0,
+            //       shape: BadgeShape.circle,
+            //       badgeColor: Colors.blueAccent,
+            //       borderSide: BorderSide(color: Colors.red),
+            //       child: Icon(
+            //         LineIcons.linkedin,
+            //         color: Colors.white,
+            //       ),
+            //     ),
+            //   ],
+            // )
           ],
         ),
       ),

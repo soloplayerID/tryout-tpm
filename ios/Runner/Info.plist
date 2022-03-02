@@ -40,11 +40,21 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
+	key>FlutterDeepLinkingEnabled</key>
+<true/>
+<key>CFBundleURLTypes</key>
+<array>
+    <dict>
+    <key>CFBundleTypeRole</key>
+    <string>Editor</string>
+    <key>CFBundleURLName</key>
+    <string>flutterbooksample.com</string>
+    <key>CFBundleURLSchemes</key>
+    <array>
+    <string>customscheme</string>
+    </array>
+    </dict>
+</array>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>gojek</string>

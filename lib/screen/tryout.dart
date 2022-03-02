@@ -27,9 +27,9 @@ import 'package:line_icons/line_icons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:skeleton_text/skeleton_text.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'fragment/soal/soal_timer_foto.dart';
-import 'fragment/tagihan/webview_gopay.dart';
 
 class TryoutScreen extends StatefulWidget {
   final int idPaket;
@@ -1197,13 +1197,7 @@ class _TryoutScreenState extends State<TryoutScreen>
             textColor: Colors.white,
             fontSize: 16.0);
         if (bayarModel.bayars[0].deepLink != null) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => WebViewPage(
-                        bayarModel.bayars[0].deepLink,
-                        bayarModel.bayars[0].bank,
-                      )));
+          _openGopay(bayarModel.bayars[0].deepLink);
         } else {
           Navigator.push(
               context,
@@ -1256,13 +1250,7 @@ class _TryoutScreenState extends State<TryoutScreen>
             textColor: Colors.white,
             fontSize: 16.0);
         if (bayarModel.bayars[0].deepLink != null) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => WebViewPage(
-                        bayarModel.bayars[0].deepLink,
-                        bayarModel.bayars[0].bank,
-                      )));
+          _openGopay(bayarModel.bayars[0].deepLink);
         } else {
           Navigator.push(
               context,
@@ -1766,6 +1754,14 @@ class _TryoutScreenState extends State<TryoutScreen>
       this.refreshData(this._tryoutModel);
       this.selectRasio();
     });
+  }
+
+  _openGopay(String deeplink) async {
+    if (await canLaunch(deeplink)) {
+      await launch(deeplink);
+    } else {
+      throw 'Could not launch $deeplink';
+    }
   }
 
   @override
