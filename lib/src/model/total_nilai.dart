@@ -21,6 +21,10 @@ class TotalNilai {
   String metodePembayaran;
   String jumlahBayar;
   String batasWaktu;
+  bool statusTryout;
+  int idPaket;
+  int idJenjang;
+  int idSekolahTujuan;
   TotalNilai(
       {this.id,
       this.title,
@@ -41,7 +45,11 @@ class TotalNilai {
       this.sudahSelesai,
       this.metodePembayaran,
       this.jumlahBayar,
-      this.batasWaktu});
+      this.batasWaktu,
+      this.statusTryout,
+      this.idPaket,
+      this.idJenjang,
+      this.idSekolahTujuan,});
 }
 
 class TotalNilaiModel {

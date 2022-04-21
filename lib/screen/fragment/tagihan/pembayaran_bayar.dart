@@ -58,7 +58,7 @@ class PembayaranBayarState extends State<PembayaranBayar>
                       InkWell(
                         onTap: () {
                           // Navigator.of(context).pop(true);
-                          Navigator.pushNamed(context, "/home");
+                          Navigator.pushReplacementNamed(context, "/home");
                         },
                         child: Icon(LineIcons.arrowLeft),
                       ),

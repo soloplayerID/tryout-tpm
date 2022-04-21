@@ -11,6 +11,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'fragment/tagihan/webview_gopay.dart';
 
@@ -178,6 +179,49 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                                     color: Colors.black,
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  selected = 'bri';
+                                });
+                              },
+                              child: Container(
+                                height: 50,
+                                width: MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.only(
+                                    left: 20, right: 20, bottom: 7.5, top: 7.5),
+                                decoration: BoxDecoration(
+                                    color: selected == 'bri'
+                                        ? Colors.grey[400]
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 2,
+                                        blurRadius: 7,
+                                        offset: Offset(
+                                            0, 3), // changes position of shadow
+                                      ),
+                                    ]),
+                                padding: EdgeInsets.all(10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Center(
+                                      child: Container(
+                                          width: 60,
+                                          margin: EdgeInsets.all(5),
+                                          child: ClipRRect(
+                                            // borderRadius: BorderRadius.circular(10),
+                                            child: Image.asset(
+                                                'assets/img/bri.png'),
+                                          )),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                             GestureDetector(
@@ -457,13 +501,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
   void onCheckBayar(BayarModel bayarModel) {
     print('bayar step:4');
     if(bayarModel.bayars[0].deepLink != null) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => WebViewPage(
-                bayarModel.bayars[0].deepLink,
-                bayarModel.bayars[0].bank,
-                  )));
+        _openGopay(bayarModel.bayars[0].deepLink);
     }else{
       Navigator.push(
           context,
@@ -475,6 +513,14 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                     batasWaktu: bayarModel.bayars[0].batasWaktu,
                     status: bayarModel.bayars[0].transactionStatus,
                   )));
+    }
+  }
+
+  _openGopay(String deeplink) async {
+    if (await canLaunch(deeplink)) {
+      await launch(deeplink);
+    } else {
+      throw 'Could not launch $deeplink';
     }
   }
 

@@ -5,7 +5,8 @@ import 'dart:io';
 // import 'package:TesUjian/screen/fragment/soal/image_list_view.dart';
 // import 'package:TesUjian/screen/fragment/soal/video_list_view.dart';
 // import 'package:TesUjian/screen/fragment/soal/recorded_list_view.dart';
-import 'package:TesUjian/screen/fragment/soal/recorder_view.dart';
+import 'package:TesUjian/screen/fragment/soal/detail_image_screen.dart';
+import 'package:TesUjian/screen/fragment/soal/pick_image_imla.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -111,6 +112,9 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
     records = null;
     pictures = null;
     videos = null;
+    _audioPlayerSoal.stop();
+    _completedPercentage = 0.0;
+    _isPlayingSoal = false;
     super.dispose();
   }
 
@@ -168,13 +172,6 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
         // file exits, it is safe to call delete on it
         await file.delete();
         print('keapus');
-        setState(() {
-          this
-              ._soalModel
-              .tryoutSoalResponse
-              .dataTryout[this._soalModel.currentIndex]
-              .jawabanUser = null;
-        });
 
         _onDeletePict();
       }
@@ -315,13 +312,6 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
     }).onDone(() {
       pictures.sort();
       pictures = pictures.reversed.toList();
-      setState(() {
-        this
-            ._soalModel
-            .tryoutSoalResponse
-            .dataTryout[this._soalModel.currentIndex]
-            .statusSoal = 0;
-      });
     });
   }
 
@@ -404,615 +394,926 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
                 ? NotFound(
                     errors: 'Soal Belum Siap',
                   )
-                : Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height / 3.69,
-                        padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color(0xff25509e),
-                              Color(0xff25509e),
-                            ],
-                            begin: const FractionalOffset(0.0, 0.0),
-                            end: const FractionalOffset(1.0, 0.0),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            SizedBox(
-                              height: 8,
+                : SafeArea(
+                  child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height / 3.69,
+                          padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Color(0xff25509e),
+                                Color(0xff25509e),
+                              ],
+                              begin: const FractionalOffset(0.0, 0.0),
+                              end: const FractionalOffset(1.0, 0.0),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              // crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    _scaffoldKey.currentState.openDrawer();
-                                  },
-                                  child: Icon(
-                                    LineIcons.bars,
-                                    color: Colors.white,
-                                    size: 24,
-                                  ),
-                                ),
-                                RaisedButton(
-                                  padding: EdgeInsets.all(1),
-                                  color: Colors.transparent,
-                                  onPressed: () {
-                                    showAlertDialog(context);
-                                  },
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                      side: BorderSide(
-                                          color: Colors.white, width: 2)),
-                                  child: Text(
-                                    'Kumpulkan',
-                                    style: GoogleFonts.poppins(
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                // crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      _scaffoldKey.currentState.openDrawer();
+                                    },
+                                    child: Icon(
+                                      LineIcons.bars,
                                       color: Colors.white,
-                                      fontSize: 10,
+                                      size: 24,
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Text("$matpel",
-                                style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      fontSize: 18, color: Color(0xffffffff)),
-                                )),
-                            Text(
-                                "${this._soalModel.tryoutSoalPondok.data.length} Soal",
-                                style: GoogleFonts.poppins(
+                                  RaisedButton(
+                                    padding: EdgeInsets.all(1),
+                                    color: Colors.transparent,
+                                    onPressed: () {
+                                      showAlertDialog(context);
+                                    },
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(18.0),
+                                        side: BorderSide(
+                                            color: Colors.white, width: 2)),
+                                    child: Text(
+                                      'Kumpulkan',
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Text("$matpel",
+                                  style: GoogleFonts.poppins(
                                     textStyle: TextStyle(
-                                        fontSize: 12, color: Colors.white60))),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Expanded(
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                child: ListView.builder(
-                                  itemCount: this
-                                      ._soalModel
-                                      .tryoutSoalPondok
-                                      .data
-                                      .length,
-                                  scrollDirection: Axis.horizontal,
-                                  itemExtent: 30,
-                                  shrinkWrap: true,
-                                  itemBuilder:
-                                      (BuildContext context, int itemIndex) {
-                                    return Padding(
-                                      padding: const EdgeInsets.all(4),
-                                      child: RaisedButton(
-                                        padding: EdgeInsets.all(1),
-                                        color: this._soalModel.currentIndex ==
-                                                    itemIndex ||
-                                                this
-                                                        ._soalModel
-                                                        .tryoutSoalPondok
-                                                        .data[this
-                                                            ._soalModel
-                                                            .currentIndex]
-                                                        .jawabanUser !=
-                                                    null
-                                            ? Colors.white
-                                            : Colors.transparent,
-                                        onPressed: () {
-                                          this
-                                              ._soalPresenter
-                                              .selected(itemIndex);
-                                        },
-                                        elevation: 0,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                            side: BorderSide(
-                                                color: Colors.white, width: 1)),
-                                        child: Text(
-                                          '${itemIndex + 1}',
-                                          style: GoogleFonts.poppins(
-                                            color: this
-                                                            ._soalModel
-                                                            .currentIndex ==
-                                                        itemIndex ||
-                                                    this
-                                                            ._soalModel
-                                                            .tryoutSoalPondok
-                                                            .data[this
-                                                                ._soalModel
-                                                                .currentIndex]
-                                                            .jawabanUser !=
-                                                        null
-                                                ? Colors.black
-                                                : Colors.white,
-                                            fontSize: 12,
+                                        fontSize: 18, color: Color(0xffffffff)),
+                                  )),
+                              Text(
+                                  "${this._soalModel.tryoutSoalPondok.data.length} Soal",
+                                  style: GoogleFonts.poppins(
+                                      textStyle: TextStyle(
+                                          fontSize: 12, color: Colors.white60))),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Expanded(
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: ListView.builder(
+                                    itemCount: this
+                                        ._soalModel
+                                        .tryoutSoalPondok
+                                        .data
+                                        .length,
+                                    scrollDirection: Axis.horizontal,
+                                    itemExtent: 30,
+                                    shrinkWrap: true,
+                                    itemBuilder:
+                                        (BuildContext context, int itemIndex) {
+                                      return Padding(
+                                        padding: const EdgeInsets.all(4),
+                                        child: RaisedButton(
+                                          padding: EdgeInsets.all(1),
+                                          color: this._soalModel.currentIndex ==
+                                                      itemIndex ||
+                                                  this
+                                                          ._soalModel
+                                                          .tryoutSoalPondok
+                                                          .data[this
+                                                              ._soalModel
+                                                              .currentIndex]
+                                                          .jawabanUser !=
+                                                      null
+                                              ? Colors.white
+                                              : Colors.transparent,
+                                          onPressed: () {
+                                            this
+                                                ._soalPresenter
+                                                .selected(itemIndex);
+                                          },
+                                          elevation: 0,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              side: BorderSide(
+                                                  color: Colors.white, width: 1)),
+                                          child: Text(
+                                            '${itemIndex + 1}',
+                                            style: GoogleFonts.poppins(
+                                              color: this
+                                                              ._soalModel
+                                                              .currentIndex ==
+                                                          itemIndex ||
+                                                      this
+                                                              ._soalModel
+                                                              .tryoutSoalPondok
+                                                              .data[this
+                                                                  ._soalModel
+                                                                  .currentIndex]
+                                                              .jawabanUser !=
+                                                          null
+                                                  ? Colors.black
+                                                  : Colors.white,
+                                              fontSize: 12,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  },
+                                      );
+                                    },
+                                  ),
                                 ),
-                              ),
-                            )
-                          ],
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: double.infinity,
-                          padding: EdgeInsets.all(15),
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.vertical,
-                            physics: ScrollPhysics(),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Column(
+                        Expanded(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: double.infinity,
+                            padding: EdgeInsets.all(15),
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
+                              physics: ScrollPhysics(),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Column(
+                                          children: [
+                                            ExpansionTile(
+                                              title: Text(this
+                                            ._soalModel
+                                            .tryoutSoalPondok
+                                            .data[this._soalModel.currentIndex].soal),
+                                              // subtitle: Text(
+                                              //     _getDateFromFilePatah(filePath: widget.records.elementAt(i))),
+                                              onExpansionChanged: ((newState) {
+                                                if (newState) {
+                                                  setState(() {
+                                                    _selectedIndex = 0;
+                                                  });
+                                                }
+                                              }),
+                                              children: [
+                                                Container(
+                                                  height: 100,
+                                                  padding:
+                                                      const EdgeInsets.all(10),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.center,
+                                                    children: [
+                                                      LinearProgressIndicator(
+                                                        minHeight: 5,
+                                                        backgroundColor:
+                                                            Colors.black,
+                                                        valueColor:
+                                                            AlwaysStoppedAnimation<
+                                                                    Color>(
+                                                                Colors.green),
+                                                        value: _selectedIndex == 0
+                                                            ? _completedPercentage
+                                                            : 0,
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          IconButton(
+                                                            icon: _selectedIndex ==
+                                                                    0
+                                                                ? _isPlayingSoal
+                                                                    ? Icon(Icons
+                                                                        .pause)
+                                                                    : Icon(Icons
+                                                                        .play_arrow)
+                                                                : Icon(Icons
+                                                                    .play_arrow),
+                                                            onPressed: () => _onPlaySoal(
+                                                                filePath: this
+                                                              ._soalModel
+                                                              .tryoutSoalPondok
+                                                              .data[this
+                                                                  ._soalModel
+                                                                  .currentIndex]
+                                                              .soal,
+                                                                index: 0),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                        Column(
+                                    children: [
+                                      ExpansionTile(
+                                        title: Text(this
+                                            ._soalModel
+                                            .tryoutSoalPondok
+                                            .data[this._soalModel.currentIndex]
+                                            .soalDua),
+                                        // subtitle: Text(
+                                        //     _getDateFromFilePatah(filePath: widget.records.elementAt(i))),
+                                        onExpansionChanged: ((newState) {
+                                          if (newState) {
+                                            setState(() {
+                                              _selectedIndex = 1;
+                                            });
+                                          }
+                                        }),
                                         children: [
-                                          ExpansionTile(
-                                            title: Text(this
-                                          ._soalModel
-                                          .tryoutSoalPondok
-                                          .data[this._soalModel.currentIndex].soal),
-                                            // subtitle: Text(
-                                            //     _getDateFromFilePatah(filePath: widget.records.elementAt(i))),
-                                            onExpansionChanged: ((newState) {
-                                              if (newState) {
-                                                setState(() {
-                                                  _selectedIndex = 0;
-                                                });
-                                              }
-                                            }),
-                                            children: [
-                                              Container(
-                                                height: 100,
-                                                padding:
-                                                    const EdgeInsets.all(10),
-                                                child: Column(
+                                          Container(
+                                            height: 100,
+                                            padding: const EdgeInsets.all(10),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                LinearProgressIndicator(
+                                                  minHeight: 5,
+                                                  backgroundColor: Colors.black,
+                                                  valueColor:
+                                                      AlwaysStoppedAnimation<
+                                                          Color>(Colors.green),
+                                                  value: _selectedIndex == 1
+                                                      ? _completedPercentage
+                                                      : 1,
+                                                ),
+                                                Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
                                                   children: [
-                                                    LinearProgressIndicator(
-                                                      minHeight: 5,
-                                                      backgroundColor:
-                                                          Colors.black,
-                                                      valueColor:
-                                                          AlwaysStoppedAnimation<
-                                                                  Color>(
-                                                              Colors.green),
-                                                      value: _selectedIndex == 0
-                                                          ? _completedPercentage
-                                                          : 0,
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        IconButton(
-                                                          icon: _selectedIndex ==
-                                                                  0
-                                                              ? _isPlayingSoal
-                                                                  ? Icon(Icons
-                                                                      .pause)
-                                                                  : Icon(Icons
-                                                                      .play_arrow)
+                                                    IconButton(
+                                                      icon: _selectedIndex == 1
+                                                          ? _isPlayingSoal
+                                                              ? Icon(Icons.pause)
                                                               : Icon(Icons
-                                                                  .play_arrow),
-                                                          onPressed: () => _onPlaySoal(
-                                                              filePath: this
-                                                            ._soalModel
-                                                            .tryoutSoalPondok
-                                                            .data[this
-                                                                ._soalModel
-                                                                .currentIndex]
-                                                            .soal,
-                                                              index: 0),
-                                                        ),
-                                                      ],
-                                                    )
+                                                                  .play_arrow)
+                                                          : Icon(
+                                                              Icons.play_arrow),
+                                                      onPressed: () => _onPlaySoal(
+                                                          filePath: this
+                                                              ._soalModel
+                                                              .tryoutSoalPondok
+                                                              .data[this
+                                                                  ._soalModel
+                                                                  .currentIndex]
+                                                              .soal,
+                                                          index: 1),
+                                                    ),
                                                   ],
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                SizedBox(
-                                  height: 50,
-                                ),
-                                widget.jenjang == 16
-                                    ? Container(
-                                        child: Column(
-                                          children: [
-                                            Column(
-                                              children: [
-                                                Column(
-                                                  children:
-                                                      records.map((value) {
-                                                    if (value.endsWith(this
-                                                        ._soalModel
-                                                        .tryoutSoalPondok
-                                                        .data[this
-                                                            ._soalModel
-                                                            .currentIndex]
-                                                        .idTryoutDetailSoals
-                                                            .toString() +
-                                                        '.aac')) {
-                                                      return ExpansionTile(
-                                                        title: Text(
-                                                            'Rekaman soal ${value.toString()}'),
-                                                        // subtitle: Text(
-                                                        //     _getDateFromFilePatah(filePath: widget.records.elementAt(i))),
-                                                        onExpansionChanged:
-                                                            ((newState) {
-                                                          if (newState) {
-                                                            setState(() {
-                                                              _selectedIndex =
-                                                                  0;
-                                                            });
-                                                          }
-                                                        }),
-                                                        children: [
-                                                          Container(
-                                                            height: 100,
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(10),
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                LinearProgressIndicator(
-                                                                  minHeight: 5,
-                                                                  backgroundColor:
-                                                                      Colors
-                                                                          .black,
-                                                                  valueColor: AlwaysStoppedAnimation<
-                                                                          Color>(
-                                                                      Colors
-                                                                          .green),
-                                                                  value: _selectedIndex ==
-                                                                          0
-                                                                      ? _completedPercentage
-                                                                      : 0,
-                                                                ),
-                                                                Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    IconButton(
-                                                                      icon: _selectedIndex ==
-                                                                              0
-                                                                          ? _isPlaying
-                                                                              ? Icon(Icons.pause)
-                                                                              : Icon(Icons.play_arrow)
-                                                                          : Icon(Icons.play_arrow),
-                                                                      onPressed: () => _onPlaySoal(
-                                                                          filePath: this
-                                                                              ._soalModel
-                                                                              .tryoutSoalResponse
-                                                                              .dataTryout[this._soalModel.currentIndex]
-                                                                              .jawabanUser,
-                                                                          index: 0),
-                                                                    ),
-                                                                    IconButton(
-                                                                      icon: Icon(
-                                                                          Icons
-                                                                              .delete),
-                                                                      onPressed:
-                                                                          () =>
-                                                                              deleteFileRec(value),
-                                                                    )
-                                                                  ],
-                                                                )
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      );
-                                                    } else {
-                                                      return Container();
-                                                      //Return an empty Container for non-matching case
-                                                    }
-                                                  }).toList(),
-                                                ),
+                                                )
                                               ],
                                             ),
-                                            this
-                                                        ._soalModel
-                                                        .tryoutSoalPondok
-                                                        .data[this
-                                                            ._soalModel
-                                                            .currentIndex]
-                                                        .status ==
-                                                    0
-                                                ? Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
-                                                    children: [
-                                                      RecorderView(
-                                                        onSaved:
-                                                            onSuccessRecord,
-                                                        onDuplicate:
-                                                            _onRecordDuplicate,
-                                                        number: this
-                                                        ._soalModel
-                                                        .tryoutSoalPondok
-                                                        .data[this
-                                                            ._soalModel
-                                                            .currentIndex]
-                                                        .idTryoutDetailSoals,
-                                                      ),
-                                                      // SizedBox(
-                                                      //   height: 10,
-                                                      // ),
-                                                      // PickImage(
-                                                      //   onSaved:
-                                                      //       onSuccessTakePict,
-                                                      //   onDuplicate:
-                                                      //       _onRecordDuplicate,
-                                                      //   number: this
-                                                      //       ._soalModel
-                                                      //       .tryoutSoalResponse
-                                                      //       .dataTryout[this
-                                                      //           ._soalModel
-                                                      //           .currentIndex]
-                                                      //       .idTryoutDetailSoals,
-                                                      //   jepret: this.jepret,
-                                                      // ),
-                                                      // SizedBox(
-                                                      //   height: 10,
-                                                      // ),
-                                                      // PickVideo(
-                                                      //   onSaved:
-                                                      //       onSuccessTakeVid,
-                                                      //   onDuplicate:
-                                                      //       _onRecordDuplicate,
-                                                      //   number: this
-                                                      //       ._soalModel
-                                                      //       .tryoutSoalResponse
-                                                      //       .dataTryout[this
-                                                      //           ._soalModel
-                                                      //           .currentIndex]
-                                                      //       .idTryoutDetailSoals,
-                                                      //   rekam: this.rekam,
-                                                      // ),
-                                                    ],
-                                                  )
-                                                : Container(),
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-                                            Center(
-                                              child: InkWell(
-                                                splashColor: Color(0xff7474BF),
-                                                onTap: () {
-                                                  print(this
-                                                      ._soalModel
-                                                      .tryoutSoalPondok
-                                                      .data[this
-                                                          ._soalModel
-                                                          .currentIndex]
-                                                      .jawabanUser);
-                                                  // this._soalPresenter.submit();
-                                                  // this
-                                                  //             ._soalModel
-                                                  //             .status ==
-                                                  //         1
-                                                  //     ? this
-                                                  //         ._soalPresenter
-                                                  //         .jawabVoice(
-                                                  //             'test')
-                                                  //     : this
-                                                  //                 ._soalModel
-                                                  //                 .status ==
-                                                  //             2
-                                                  //         ? this._soalPresenter.jawabGambar(
-                                                  //             pictures,
-                                                  //             this
-                                                  //                 ._soalModel
-                                                  //                 .tryoutSoalResponse
-                                                  //                 .dataTryout[this
-                                                  //                     ._soalModel
-                                                  //                     .currentIndex]
-                                                  //                 .idTryoutDetailSoals)
-                                                  //         : this._soalModel.status ==
-                                                  //                 3
-                                                  //             ? this._soalPresenter.jawabVideo(
-                                                  //                 videos,
-                                                  //                 this
-                                                  //                     ._soalModel
-                                                  //                     .tryoutSoalResponse
-                                                  //                     .dataTryout[this
-                                                  //                         ._soalModel
-                                                  //                         .currentIndex]
-                                                  //                     .idTryoutDetailSoals)
-                                                  //             : this.onError(
-                                                  //                 'Cek Dulu Soal Dan Jawabannya :)');
-                                                },
-                                                child: Container(
-                                                  margin: EdgeInsets.only(
-                                                      top: 10.0),
-                                                  height: 35,
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      1.4,
-                                                  decoration: BoxDecoration(
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                            color:
-                                                                Colors.black26,
-                                                            offset:
-                                                                Offset(0, 28),
-                                                            blurRadius: 40,
-                                                            spreadRadius: -12)
-                                                      ],
-                                                      color: Color(0xff1d63dc),
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  10))),
-                                                  child: Center(
-                                                    child: Text(
-                                                      'Next',
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       )
-                                    : this
-                                                ._soalModel
-                                                .tryoutSoalResponse
-                                                .dataTryout[this
-                                                    ._soalModel
-                                                    .currentIndex]
-                                                .isEssay ==
-                                            1
-                                        ? Container(
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      ExpansionTile(
+                                        title: Text(this
+                                            ._soalModel
+                                            .tryoutSoalPondok
+                                            .data[this._soalModel.currentIndex]
+                                            .soalTiga),
+                                        // subtitle: Text(
+                                        //     _getDateFromFilePatah(filePath: widget.records.elementAt(i))),
+                                        onExpansionChanged: ((newState) {
+                                          if (newState) {
+                                            setState(() {
+                                              _selectedIndex = 2;
+                                            });
+                                          }
+                                        }),
+                                        children: [
+                                          Container(
+                                            height: 100,
+                                            padding: const EdgeInsets.all(10),
                                             child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
-                                                TextFormField(
-                                                  controller: this
-                                                      ._soalModel
-                                                      .jawabanEssay,
-                                                  minLines:
-                                                      5, // any number you need (It works as the rows for the textarea)
-                                                  keyboardType:
-                                                      TextInputType.multiline,
-                                                  maxLines: null,
-                                                  decoration: InputDecoration(
-                                                      border:
-                                                          OutlineInputBorder()),
+                                                LinearProgressIndicator(
+                                                  minHeight: 5,
+                                                  backgroundColor: Colors.black,
+                                                  valueColor:
+                                                      AlwaysStoppedAnimation<
+                                                          Color>(Colors.green),
+                                                  value: _selectedIndex == 2
+                                                      ? _completedPercentage
+                                                      : 2,
                                                 ),
-                                                Center(
-                                                  child: InkWell(
-                                                    splashColor:
-                                                        Color(0xff7474BF),
-                                                    onTap: () {
-                                                      this
-                                                          ._soalPresenter
-                                                          .jawabEssay(this
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    IconButton(
+                                                      icon: _selectedIndex == 2
+                                                          ? _isPlayingSoal
+                                                              ? Icon(Icons.pause)
+                                                              : Icon(Icons
+                                                                  .play_arrow)
+                                                          : Icon(
+                                                              Icons.play_arrow),
+                                                      onPressed: () => _onPlaySoal(
+                                                          filePath: this
                                                               ._soalModel
-                                                              .jawabanEssay
-                                                              .text);
-                                                    },
-                                                    child: Container(
-                                                      margin: EdgeInsets.only(
-                                                          top: 10.0),
-                                                      height: 35,
-                                                      width:
-                                                          MediaQuery.of(context)
+                                                              .tryoutSoalPondok
+                                                              .data[this
+                                                                  ._soalModel
+                                                                  .currentIndex]
+                                                              .soal,
+                                                          index: 2),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 50,
+                                  ),
+                                  widget.jenjang == 16
+                                      ? Container(
+                                          child: Column(
+                                            children: [
+                                              Column(
+                                                children: [
+                                                  Column(
+                                                    children:
+                                                        records.map((value) {
+                                                      if (value.endsWith(this
+                                                          ._soalModel
+                                                          .tryoutSoalPondok
+                                                          .data[this
+                                                              ._soalModel
+                                                              .currentIndex]
+                                                          .idTryoutDetailSoals
+                                                              .toString() +
+                                                          '.aac')) {
+                                                        return ExpansionTile(
+                                                          title: Text(
+                                                              'Rekaman soal ${value.toString()}'),
+                                                          // subtitle: Text(
+                                                          //     _getDateFromFilePatah(filePath: widget.records.elementAt(i))),
+                                                          onExpansionChanged:
+                                                              ((newState) {
+                                                            if (newState) {
+                                                              setState(() {
+                                                                _selectedIndex =
+                                                                    0;
+                                                              });
+                                                            }
+                                                          }),
+                                                          children: [
+                                                            Container(
+                                                              height: 100,
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(10),
+                                                              child: Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  LinearProgressIndicator(
+                                                                    minHeight: 5,
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .black,
+                                                                    valueColor: AlwaysStoppedAnimation<
+                                                                            Color>(
+                                                                        Colors
+                                                                            .green),
+                                                                    value: _selectedIndex ==
+                                                                            0
+                                                                        ? _completedPercentage
+                                                                        : 0,
+                                                                  ),
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      IconButton(
+                                                                        icon: _selectedIndex ==
+                                                                                0
+                                                                            ? _isPlaying
+                                                                                ? Icon(Icons.pause)
+                                                                                : Icon(Icons.play_arrow)
+                                                                            : Icon(Icons.play_arrow),
+                                                                        onPressed: () => _onPlaySoal(
+                                                                            filePath: this
+                                                                                ._soalModel
+                                                                                .tryoutSoalResponse
+                                                                                .dataTryout[this._soalModel.currentIndex]
+                                                                                .jawabanUser,
+                                                                            index: 0),
+                                                                      ),
+                                                                      IconButton(
+                                                                        icon: Icon(
+                                                                            Icons
+                                                                                .delete),
+                                                                        onPressed:
+                                                                            () =>
+                                                                                deleteFileRec(value),
+                                                                      )
+                                                                    ],
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      } else {
+                                                        return Container();
+                                                        //Return an empty Container for non-matching case
+                                                      }
+                                                    }).toList(),
+                                                  ),
+                                                ],
+                                              ),
+                                              this
+                                                          ._soalModel
+                                                          .tryoutSoalPondok
+                                                          .data[this
+                                                              ._soalModel
+                                                              .currentIndex]
+                                                          .status ==
+                                                      0
+                                                  ? Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceAround,
+                                                      children: [
+                                                        // RecorderView(
+                                                        //   onSaved:
+                                                        //       onSuccessRecord,
+                                                        //   onDuplicate:
+                                                        //       _onRecordDuplicate,
+                                                        //   number: this
+                                                        //       ._soalModel
+                                                        //       .tryoutSoalPondok
+                                                        //       .data[this
+                                                        //           ._soalModel
+                                                        //           .currentIndex]
+                                                        //       .idTryoutDetailSoals,
+                                                        // ),
+                                                        // SizedBox(
+                                                        //   height: 10,
+                                                        // ),
+                                                        PickImageImla(
+                                                          onSaved:
+                                                              onSuccessTakePict,
+                                                          onDuplicate:
+                                                              _onRecordDuplicate,
+                                                          number: this
+                                                              ._soalModel
+                                                              .tryoutSoalPondok
+                                                              .data[this
+                                                                  ._soalModel
+                                                                  .currentIndex]
+                                                              .idTryoutDetailSoals,
+                                                          jepret: this.jepret,
+                                                        ),
+                                                        // SizedBox(
+                                                        //   height: 10,
+                                                        // ),
+                                                        // PickVideo(
+                                                        //   onSaved:
+                                                        //       onSuccessTakeVid,
+                                                        //   onDuplicate:
+                                                        //       _onRecordDuplicate,
+                                                        //   number: this
+                                                        //       ._soalModel
+                                                        //       .tryoutSoalPondok
+                                                        //       .data[this
+                                                        //           ._soalModel
+                                                        //           .currentIndex]
+                                                        //       .idTryoutDetailSoals,
+                                                        //   rekam: this.rekam,
+                                                        // ),
+                                                      ],
+                                                    )
+                                                  : Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      children: [
+                                                        ElevatedButton(
+                                                          child:
+                                                              Text('Preview'),
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            primary: Colors
+                                                                .blueAccent,
+                                                          ),
+                                                          onPressed: () {
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            DetailImageScreen(
+                                                                              urlImage: 'http://103.41.207.247:3000/' + this._soalModel.tryoutSoalPondok.data[this._soalModel.currentIndex].jawabanUser,
+                                                                            )));
+                                                          },
+                                                        ),
+                                                        PickImageImla(
+                                                          onSaved:
+                                                              onSuccessTakePict,
+                                                          onDuplicate:
+                                                              _onRecordDuplicate,
+                                                          number: this
+                                                              ._soalModel
+                                                              .tryoutSoalPondok
+                                                              .data[this
+                                                                  ._soalModel
+                                                                  .currentIndex]
+                                                              .idTryoutDetailSoals,
+                                                          jepret: this.jepret,
+                                                        ),
+                                                      ],
+                                                    ),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              this._soalModel.currentIndex +
+                                                          1 !=
+                                                      this
+                                                          ._soalModel
+                                                          .tryoutSoalPondok
+                                                          .data
+                                                          .length
+                                                  ? Center(
+                                                      child: InkWell(
+                                                        splashColor:
+                                                            Color(0xff7474BF),
+                                                        onTap: () {
+                                                          this
+                                                              ._soalPresenter
+                                                              .submitPondok();
+                                                          // this
+                                                          //             ._soalModel
+                                                          //             .status ==
+                                                          //         1
+                                                          //     ? this
+                                                          //         ._soalPresenter
+                                                          //         .jawabVoice(
+                                                          //             'test')
+                                                          //     : this
+                                                          //                 ._soalModel
+                                                          //                 .status ==
+                                                          //             2
+                                                          //         ? this._soalPresenter.jawabGambar(
+                                                          //             pictures,
+                                                          //             this
+                                                          //                 ._soalModel
+                                                          //                 .tryoutSoalPondok
+                                                          //                 .data[this
+                                                          //                     ._soalModel
+                                                          //                     .currentIndex]
+                                                          //                 .idTryoutDetailSoals)
+                                                          //         : this._soalModel.status ==
+                                                          //                 3
+                                                          //             ? this._soalPresenter.jawabVideo(
+                                                          //                 videos,
+                                                          //                 this
+                                                          //                     ._soalModel
+                                                          //                     .tryoutSoalPondok
+                                                          //                     .data[this
+                                                          //                         ._soalModel
+                                                          //                         .currentIndex]
+                                                          //                     .idTryoutDetailSoals)
+                                                          //             : this.onError(
+                                                          //                 'Cek Dulu Soal Dan Jawabannya :)');
+                                                        },
+                                                        child: Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  top: 10.0),
+                                                          height: 35,
+                                                          width: MediaQuery.of(
+                                                                      context)
                                                                   .size
                                                                   .width /
                                                               1.4,
-                                                      decoration: BoxDecoration(
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                                color: Colors
-                                                                    .black26,
-                                                                offset: Offset(
-                                                                    0, 28),
-                                                                blurRadius: 40,
-                                                                spreadRadius:
-                                                                    -12)
-                                                          ],
-                                                          color:
-                                                              Color(0xff1d63dc),
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
+                                                          decoration: BoxDecoration(
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                    color: Color(
+                                                                        0xff7474BF),
+                                                                    offset:
+                                                                        Offset(0,
+                                                                            28),
+                                                                    blurRadius:
+                                                                        40,
+                                                                    spreadRadius:
+                                                                        -12)
+                                                              ],
+                                                              color: Color(
+                                                                  0xff1d63dc),
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
                                                                       .circular(
                                                                           10))),
-                                                      child: Center(
-                                                        child: Text(
-                                                          "Submit",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
+                                                          child: Center(
+                                                            child: Text(
+                                                              'Next',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        : Container(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            child: ListView.builder(
-                                              itemCount: this
+                                                    )
+                                                  : Center(
+                                                      child: InkWell(
+                                                        splashColor:
+                                                            Color(0xff7474BF),
+                                                        onTap: () {
+                                                          showAlertDialog(
+                                                              context);
+                                                        },
+                                                        child: Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  top: 10.0),
+                                                          height: 35,
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              1.4,
+                                                          decoration: BoxDecoration(
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                    color: Colors
+                                                                        .black26,
+                                                                    offset:
+                                                                        Offset(0,
+                                                                            28),
+                                                                    blurRadius:
+                                                                        40,
+                                                                    spreadRadius:
+                                                                        -12)
+                                                              ],
+                                                              color: Color(
+                                                                  0xff68BC98),
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
+                                                                          10))),
+                                                          child: Center(
+                                                            child: Text(
+                                                              'Kumpulkan',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                            ],
+                                          ),
+                                        )
+                                      : this
                                                   ._soalModel
                                                   .tryoutSoalResponse
                                                   .dataTryout[this
                                                       ._soalModel
                                                       .currentIndex]
-                                                  .choice
-                                                  .length,
-                                              scrollDirection: Axis.vertical,
-                                              primary: false,
-                                              shrinkWrap: true,
-                                              physics:
-                                                  NeverScrollableScrollPhysics(),
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int choiceIndex) {
-                                                return InkWell(
-                                                  onTap: () {
-                                                    this
-                                                        ._soalPresenter
-                                                        .jawab(choiceIndex);
-                                                  },
-                                                  hoverColor: Colors.red,
-                                                  highlightColor: Colors.red,
-                                                  splashColor: Colors.red,
-                                                  child: Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    padding: EdgeInsets.all(8),
-                                                    margin:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 10),
-                                                    decoration: BoxDecoration(
-                                                        color: this
+                                                  .isEssay ==
+                                              1
+                                          ? Container(
+                                              child: Column(
+                                                children: [
+                                                  TextFormField(
+                                                    controller: this
+                                                        ._soalModel
+                                                        .jawabanEssay,
+                                                    minLines:
+                                                        5, // any number you need (It works as the rows for the textarea)
+                                                    keyboardType:
+                                                        TextInputType.multiline,
+                                                    maxLines: null,
+                                                    decoration: InputDecoration(
+                                                        border:
+                                                            OutlineInputBorder()),
+                                                  ),
+                                                  Center(
+                                                    child: InkWell(
+                                                      splashColor:
+                                                          Color(0xff7474BF),
+                                                      onTap: () {
+                                                        this
+                                                            ._soalPresenter
+                                                            .jawabEssay(this
+                                                                ._soalModel
+                                                                .jawabanEssay
+                                                                .text);
+                                                      },
+                                                      child: Container(
+                                                        margin: EdgeInsets.only(
+                                                            top: 10.0),
+                                                        height: 35,
+                                                        width:
+                                                            MediaQuery.of(context)
+                                                                    .size
+                                                                    .width /
+                                                                1.4,
+                                                        decoration: BoxDecoration(
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                  color: Colors
+                                                                      .black26,
+                                                                  offset: Offset(
+                                                                      0, 28),
+                                                                  blurRadius: 40,
+                                                                  spreadRadius:
+                                                                      -12)
+                                                            ],
+                                                            color:
+                                                                Color(0xff1d63dc),
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                    Radius
+                                                                        .circular(
+                                                                            10))),
+                                                        child: Center(
+                                                          child: Text(
+                                                            "Submit",
+                                                            style: TextStyle(
+                                                                color:
+                                                                    Colors.white,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          : Container(
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              child: ListView.builder(
+                                                itemCount: this
+                                                    ._soalModel
+                                                    .tryoutSoalResponse
+                                                    .dataTryout[this
+                                                        ._soalModel
+                                                        .currentIndex]
+                                                    .choice
+                                                    .length,
+                                                scrollDirection: Axis.vertical,
+                                                primary: false,
+                                                shrinkWrap: true,
+                                                physics:
+                                                    NeverScrollableScrollPhysics(),
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int choiceIndex) {
+                                                  return InkWell(
+                                                    onTap: () {
+                                                      this
+                                                          ._soalPresenter
+                                                          .jawab(choiceIndex);
+                                                    },
+                                                    hoverColor: Colors.red,
+                                                    highlightColor: Colors.red,
+                                                    splashColor: Colors.red,
+                                                    child: Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                      padding: EdgeInsets.all(8),
+                                                      margin:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 10),
+                                                      decoration: BoxDecoration(
+                                                          color: this
+                                                                      ._soalModel
+                                                                      .tryoutSoalResponse
+                                                                      .dataTryout[this
+                                                                          ._soalModel
+                                                                          .currentIndex]
+                                                                      .jawabanUser ==
+                                                                  this
+                                                                      ._soalModel
+                                                                      .tryoutSoalResponse
+                                                                      .dataTryout[this
+                                                                          ._soalModel
+                                                                          .currentIndex]
+                                                                      .choice[
+                                                                          choiceIndex]
+                                                                      .choice
+                                                              ? Color(0xff25509e)
+                                                              : Colors.white,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                                color: Colors
+                                                                    .black26,
+                                                                offset:
+                                                                    Offset(0, 2),
+                                                                blurRadius: 1,
+                                                                spreadRadius: 0)
+                                                          ],
+                                                          border: this
+                                                                      ._soalModel
+                                                                      .tryoutSoalResponse
+                                                                      .dataTryout[this
+                                                                          ._soalModel
+                                                                          .currentIndex]
+                                                                      .jawabanUser ==
+                                                                  this
+                                                                      ._soalModel
+                                                                      .tryoutSoalResponse
+                                                                      .dataTryout[this
+                                                                          ._soalModel
+                                                                          .currentIndex]
+                                                                      .choice[choiceIndex]
+                                                                      .choice
+                                                              ? Border.all(color: Colors.blue, width: 1)
+                                                              : Border.all(color: Colors.transparent, width: 0)),
+                                                      child: Row(
+                                                        children: [
+                                                          AutoSizeText(
+                                                            this
                                                                     ._soalModel
-                                                                    .tryoutSoalResponse
-                                                                    .dataTryout[this
-                                                                        ._soalModel
-                                                                        .currentIndex]
-                                                                    .jawabanUser ==
+                                                                    .choiceNumber[
+                                                                choiceIndex],
+                                                            style: TextStyle(
+                                                              fontSize: 14,
+                                                              color: this
+                                                                          ._soalModel
+                                                                          .tryoutSoalResponse
+                                                                          .dataTryout[this
+                                                                              ._soalModel
+                                                                              .currentIndex]
+                                                                          .jawabanUser ==
+                                                                      this
+                                                                          ._soalModel
+                                                                          .tryoutSoalResponse
+                                                                          .dataTryout[this
+                                                                              ._soalModel
+                                                                              .currentIndex]
+                                                                          .choice[
+                                                                              choiceIndex]
+                                                                          .choice
+                                                                  ? Colors.white
+                                                                  : Colors.black,
+                                                            ),
+                                                            maxFontSize: 14,
+                                                            maxLines: 10,
+                                                            softWrap: true,
+                                                          ),
+                                                          SizedBox(
+                                                            width: 6,
+                                                          ),
+                                                          Expanded(
+                                                            child: AutoSizeText(
                                                                 this
                                                                     ._soalModel
                                                                     .tryoutSoalResponse
@@ -1021,125 +1322,49 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
                                                                         .currentIndex]
                                                                     .choice[
                                                                         choiceIndex]
-                                                                    .choice
-                                                            ? Color(0xff25509e)
-                                                            : Colors.white,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8),
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                              color: Colors
-                                                                  .black26,
-                                                              offset:
-                                                                  Offset(0, 2),
-                                                              blurRadius: 1,
-                                                              spreadRadius: 0)
-                                                        ],
-                                                        border: this
-                                                                    ._soalModel
-                                                                    .tryoutSoalResponse
-                                                                    .dataTryout[this
-                                                                        ._soalModel
-                                                                        .currentIndex]
-                                                                    .jawabanUser ==
-                                                                this
-                                                                    ._soalModel
-                                                                    .tryoutSoalResponse
-                                                                    .dataTryout[this
-                                                                        ._soalModel
-                                                                        .currentIndex]
-                                                                    .choice[choiceIndex]
-                                                                    .choice
-                                                            ? Border.all(color: Colors.blue, width: 1)
-                                                            : Border.all(color: Colors.transparent, width: 0)),
-                                                    child: Row(
-                                                      children: [
-                                                        AutoSizeText(
-                                                          this
-                                                                  ._soalModel
-                                                                  .choiceNumber[
-                                                              choiceIndex],
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                            color: this
-                                                                        ._soalModel
-                                                                        .tryoutSoalResponse
-                                                                        .dataTryout[this
-                                                                            ._soalModel
-                                                                            .currentIndex]
-                                                                        .jawabanUser ==
-                                                                    this
-                                                                        ._soalModel
-                                                                        .tryoutSoalResponse
-                                                                        .dataTryout[this
-                                                                            ._soalModel
-                                                                            .currentIndex]
-                                                                        .choice[
-                                                                            choiceIndex]
-                                                                        .choice
-                                                                ? Colors.white
-                                                                : Colors.black,
+                                                                    .choice,
+                                                                maxFontSize: 14,
+                                                                maxLines: 10,
+                                                                softWrap: true,
+                                                                style: TextStyle(
+                                                                  fontSize: 14,
+                                                                  color: this
+                                                                              ._soalModel
+                                                                              .tryoutSoalResponse
+                                                                              .dataTryout[this
+                                                                                  ._soalModel
+                                                                                  .currentIndex]
+                                                                              .jawabanUser ==
+                                                                          this
+                                                                              ._soalModel
+                                                                              .tryoutSoalResponse
+                                                                              .dataTryout[this
+                                                                                  ._soalModel
+                                                                                  .currentIndex]
+                                                                              .choice[
+                                                                                  choiceIndex]
+                                                                              .choice
+                                                                      ? Colors
+                                                                          .white
+                                                                      : Colors
+                                                                          .black,
+                                                                )),
                                                           ),
-                                                          maxFontSize: 14,
-                                                          maxLines: 10,
-                                                          softWrap: true,
-                                                        ),
-                                                        SizedBox(
-                                                          width: 6,
-                                                        ),
-                                                        Expanded(
-                                                          child: AutoSizeText(
-                                                              this
-                                                                  ._soalModel
-                                                                  .tryoutSoalResponse
-                                                                  .dataTryout[this
-                                                                      ._soalModel
-                                                                      .currentIndex]
-                                                                  .choice[
-                                                                      choiceIndex]
-                                                                  .choice,
-                                                              maxFontSize: 14,
-                                                              maxLines: 10,
-                                                              softWrap: true,
-                                                              style: TextStyle(
-                                                                fontSize: 14,
-                                                                color: this
-                                                                            ._soalModel
-                                                                            .tryoutSoalResponse
-                                                                            .dataTryout[this
-                                                                                ._soalModel
-                                                                                .currentIndex]
-                                                                            .jawabanUser ==
-                                                                        this
-                                                                            ._soalModel
-                                                                            .tryoutSoalResponse
-                                                                            .dataTryout[this
-                                                                                ._soalModel
-                                                                                .currentIndex]
-                                                                            .choice[
-                                                                                choiceIndex]
-                                                                            .choice
-                                                                    ? Colors
-                                                                        .white
-                                                                    : Colors
-                                                                        .black,
-                                                              )),
-                                                        ),
-                                                      ],
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                          )
-                              ],
+                                                  );
+                                                },
+                                              ),
+                                            )
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      )
-                    ],
-                  ),
+                        )
+                      ],
+                    ),
+                ),
         drawer: Drawer(
           child: this._soalModel.isloading ||
                   this._soalModel.tryoutSoalResponse.dataTryout == null
@@ -1367,10 +1592,12 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
 
   @override
   void onSuccessTakePict(String fileNya) {
+    print("====lokasi");
     pictures.clear();
     appDirectory.list().listen((onData) {
       if (onData.path.endsWith(".jpg")) {
         pictures.add(onData.path);
+        deleteFilePict(onData.path);
       }
     }).onDone(() {
       pictures.sort();
@@ -1380,7 +1607,7 @@ class _SoalImlaScreenState extends State<SoalImlaScreen> implements SoalState {
         this.jepret += 1;
       });
     });
-    this._soalPresenter.jawabFile(fileNya, 2);
+    this._soalPresenter.jawabFilePsikotes(fileNya, 2);
   }
 
   @override

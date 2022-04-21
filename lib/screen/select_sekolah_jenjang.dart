@@ -55,9 +55,9 @@ class _SelectSekolahsScreenState extends State<SelectSekolahJenjangsScreen>
   @override
   // ignore: must_call_super
   void initState() {
+    this._selectSekolahPresenter.checkTryout(this.idPaket, this.idJenjang);
     tabController = new TabController(length: 2, vsync: this);
     this._selectSekolahPresenter.getProv();
-    this._selectSekolahPresenter.checkTryout(this.idPaket, this.idJenjang);
     this._selectSekolahPresenter.view = this;
   }
 
@@ -295,9 +295,9 @@ class _SelectSekolahsScreenState extends State<SelectSekolahJenjangsScreen>
                                 hintStyle: TextStyle(
                                     color: Color(0xff2D8EFF), fontSize: 12)),
                             onTap: (() => {
-                                  this._selectSekolahModel.idArea == 0 && this._selectSekolahModel.isloading
+                                  this._selectSekolahModel.idJenajangnya == 0 || this._selectSekolahModel.sekolah.dataSekolah == null
                                       ? Fluttertoast.showToast(
-                                          msg: "Area Harus Dipilih",
+                                          msg: "Jenjang Harus Dipilih / sedang mengambil data sekolah",
                                           toastLength: Toast.LENGTH_SHORT,
                                           gravity: ToastGravity.BOTTOM,
                                           timeInSecForIosWeb: 1,
@@ -588,21 +588,23 @@ class _SelectSekolahsScreenState extends State<SelectSekolahJenjangsScreen>
             provinsiResponse: this._selectSekolahModel.provinsi,
           ),
         )).then((value) {
-      print(this._selectSekolahModel.provinsi.data[value].id);
-      setState(() {
-        this._selectSekolahModel.idProv =
-            this._selectSekolahModel.provinsi.data[value].id;
-        this._selectSekolahModel.namaProv =
-            this._selectSekolahModel.provinsi.data[value].name;
-        this._selectSekolahModel.provinsiController.text =
-            this._selectSekolahModel.provinsi.data[value].name;
-        this
-            ._selectSekolahPresenter
-            .getArea(this._selectSekolahModel.provinsi.data[value].id);
-      });
-      this.refreshData(this._selectSekolahModel);
-      // Navigator.of(context).pop();
-    });
+          if(value != null) {
+            setState(() {
+              this._selectSekolahModel.idProv =
+                  this._selectSekolahModel.provinsi.data[value].id;
+              this._selectSekolahModel.namaProv =
+                  this._selectSekolahModel.provinsi.data[value].name;
+              this._selectSekolahModel.provinsiController.text =
+                  this._selectSekolahModel.provinsi.data[value].name;
+              this
+                  ._selectSekolahPresenter
+                  .getArea(this._selectSekolahModel.provinsi.data[value].id);
+            });
+            
+          }
+          this.refreshData(this._selectSekolahModel);
+          // Navigator.of(context).pop();
+        });
   }
 
   @override
@@ -616,17 +618,21 @@ class _SelectSekolahsScreenState extends State<SelectSekolahJenjangsScreen>
             areaResponse: this._selectSekolahModel.area,
           ),
         )).then((value) {
-      print(this._selectSekolahModel.area.data[value].id);
-      this._selectSekolahModel.idArea =
-          this._selectSekolahModel.area.data[value].id;
-      this._selectSekolahModel.namaArea =
-          this._selectSekolahModel.area.data[value].area;
-      this._selectSekolahModel.areaController.text =
-          this._selectSekolahModel.area.data[value].area;
-      this
-          ._selectSekolahPresenter
-          .getJenjang(idJenjang);
-      this.refreshData(this._selectSekolahModel);
+          if(value != null) {
+            setState(() {
+              this._selectSekolahModel.idArea =
+                  this._selectSekolahModel.area.data[value].id;
+              this._selectSekolahModel.namaArea =
+                  this._selectSekolahModel.area.data[value].area;
+              this._selectSekolahModel.areaController.text =
+                  this._selectSekolahModel.area.data[value].area;
+              this
+                  ._selectSekolahPresenter
+                  .getJenjang(idJenjang);
+              this.refreshData(this._selectSekolahModel);
+              
+            });
+          }
       // Navigator.of(context).pop();
     });
   }
@@ -642,18 +648,22 @@ class _SelectSekolahsScreenState extends State<SelectSekolahJenjangsScreen>
             areaResponse: this._selectSekolahModel.jenjangnya,
           ),
         )).then((value) {
-      print(this._selectSekolahModel.jenjangnya.data[value].id);
-      this._selectSekolahModel.idJenajangnya =
-          this._selectSekolahModel.jenjangnya.data[value].id;
-      this._selectSekolahModel.namaJenjang =
-          this._selectSekolahModel.jenjangnya.data[value].jenjang;
-      this._selectSekolahModel.jenjangController.text =
-          this._selectSekolahModel.jenjangnya.data[value].jenjang;
-      this
-          ._selectSekolahPresenter
-          .getSekolahJenjang(this._selectSekolahModel.idArea, this._selectSekolahModel.jenjangnya.data[value].id);
-          this._selectSekolahModel.isloading=false;
-      this.refreshData(this._selectSekolahModel);
+          if(value != null) {
+            setState(() {
+              this._selectSekolahModel.idJenajangnya =
+                  this._selectSekolahModel.jenjangnya.data[value].id;
+              this._selectSekolahModel.namaJenjang =
+                  this._selectSekolahModel.jenjangnya.data[value].jenjang;
+              this._selectSekolahModel.jenjangController.text =
+                  this._selectSekolahModel.jenjangnya.data[value].jenjang;
+              this
+                  ._selectSekolahPresenter
+                  .getSekolahJenjang(this._selectSekolahModel.idArea, this._selectSekolahModel.jenjangnya.data[value].id);
+                  this._selectSekolahModel.isloading=false;
+              this.refreshData(this._selectSekolahModel);
+              
+            });
+          }
       // Navigator.of(context).pop();
     });
   }
@@ -669,16 +679,18 @@ class _SelectSekolahsScreenState extends State<SelectSekolahJenjangsScreen>
             sekolahResponse: this._selectSekolahModel.sekolah,
           ),
         )).then((value) {
-      setState(() {
-        this._selectSekolahModel.sekolahId =
-            this._selectSekolahModel.sekolah.dataSekolah.data[value].id;
-        this._selectSekolahModel.namaSekolah =
-            this._selectSekolahModel.sekolah.dataSekolah.data[value].nama;
-        this._selectSekolahModel.sekolahController.text =
-            this._selectSekolahModel.sekolah.dataSekolah.data[value].nama;
-        this.refreshData(this._selectSekolahModel);
-        // Navigator.of(context).pop();
-      });
+          if(value != null) {
+            setState(() {
+              this._selectSekolahModel.sekolahId =
+                  this._selectSekolahModel.sekolah.dataSekolah.data[value].id;
+              this._selectSekolahModel.namaSekolah =
+                  this._selectSekolahModel.sekolah.dataSekolah.data[value].nama;
+              this._selectSekolahModel.sekolahController.text =
+                  this._selectSekolahModel.sekolah.dataSekolah.data[value].nama;
+              this.refreshData(this._selectSekolahModel);
+              // Navigator.of(context).pop();
+            });
+          }
     });
   }
 

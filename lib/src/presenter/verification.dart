@@ -50,7 +50,7 @@ class VerificationPresenter implements VerificationPresenterAbstract {
       this._verificationState.onSuccess("Berhasil, Akunmu telah terverifikasi");
     }).catchError((err) {
       print(err.toString());
-      this._verificationState.onError(err.toString());
+      this._verificationState.onError('code tidak ditemukan');
       this._verificationModel.isloading = false;
       this._verificationState.refreshData(this._verificationModel);
     });

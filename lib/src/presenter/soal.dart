@@ -331,6 +331,11 @@ class SoalPresenter implements SoalPresenterAbstract {
   @override
   // Future<void> jawabFile(List<String> jawaban, int number) async {
   Future<void> jawabFilePsikotes(String fileNya, int number) async {
+    this
+        ._soalModel
+        .tryoutSoalPondok
+        .data[this._soalModel.currentIndex]
+        .jawabanUser = null;
     this._soalModel.isloading = true;
     this._soalState.refreshData(this._soalModel);
     print('jawabfile ' + fileNya);

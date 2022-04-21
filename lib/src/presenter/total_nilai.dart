@@ -1,13 +1,9 @@
 import 'dart:convert';
 
 import 'package:TesUjian/src/model/bayar.dart';
-import 'package:TesUjian/src/model/paket.dart';
 import 'package:TesUjian/src/model/total_nilai.dart';
 import 'package:TesUjian/src/resources/historyTryoutApi.dart';
 import 'package:TesUjian/src/resources/bayarApi.dart';
-import 'package:TesUjian/src/response/bayarPost.dart';
-import 'package:TesUjian/src/response/cekPembayaran.dart';
-import 'package:TesUjian/src/response/cekStatus.dart';
 import 'package:TesUjian/src/state/total_nilai.dart';
 import 'package:intl/intl.dart';
 
@@ -15,7 +11,9 @@ abstract class TotalNilaiPresenterAbstract {
   set view(TotalNilaiState view) {}
   void getData(int idMurid) {}
   void check(int idMurid, int idTryout, int harga) {}
+  void checkSilver(int idMurid, int idTryout, int harga) {}
   void checkStatus(int idMurid, int idTryout, int harga) {}
+  void checkStatusSilver(int idMurid, int idTryout, int harga) {}
   void checkPembayaranStatus(String diBayar) {}
   void checkout(int idMurid, int idTryout, String metode, String jumlah) {}
 }
@@ -63,6 +61,10 @@ class TotalNilaiPresenter implements TotalNilaiPresenterAbstract {
             totalBenar: totalBenar,
             totalSalah: totalSalah,
             belumDikerjakan: belumDikerjakan,
+            statusTryout: element.status,
+            idPaket: element.paket.id,
+            idJenjang: element.tingkat.id,
+            idSekolahTujuan: element.idSekolahTujuan,
             namaJenjang:
                 element.tingkat != null ? element.tingkat.jenjang : '-',
             sudahSelesai: sudahSelesai));
@@ -98,6 +100,22 @@ class TotalNilaiPresenter implements TotalNilaiPresenterAbstract {
   }
 
   @override
+  void checkSilver(int idMurid, int idTryout, int harga) {
+    // print('harga :$harga');
+    this._bayarApi.checkStatus(idMurid, idTryout, harga).then((value) {
+      this._totalNilaiModel.isloading = false;
+      if (value == 'false') {
+        this._totalNilaiState.onCheck(value, harga);
+      } else {
+        print('true');
+        this._totalNilaiState.onCheckStatusSilver(idMurid, idTryout, harga);
+      }
+    }).catchError((err) {
+      this._totalNilaiState.onError(err.toString());
+    });
+  }
+
+  @override
   void checkStatus(int idMurid, int idTryout, int harga) {
     this._totalNilaiModel.isloading = true;
     this._totalNilaiState.refreshData(this._totalNilaiModel);
@@ -128,6 +146,47 @@ class TotalNilaiPresenter implements TotalNilaiPresenterAbstract {
       this._totalNilaiModel.isloading = false;
       this._totalNilaiState.refreshDataBayar(this._bayarModel);
       this._totalNilaiState.onCheckBayar(this._bayarModel);
+    }).catchError((err) {
+      this._totalNilaiModel.isloading = false;
+      this._totalNilaiState.refreshData(this._totalNilaiModel);
+      this._totalNilaiState.onError(err.toString());
+    });
+  }
+
+  @override
+  void checkStatusSilver(int idMurid, int idTryout, int harga) {
+    this._totalNilaiModel.isloading = true;
+    this._bayarModel.bayars.clear();
+    this._totalNilaiState.refreshDataBayar(this._bayarModel);
+    // this._totalNilaiState.removeDataBayar('test');
+
+    this._bayarApi.checkPembayaran(idMurid, idTryout, harga).then((value) {
+      this._totalNilaiModel.isloading = false;
+      String tanggal = DateFormat("d, MMMM - y")
+          .format(DateTime.parse(value.dataBayar.tgl))
+          .toString();
+      List<String> time = value.dataBayar.batasWaktu.split("T");
+      List<String> times = time[1].split(".");
+      String batasTanggal = DateFormat("d, MMMM - y")
+          .format(DateTime.parse(value.dataBayar.batasWaktu))
+          .toString();
+      this._bayarModel.bayars.add(new Bayar(
+          amount: value.dataBayar.jumlah,
+          bank: value.dataBayar.metodePembayaran,
+          batasTanggal: batasTanggal,
+          batasWaktu: times[0].substring(0, 5),
+          idTryout: value.dataBayar.idTryout,
+          orderId: value.dataBayar.id,
+          status: value.dataBayar.status,
+          transactionStatus: 'Pending',
+          transactionTime: tanggal,
+          deepLink: value.dataBayar.deeplink != null
+              ? value.dataBayar.deeplink
+              : null,
+          vaNumber: value.dataBayar.vaNumber));
+      this._totalNilaiModel.isloading = false;
+      this._totalNilaiState.refreshDataBayar(this._bayarModel);
+      this._totalNilaiState.onCheckBayarSilver(this._bayarModel);
     }).catchError((err) {
       this._totalNilaiModel.isloading = false;
       this._totalNilaiState.refreshData(this._totalNilaiModel);

@@ -27,6 +27,7 @@ class UserApi {
             LoginResponse.fromJson(json.decode(response.body));
         return loginResponse;
       } else {
+        print('akun tidak ada');
         Future.error("${res['data']}");
       }
     } else {

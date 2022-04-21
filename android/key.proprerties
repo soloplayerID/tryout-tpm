@@ -1,0 +1,4 @@
+storePassword=root12345
+keyPassword=root12345
+keyAlias=upload
+storeFile=/Users/ilham/keytesujian.jks

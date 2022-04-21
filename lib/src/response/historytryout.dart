@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 class HistoryTryoutResponse {
   bool success;
   List<DataTryout> dataTryout;
@@ -33,6 +35,7 @@ class DataTryout {
   bool status;
   String jenjang;
   int idPaket;
+  int idSekolahTujuan;
   String createdAt;
   String updatedAt;
   Tingkat tingkat;
@@ -55,6 +58,7 @@ class DataTryout {
       this.status,
       this.jenjang,
       this.idPaket,
+      this.idSekolahTujuan,
       this.createdAt,
       this.updatedAt,
       this.tingkat,
@@ -75,6 +79,7 @@ class DataTryout {
     idGuru = json['id_guru'];
     tgl = json['tgl'];
     status = json['status'];
+    idSekolahTujuan = json['idSekolahTujuan'];
     jenjang = json['jenjang'];
     idPaket = json['id_paket'];
     createdAt = json['createdAt'];
@@ -105,6 +110,7 @@ class DataTryout {
     data['id_guru'] = this.idGuru;
     data['tgl'] = this.tgl;
     data['status'] = this.status;
+    data['idSekolahTujuan'] = this.idSekolahTujuan;
     data['jenjang'] = this.jenjang;
     data['id_paket'] = this.idPaket;
     data['createdAt'] = this.createdAt;

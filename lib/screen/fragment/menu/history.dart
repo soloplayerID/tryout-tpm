@@ -1,7 +1,5 @@
 // ignore_for_file: deprecated_member_use
 
-import 'dart:ui';
-
 import 'package:TesUjian/helper/getStorage.dart';
 import 'package:TesUjian/screen/checkout.dart';
 import 'package:TesUjian/screen/fragment/pembayaran_detail.dart';
@@ -18,6 +16,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import '../../tryout.dart';
 
 class HistoryWidget extends StatefulWidget {
   @override
@@ -65,19 +65,21 @@ class HistoryWidgetState extends State<HistoryWidget>
           ))
         : InkWell(
             onTap: () {
+              this._totalNilaiModel.pakets[0].statusTryout ? 
               this._totalNilaiPresenter.check(GetStorage().read(ID_MURID),
-                  this._totalNilaiModel.pakets[0].id,Harga.silver);
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => ReportApp(
-              //               idTryout: this._totalNilaiModel.pakets[0].id,
-              //               namaPaket: this._totalNilaiModel.pakets[0].title,
-              //               jenjang:
-              //                   this._totalNilaiModel.pakets[0].namaJenjang,
-              //               tanggalPengerjaan:
-              //                   this._totalNilaiModel.pakets[0].tanggal,
-              //             )));
+                  this._totalNilaiModel.pakets[0].id,Harga.silver)
+              : 
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                       builder: (context) => TryoutScreen(
+                          key: Key("1"),
+                          idPaket: this._totalNilaiModel.pakets[0].idPaket,
+                          idJenjang: this._totalNilaiModel.pakets[0].idJenjang,
+                          idTryout: this._totalNilaiModel.pakets[0].id,
+                          sekolahTujuan: this._totalNilaiModel.pakets[0].idSekolahTujuan,
+                        ),
+                      ));
             },
             child: Container(
               padding: EdgeInsets.all(10),
@@ -113,6 +115,7 @@ class HistoryWidgetState extends State<HistoryWidget>
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                              this._totalNilaiModel.pakets[0].statusTryout ? 
                           Row(
                             children: [
                               Icon(
@@ -120,65 +123,68 @@ class HistoryWidgetState extends State<HistoryWidget>
                                 size: 14,
                                 color: Colors.green,
                               ),
-                              Text(
-                                this
-                                    ._totalNilaiModel
-                                    .pakets[0]
-                                    .totalBenar
-                                    .toString(),
-                                style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      fontSize: 12, color: Color(0xff2b2b2b)),
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Row(
-                            children: [
+                              // Text(
+                              //   this
+                              //       ._totalNilaiModel
+                              //       .pakets[0]
+                              //       .totalBenar
+                              //       .toString(),
+                              //   style: GoogleFonts.poppins(
+                              //     textStyle: TextStyle(
+                              //         fontSize: 12, color: Color(0xff2b2b2b)),
+                              //   ),
+                              // ),
                               Icon(
                                 Ionicons.close_circle,
                                 size: 14,
                                 color: Colors.red,
                               ),
-                              Text(
-                                this
-                                    ._totalNilaiModel
-                                    .pakets[0]
-                                    .totalSalah
-                                    .toString(),
-                                style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      fontSize: 12, color: Color(0xff2b2b2b)),
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Row(
-                            children: [
+                              // Text(
+                              //   this
+                              //       ._totalNilaiModel
+                              //       .pakets[0]
+                              //       .totalSalah
+                              //       .toString(),
+                              //   style: GoogleFonts.poppins(
+                              //     textStyle: TextStyle(
+                              //         fontSize: 12, color: Color(0xff2b2b2b)),
+                              //   ),
+                              // ),
                               Icon(
-                                Ionicons.remove_circle,
-                                size: 14,
-                                color: Color(0xff303030),
-                              ),
-                              Text(
-                                this
-                                    ._totalNilaiModel
-                                    .pakets[0]
-                                    .belumDikerjakan
-                                    .toString(),
-                                style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      fontSize: 12, color: Color(0xff2b2b2b)),
-                                ),
-                              )
+                                      Ionicons.remove_circle,
+                                      size: 14,
+                                      color: Color(0xff303030),
+                                    ),
+                                    // Text(
+                                    //   this
+                                    //       ._totalNilaiModel
+                                    //       .pakets[0]
+                                    //       .belumDikerjakan
+                                    //       .toString(),
+                                    //   style: GoogleFonts.poppins(
+                                    //     textStyle: TextStyle(
+                                    //         fontSize: 12,
+                                    //         color: Color(0xff2b2b2b)),
+                                    //   ),
+                                    // )
                             ],
-                          ),
+                        ) : Row(
+                                  children: [
+                                    Icon(
+                                      Ionicons.remove_circle,
+                                      size: 14,
+                                      color: Color(0xff303030),
+                                    ),
+                                    Text(
+                                      'Soal Belum Selesai',
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                            fontSize: 12,
+                                            color: Color(0xff2b2b2b)),
+                                      ),
+                                    )
+                                  ],
+                                ),
                         ],
                       )
                     ],
@@ -673,5 +679,15 @@ class HistoryWidgetState extends State<HistoryWidget>
   @override
   void removeDataBayar(String error) {
     this._bayarModel.bayars.clear();
+  }
+
+  @override
+  void onCheckBayarSilver(BayarModel bayarModel) {
+
+  }
+
+  @override
+  void onCheckStatusSilver(int idMurid, int idTryout, int harga) {
+  
   }
 }

@@ -11,7 +11,6 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:html/dom.dart' as htmlParser;
 
 import 'package:TesUjian/screen/fragment/loading.dart';
 import 'package:TesUjian/screen/notfound.dart';
@@ -563,15 +562,12 @@ class _BerhitungAngkaScreenState extends State<BerhitungAngkaScreen>
                                                 horizontal: 20,
                                               ),
                                               child: Html(
-                                                data: htmlParser
-                                                            .DocumentFragment
-                                                        .html("${index + 1}. " +
+                                                data: 
                                                             this
                                                                 ._soalModel
                                                                 .tryoutSoalPondok
                                                                 .data[index]
-                                                                .soal)
-                                                    .text,
+                                                                .soal,
                                                 style: {
                                                   "table": Style(
                                                     backgroundColor:

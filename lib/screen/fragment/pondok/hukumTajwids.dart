@@ -22,7 +22,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../soal/detail_image_screen.dart';
 
 class HukumTajwidsScreen extends StatefulWidget {
   final int idtryoutdetail;
@@ -105,6 +104,9 @@ class _HukumTajwidsScreenState extends State<HukumTajwidsScreen>
     records = null;
     pictures = null;
     videos = null;
+    _audioPlayerSoal.stop();
+    _completedPercentage = 0.0;
+    _isPlayingSoal = false;
     super.dispose();
   }
 

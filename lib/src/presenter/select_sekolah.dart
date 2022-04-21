@@ -2,7 +2,6 @@
 import 'package:TesUjian/helper/getStorage.dart';
 import 'package:TesUjian/src/model/pilih_sekolah.dart';
 import 'package:TesUjian/src/resources/TryoutApi.dart';
-import 'package:TesUjian/src/resources/bayarApi.dart';
 import 'package:TesUjian/src/resources/sekolahApi.dart';
 import 'package:TesUjian/src/state/pilih_sekolah.dart';
 import 'package:get_storage/get_storage.dart';
@@ -36,7 +35,6 @@ class SelectSekolahPresenter implements SelectSekolahPresenterAbstract {
 
   @override
   void checkTryout(int idPaket, int idJenjang) {
-
     print('go to check tryout, idPaket&idJenjang: $idPaket||$idJenjang');
     this
         ._tryoutApi
@@ -53,12 +51,14 @@ class SelectSekolahPresenter implements SelectSekolahPresenterAbstract {
         this._selectSekolahModel.sekolahTujuanid =
             value.dataTryout.data[0].idSekolahTujuan;
         this.idTryout = value.dataTryout.data[0].id;
+        this._selectSekolahModel.isloading = true;
+        this._selectSekolahState.refreshData(this._selectSekolahModel);
         this
             ._selectSekolahState
             .toTryout(GetStorage().read(ID_MURID), idJenjang, idPaket, this._selectSekolahModel.sekolahTujuanid, this.idTryout);
-        this._selectSekolahModel.isloading = false;
-        this._selectSekolahState.refreshData(this._selectSekolahModel);
       }
+      this._selectSekolahModel.isloading = false;
+      this._selectSekolahState.refreshData(this._selectSekolahModel);
     });
   }
 
@@ -68,6 +68,7 @@ class SelectSekolahPresenter implements SelectSekolahPresenterAbstract {
     // TODO: implement getSekolah
     this._sekolahApi.getProv().then((value) {
       this._selectSekolahModel.provinsi = value;
+      this._selectSekolahModel.isloading = false;
       this._selectSekolahState.refreshData(this._selectSekolahModel);
     }).catchError((err) {
       this._selectSekolahState.onError(err.toString());
@@ -78,6 +79,7 @@ class SelectSekolahPresenter implements SelectSekolahPresenterAbstract {
   void getArea(int idProv) {
     this._sekolahApi.getArea(idProv).then((value) {
       this._selectSekolahModel.area = value;
+      this._selectSekolahModel.isloading = false;
       this._selectSekolahState.refreshData(this._selectSekolahModel);
     }).catchError((err) {
       this._selectSekolahState.onError(err.toString());

@@ -246,7 +246,7 @@ class TryoutPresenter implements TryoutPresenterAbstract {
           amount: value.dataBayar.jumlah,
           bank: value.dataBayar.metodePembayaran,
           batasTanggal: batasTanggal,
-          batasWaktu: times[0].substring(1, 5),
+          batasWaktu: times[0].substring(0, 5),
           idTryout: value.dataBayar.idTryout,
           orderId: value.dataBayar.id,
           status: value.dataBayar.status,

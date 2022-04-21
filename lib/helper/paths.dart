@@ -52,6 +52,7 @@ class Paths {
       "berhitungAngka/updateJawaban";
   static const String BERHITUNGSOAL_UPDATEJAWABAN =
       "berhitungSoal/updateJawaban";
+      static const String IMLA_UPDATEJAWABAN = "imla/updateJawaban";
   static const String BACAQURAN_SOAL = "bacaQuran/soal";
   static const String HUKUMTAJWIDS_SOAL = "hukumTajwids/soal";
   static const String HAFALANJUZ_SOAL = "hafalanJuz/soal";

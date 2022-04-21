@@ -752,7 +752,8 @@ class _BacaQuranScreenState extends State<BacaQuranScreen>
                                               SizedBox(
                                                 height: 20,
                                               ),
-                                              this._soalModel.currentIndex + 1 !=
+                                              this._soalModel.currentIndex +
+                                                          1 !=
                                                       this
                                                           ._soalModel
                                                           .tryoutSoalPondok
@@ -802,8 +803,9 @@ class _BacaQuranScreenState extends State<BacaQuranScreen>
                                                           //                 'Cek Dulu Soal Dan Jawabannya :)');
                                                         },
                                                         child: Container(
-                                                          margin: EdgeInsets.only(
-                                                              top: 10.0),
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  top: 10.0),
                                                           height: 35,
                                                           width: MediaQuery.of(
                                                                       context)
@@ -813,10 +815,11 @@ class _BacaQuranScreenState extends State<BacaQuranScreen>
                                                           decoration: BoxDecoration(
                                                               boxShadow: [
                                                                 BoxShadow(
-                                                                    color: Colors
-                                                                        .black26,
-                                                                    offset: Offset(
-                                                                        0, 28),
+                                                                    color: Color(
+                                                                        0xff7474BF),
+                                                                    offset:
+                                                                        Offset(0,
+                                                                            28),
                                                                     blurRadius:
                                                                         40,
                                                                     spreadRadius:
@@ -824,11 +827,10 @@ class _BacaQuranScreenState extends State<BacaQuranScreen>
                                                               ],
                                                               color: Color(
                                                                   0xff1d63dc),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .all(Radius
-                                                                          .circular(
-                                                                              10))),
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
+                                                                          10))),
                                                           child: Center(
                                                             child: Text(
                                                               'Next',
@@ -843,7 +845,57 @@ class _BacaQuranScreenState extends State<BacaQuranScreen>
                                                         ),
                                                       ),
                                                     )
-                                                  : Container()
+                                                  : Center(
+                                                      child: InkWell(
+                                                        splashColor:
+                                                            Color(0xff7474BF),
+                                                        onTap: () {
+                                                          showAlertDialog(
+                                                              context);
+                                                        },
+                                                        child: Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  top: 10.0),
+                                                          height: 35,
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              1.4,
+                                                          decoration: BoxDecoration(
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                    color: Colors
+                                                                        .black26,
+                                                                    offset:
+                                                                        Offset(0,
+                                                                            28),
+                                                                    blurRadius:
+                                                                        40,
+                                                                    spreadRadius:
+                                                                        -12)
+                                                              ],
+                                                              color: Color(
+                                                                  0xff68BC98),
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
+                                                                          10))),
+                                                          child: Center(
+                                                            child: Text(
+                                                              'Kumpulkan',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
                                             ],
                                           ),
                                         )

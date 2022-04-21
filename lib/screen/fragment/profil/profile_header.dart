@@ -171,8 +171,16 @@ class _ProfileHeaderState extends State<ProfileHeader>
                                 color: Colors.red,
                                 disabledColor: Colors.red,
                                 onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, "/profile_edit_profile");
+                                  // Navigator.pushNamed(
+                                  //     context, "/profile_edit_profile");
+                                  Fluttertoast.showToast(
+                                      msg: "Edit Profile sedang dikerjakan",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.red,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
                                 },
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(18.0),

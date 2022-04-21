@@ -140,52 +140,6 @@ class _PsikotesScreenState extends State<PsikotesScreen> implements SoalState {
     }
   }
 
-  Future<void> deleteFileVid(String filePath) async {
-    try {
-      var file = File(filePath);
-
-      if (await file.exists()) {
-        // file exits, it is safe to call delete on it
-        await file.delete();
-        print('keapus');
-        setState(() {
-          this
-              ._soalModel
-              .tryoutSoalPondok
-              .data[this._soalModel.currentIndex]
-              .jawabanUser = null;
-        });
-
-        _onDeleteVid();
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future<void> deleteFilePict(String filePath) async {
-    try {
-      var file = File(filePath);
-
-      if (await file.exists()) {
-        // file exits, it is safe to call delete on it
-        await file.delete();
-        print('keapus');
-        setState(() {
-          this
-              ._soalModel
-              .tryoutSoalPondok
-              .data[this._soalModel.currentIndex]
-              .jawabanUser = null;
-        });
-
-        _onDeletePict();
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
   Future<void> _onPlay({@required String filePath, @required int index}) async {
     AudioPlayer audioPlayer = AudioPlayer();
 
@@ -309,59 +263,6 @@ class _PsikotesScreenState extends State<PsikotesScreen> implements SoalState {
     });
   }
 
-  _onDeletePict() {
-    pictures.clear();
-    appDirectory.list().listen((onData) {
-      if (onData.path.endsWith(".jpg")) {
-        pictures.add(onData.path);
-      }
-    }).onDone(() {
-      pictures.sort();
-      pictures = pictures.reversed.toList();
-      setState(() {
-        this
-            ._soalModel
-            .tryoutSoalPondok
-            .data[this._soalModel.currentIndex]
-            .status = 0;
-      });
-    });
-  }
-
-  _onDeleteVid() {
-    videos.clear();
-    appDirectory.list().listen((onData) {
-      if (onData.path.endsWith(".mp4")) {
-        videos.add(onData.path);
-      }
-    }).onDone(() {
-      videos.sort();
-      videos = videos.reversed.toList();
-      setState(() {
-        this
-            ._soalModel
-            .tryoutSoalPondok
-            .data[this._soalModel.currentIndex]
-            .status = 0;
-      });
-    });
-  }
-
-  _onTakeVideoComplete() {
-    pictures.clear();
-    appDirectory.list().listen((onData) {
-      if (onData.path.endsWith(".mp4")) {
-        videos.add(onData.path);
-      }
-    }).onDone(() {
-      videos.sort();
-      videos = videos.reversed.toList();
-      setState(() {
-        this._soalModel.status = 3;
-        this.rekam += 1;
-      });
-    });
-  }
 
   _onRecordDuplicate() {
     Fluttertoast.showToast(

@@ -24,13 +24,41 @@ class _SelectSekolahScreenState extends State<SelectSekolahScreen> {
       appBar: AppBar(
         title: Text("Pilih Sekolah Asalmu"),
       ),
-      body: this._sekolahResponse.dataSekolah.data.length < 1
+      body: this._sekolahResponse.dataSekolah == null
           ? Center(
-              child: Text(
-                'Kosong',
-                style: TextStyle(fontSize: 16),
-              ),
-            )
+                          child: InkWell(
+                            splashColor: Color(0xff7474BF),
+                            onTap: () {
+                              setState(() {
+                                print('refresh');
+                              });
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(top: 10.0),
+                              height: 43,
+                              width: MediaQuery.of(context).size.width / 1.2,
+                              decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.black26,
+                                        offset: Offset(0, 28),
+                                        blurRadius: 40,
+                                        spreadRadius: -12)
+                                  ],
+                                  color: Color(0xff1d63dc),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
+                              child: Center(
+                                child: Text(
+                                  "data sekolah kosong, refresh",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
           : ListView.builder(
               itemCount: this._sekolahResponse.dataSekolah.data.length,
               scrollDirection: Axis.vertical,

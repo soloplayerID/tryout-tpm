@@ -1,6 +1,7 @@
 // ignore_for_file: unused_field, deprecated_member_use, unused_local_variable
 
 import 'package:TesUjian/helper/getStorage.dart';
+import 'package:TesUjian/helper/harga.dart';
 import 'package:TesUjian/screen/checkout.dart';
 import 'package:TesUjian/screen/fragment/pembayaran_detail.dart';
 import 'package:TesUjian/screen/fragment/report/pie_detail_chart.dart';
@@ -46,6 +47,7 @@ class ReportAppState extends State<ReportApp>
     implements ReportNilaiState {
   TotalNilaiDetailModel _totalNilaiDetailModel;
   TryoutModel _tryoutModel;
+  BayarModel _bayarModel;
   ReportPresenter _reportPresenter;
   String _namaChart;
   int _totalBenarChart;
@@ -384,10 +386,10 @@ class ReportAppState extends State<ReportApp>
                                                   .width /
                                               3.2,
                                           colorList: [
-                                            Colors.red,
-                                            Colors.green,
-                                            Colors.grey[500],
-                                            Colors.orange
+                                            Colors.purple[500],
+                                            Colors.teal[500],
+                                            Colors.red[500],
+                                            Colors.lightBlue
                                           ],
                                           initialAngleInDegree: 0,
                                           chartType: ChartType.ring,
@@ -615,7 +617,7 @@ class ReportAppState extends State<ReportApp>
                             onTap: () {
                               print(this._tryoutModel.idTryout);
                               this._reportPresenter.check(
-                                  GetStorage().read(ID_MURID), widget.idTryout, 0);
+                                  GetStorage().read(ID_MURID), widget.idTryout, Harga.gold);
                               this.selected = index;
                               // if (total ==
                               //     this
@@ -776,7 +778,7 @@ class ReportAppState extends State<ReportApp>
   }
 
   @override
-  void onCheck(String error) {
+  void onCheck(String error, int skemaHarga) {
     if (error == 'false') {
       showCupertinoModalBottomSheet(
         expand: false,
@@ -853,6 +855,7 @@ class ReportAppState extends State<ReportApp>
                                           key: Key(
                                               "${this._tryoutModel.idTryout}checkout"),
                                           idTryout: this._tryoutModel.idTryout,
+                                          idSkemaHarga: skemaHarga,
                                           namaPaket: this
                                               ._tryoutModel
                                               .tryoutInfoResponse
@@ -892,6 +895,11 @@ class ReportAppState extends State<ReportApp>
       print(error);
       this._reportPresenter.checkPembayaranStatus(error);
     }
+  }
+
+  @override
+  void onCheckStatus(int idMurid, int idTryout, int harga) {
+    this._reportPresenter.checkStatus(idMurid, idTryout, harga);
   }
 
   @override
@@ -1098,5 +1106,12 @@ class ReportAppState extends State<ReportApp>
           });
         }
     }
+  }
+
+  @override
+  void refreshDataBayar(BayarModel bayarModel) {
+    setState(() {
+      this._bayarModel = bayarModel;
+    });
   }
 }

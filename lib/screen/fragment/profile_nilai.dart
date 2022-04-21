@@ -17,6 +17,10 @@ import 'package:ionicons/ionicons.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../tryout.dart';
+import '../tryoutPondok.dart';
 
 class ProfileNilai extends StatefulWidget {
   @override
@@ -121,14 +125,59 @@ class ProfileNilaiState extends State<ProfileNilai>
                                           (BuildContext context, int itemIndex) =>
                                               InkWell(
                                         onTap: () {
-                                          this._totalNilaiPresenter.check(
-                                              GetStorage().read(ID_MURID),
-                                              this
+                                          this
                                                   ._totalNilaiModel
                                                   .pakets[itemIndex]
-                                                  .id,
-                                              Harga.silver);
-                                          this.selected = itemIndex;
+                                                  .statusTryout
+                                              ? this._totalNilaiPresenter.check(
+                                                  GetStorage().read(ID_MURID),
+                                                  this
+                                                      ._totalNilaiModel
+                                                      .pakets[itemIndex]
+                                                      .id,
+                                                  Harga.silver)
+                                              : this._totalNilaiModel.pakets[itemIndex].idJenjang ==16 ? Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        TryoutPondokScreen(
+                                                      key: Key("1"),
+                                                      idPaket: this
+                                                          ._totalNilaiModel
+                                                          .pakets[itemIndex]
+                                                          .idPaket,
+                                                      idJenjang: this
+                                                          ._totalNilaiModel
+                                                          .pakets[itemIndex]
+                                                          .idJenjang,
+                                                      idTryout: 0,
+                                                    ),
+                                                  )) 
+                                                  : Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        TryoutScreen(
+                                                      key: Key("1"),
+                                                      idPaket: this
+                                                          ._totalNilaiModel
+                                                          .pakets[itemIndex]
+                                                          .idPaket,
+                                                      idJenjang: this
+                                                          ._totalNilaiModel
+                                                          .pakets[itemIndex]
+                                                          .idJenjang,
+                                                      idTryout: this
+                                                          ._totalNilaiModel
+                                                          .pakets[itemIndex]
+                                                          .id,
+                                                      sekolahTujuan: this
+                                                          ._totalNilaiModel
+                                                          .pakets[itemIndex]
+                                                          .idSekolahTujuan,
+                                                    ),
+                                                  ));
+                                                  this.selected = itemIndex;
                                         },
                                         child: Container(
                                           margin:
@@ -180,84 +229,102 @@ class ProfileNilaiState extends State<ProfileNilai>
                                                         MainAxisAlignment
                                                             .spaceBetween,
                                                     children: [
-                                                      Row(
-                                                        children: [
-                                                          Icon(
-                                                            Ionicons
-                                                                .checkmark_circle,
-                                                            size: 14,
-                                                            color: Colors.green,
-                                                          ),
-                                                          Text(
-                                                            this
-                                                                ._totalNilaiModel
-                                                                .pakets[itemIndex]
-                                                                .totalBenar
-                                                                .toString(),
-                                                            style: GoogleFonts
-                                                                .poppins(
-                                                              textStyle: TextStyle(
-                                                                  fontSize: 12,
+                                                      this
+                                                              ._totalNilaiModel
+                                                              .pakets[itemIndex]
+                                                              .statusTryout
+                                                          ? Row(
+                                                              children: [
+                                                                Icon(
+                                                                  Ionicons
+                                                                      .checkmark_circle,
+                                                                  size: 14,
+                                                                  color: Colors
+                                                                      .green,
+                                                                ),
+                                                                // Text(
+                                                                //   this
+                                                                //       ._totalNilaiModel
+                                                                //       .pakets[itemIndex]
+                                                                //       .totalBenar
+                                                                //       .toString(),
+                                                                //   style: GoogleFonts
+                                                                //       .poppins(
+                                                                //     textStyle: TextStyle(
+                                                                //         fontSize:
+                                                                //             12,
+                                                                //         color: Color(
+                                                                //             0xff2b2b2b)),
+                                                                //   ),
+                                                                // ),
+                                                                Icon(
+                                                                  Ionicons
+                                                                      .close_circle,
+                                                                  size: 14,
+                                                                  color: Colors
+                                                                      .red,
+                                                                ),
+                                                                // Text(
+                                                                //   this
+                                                                //       ._totalNilaiModel
+                                                                //       .pakets[itemIndex]
+                                                                //       .totalSalah
+                                                                //       .toString(),
+                                                                //   style: GoogleFonts
+                                                                //       .poppins(
+                                                                //     textStyle: TextStyle(
+                                                                //         fontSize:
+                                                                //             12,
+                                                                //         color: Color(
+                                                                //             0xff2b2b2b)),
+                                                                //   ),
+                                                                // ),
+                                                                Icon(
+                                                                  Ionicons
+                                                                      .remove_circle,
+                                                                  size: 14,
                                                                   color: Color(
-                                                                      0xff2b2b2b)),
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          Icon(
-                                                            Ionicons.close_circle,
-                                                            size: 14,
-                                                            color: Colors.red,
-                                                          ),
-                                                          Text(
-                                                            this
-                                                                ._totalNilaiModel
-                                                                .pakets[itemIndex]
-                                                                .totalSalah
-                                                                .toString(),
-                                                            style: GoogleFonts
-                                                                .poppins(
-                                                              textStyle: TextStyle(
-                                                                  fontSize: 12,
+                                                                      0xff303030),
+                                                                ),
+                                                                // Text(
+                                                                //   this
+                                                                //       ._totalNilaiModel
+                                                                //       .pakets[itemIndex]
+                                                                //       .belumDikerjakan
+                                                                //       .toString(),
+                                                                //   style: GoogleFonts
+                                                                //       .poppins(
+                                                                //     textStyle: TextStyle(
+                                                                //         fontSize:
+                                                                //             12,
+                                                                //         color: Color(
+                                                                //             0xff2b2b2b)),
+                                                                //   ),
+                                                                // )
+                                                              ],
+                                                            )
+                                                          : Row(
+                                                              children: [
+                                                                Icon(
+                                                                  Ionicons
+                                                                      .remove_circle,
+                                                                  size: 14,
                                                                   color: Color(
-                                                                      0xff2b2b2b)),
+                                                                      0xff303030),
+                                                                ),
+                                                                Text(
+                                                                  'Soal Belum Selesai',
+                                                                  style: GoogleFonts
+                                                                      .poppins(
+                                                                    textStyle: TextStyle(
+                                                                        fontSize:
+                                                                            12,
+                                                                        color: Color(
+                                                                            0xff2b2b2b)),
+                                                                  ),
+                                                                )
+                                                              ],
                                                             ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          Icon(
-                                                            Ionicons
-                                                                .remove_circle,
-                                                            size: 14,
-                                                            color:
-                                                                Color(0xff303030),
-                                                          ),
-                                                          Text(
-                                                            this
-                                                                ._totalNilaiModel
-                                                                .pakets[itemIndex]
-                                                                .belumDikerjakan
-                                                                .toString(),
-                                                            style: GoogleFonts
-                                                                .poppins(
-                                                              textStyle: TextStyle(
-                                                                  fontSize: 12,
-                                                                  color: Color(
-                                                                      0xff2b2b2b)),
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
                                                     ],
                                                   )
                                                 ],
@@ -444,6 +511,54 @@ class ProfileNilaiState extends State<ProfileNilai>
     // this._totalNilaiPresenter.checkPembayaranStatus(orderId);
     this._totalNilaiPresenter.checkStatus(idMurid, idTryout, harga);
   }
+
+  @override
+  void onCheckStatusSilver(int idMurid, int idTryout, int harga) {
+    this._totalNilaiPresenter.checkStatusSilver(idMurid, idTryout, harga);
+  }
+
+  @override
+  void onCheckBayarSilver(BayarModel bayarModel) {
+    switch (this._bayarModel.bayars[0].status) {
+      case false:
+        // print('false');
+        Fluttertoast.showToast(
+            msg: "Selesaikan dulu pembayaran :)",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        if (bayarModel.bayars[0].deepLink != null) {
+          _openGopay(bayarModel.bayars[0].deepLink);
+        } else {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PembayaranDetail(
+                        metode: bayarModel.bayars[0].bank,
+                        jumlah: bayarModel.bayars[0].amount,
+                        va: bayarModel.bayars[0].vaNumber,
+                        batasWaktu: bayarModel.bayars[0].batasWaktu,
+                        status: bayarModel.bayars[0].transactionStatus,
+                      )));
+        }
+        break;
+      default:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ReportApp(
+                      idTryout: this._totalNilaiModel.pakets[selected].id,
+                      namaPaket: this._totalNilaiModel.pakets[selected].title,
+                      jenjang: this._totalNilaiModel.pakets[selected].namaJenjang,
+                      tanggalPengerjaan:
+                          this._totalNilaiModel.pakets[selected].tanggal,
+                    )));
+    }
+  }
+
 
   @override
   void onCheckBayar(BayarModel bayarModel) {
@@ -763,6 +878,14 @@ class ProfileNilaiState extends State<ProfileNilai>
   //                       )));
   //   }
   // }
+
+  _openGopay(String deeplink) async {
+    if (await canLaunch(deeplink)) {
+      await launch(deeplink);
+    } else {
+      throw 'Could not launch $deeplink';
+    }
+  }
 
   @override
   void removeDataBayar(String error) {

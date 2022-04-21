@@ -54,194 +54,50 @@ class _SignUpUI extends State<SignUp> implements SignUpState {
     return Scaffold(
       body: this._signUpModel.isloading
           ? Loading()
-          : SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              physics: ClampingScrollPhysics(),
-              child: Form(
-                key: _formkey,
-                child: Container(
-                  padding: EdgeInsets.only(left: 25, right: 25),
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                          padding: EdgeInsets.only(top: 50, bottom: 20),
+          : SafeArea(
+            child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                physics: ClampingScrollPhysics(),
+                child: Form(
+                  key: _formkey,
+                  child: Container(
+                    padding: EdgeInsets.only(left: 25, right: 25),
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            padding: EdgeInsets.only(top: 50, bottom: 20),
+                            width: MediaQuery.of(context).size.width,
+                            alignment: Alignment.topLeft,
+                            child: InkWell(
+                                onTap: (() => {Navigator.of(context).pop(true)}),
+                                child: Icon(
+                                  LineIcons.arrowLeft,
+                                  color: Color(0xff212121),
+                                  size: 30,
+                                ))),
+                        Text("Daftar",
+                            style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                  fontSize: 34,
+                                  color: Color(0xff212121),
+                                  fontWeight: FontWeight.bold),
+                            )),
+                        Text("Lengkapi data dirimu di bawah ini, ya",
+                            style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                  fontSize: 12, color: Color(0xff383838)),
+                            )),
+                        SizedBox(
+                          height: 50,
+                        ),
+                        Container(
                           width: MediaQuery.of(context).size.width,
-                          alignment: Alignment.topLeft,
-                          child: InkWell(
-                              onTap: (() => {Navigator.of(context).pop(true)}),
-                              child: Icon(
-                                LineIcons.arrowLeft,
-                                color: Color(0xff212121),
-                                size: 30,
-                              ))),
-                      Text("Daftar",
-                          style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                fontSize: 34,
-                                color: Color(0xff212121),
-                                fontWeight: FontWeight.bold),
-                          )),
-                      Text("Lengkapi data dirimu di bawah ini, ya",
-                          style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                fontSize: 12, color: Color(0xff383838)),
-                          )),
-                      SizedBox(
-                        height: 50,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              width: MediaQuery.of(context).size.width / 1.2,
-                              height: 30,
-                              margin: EdgeInsets.only(
-                                  top: 4, left: 16, bottom: 1, right: 16),
-                              decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  border: Border(
-                                    bottom: BorderSide(
-                                        width: 1, color: Color(0xff2D8EFF)),
-                                  )),
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    setState(() {
-                                      this._signUpModel.isErrorUsername = true;
-                                      this._signUpModel.usernameError =
-                                          "Nama Lengkap tidak boleh kosong";
-                                    });
-                                  }
-                                  return null;
-                                },
-                                onChanged: (str) {
-                                  setState(() {
-                                    this._signUpModel.isErrorUsername = false;
-                                    this._signUpModel.usernameError = null;
-                                  });
-                                },
-                                controller: this._signUpModel.username,
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 14),
-                                decoration: InputDecoration(
-                                    icon: Icon(
-                                      LineIcons.user,
-                                      color: this._signUpModel.isErrorUsername
-                                          ? Colors.red
-                                          : Color(0xff2D8EFF),
-                                      size: 18,
-                                    ),
-                                    hintText: "Nama Lengkap",
-                                    border: InputBorder.none,
-                                    errorText: this._signUpModel.usernameError,
-                                    errorStyle: TextStyle(
-                                        color: Colors.red, fontSize: 9),
-                                    fillColor: Colors.grey,
-                                    hintStyle: TextStyle(
-                                        color: Color(0xff2D8EFF),
-                                        fontSize: 12)),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width / 1.2,
-                              height: 30,
-                              margin: EdgeInsets.only(
-                                  top: 4, left: 16, bottom: 1, right: 16),
-                              decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  border: Border(
-                                    bottom: BorderSide(
-                                        width: 1, color: Color(0xff2D8EFF)),
-                                  )),
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    setState(() {
-                                      this._signUpModel.isErrorEmail = true;
-                                      this._signUpModel.emailError =
-                                          "Email tidak boleh kosong";
-                                    });
-                                  }
-                                  return null;
-                                },
-                                onChanged: (str) {
-                                  setState(() {
-                                    this._signUpModel.isErrorEmail = false;
-                                    this._signUpModel.emailError = null;
-                                  });
-                                },
-                                controller: this._signUpModel.email,
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 14),
-                                decoration: InputDecoration(
-                                    icon: Icon(
-                                      Icons.email,
-                                      color: this._signUpModel.isErrorEmail
-                                          ? Colors.red
-                                          : Color(0xff2D8EFF),
-                                      size: 18,
-                                    ),
-                                    hintText: "Email",
-                                    border: InputBorder.none,
-                                    errorText: this._signUpModel.emailError,
-                                    errorStyle: TextStyle(
-                                        color: Colors.red, fontSize: 9),
-                                    fillColor: Colors.grey,
-                                    hintStyle: TextStyle(
-                                        color: Color(0xff2D8EFF),
-                                        fontSize: 12)),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width / 1.2,
-                              height: 30,
-                              margin: EdgeInsets.only(
-                                  top: 4, left: 16, bottom: 1, right: 16),
-                              decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  border: Border(
-                                    bottom: BorderSide(
-                                        width: 1, color: Color(0xff2D8EFF)),
-                                  )),
-                              child: TextFormField(
-                                // initialValue: new DateFormat("d, MMMM - y").format(this._signUpModel.tanggalLahir.toLocal()).toString(),
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 14),
-                                decoration: InputDecoration(
-                                    icon: Icon(
-                                      Icons.calendar_today,
-                                      color: Color(0xff2D8EFF),
-                                      size: 18,
-                                    ),
-                                    hintText: "Tanggal Lahir",
-                                    border: InputBorder.none,
-                                    errorText: this._signUpModel.emailError,
-                                    errorStyle: TextStyle(
-                                        color: Colors.red, fontSize: 9),
-                                    fillColor: Colors.grey,
-                                    hintStyle: TextStyle(
-                                        color: Color(0xff2D8EFF),
-                                        fontSize: 12)),
-                                onTap: (() => {this.showCalender()}),
-                                readOnly: true,
-                                controller:
-                                    this._signUpModel.tanggalahirController,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Container(
+                          child: Column(
+                            children: <Widget>[
+                              Container(
                                 width: MediaQuery.of(context).size.width / 1.2,
                                 height: 30,
                                 margin: EdgeInsets.only(
@@ -252,352 +108,498 @@ class _SignUpUI extends State<SignUp> implements SignUpState {
                                       bottom: BorderSide(
                                           width: 1, color: Color(0xff2D8EFF)),
                                     )),
-                                child: DropdownButtonHideUnderline(
-                                  child: new DropdownButton(
-                                    isExpanded: true,
-                                    iconEnabledColor: Color(0xff2D8EFF),
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 14,
-                                        decorationColor: Color(0xff2D8EFF)),
-                                    elevation: 0,
-                                    value: this._signUpModel.kelamin,
-                                    hint: Text(
-                                      "Jenis Kelamin",
-                                      style: TextStyle(
-                                          color: Color(0xff2D8EFF),
-                                          fontSize: 12),
-                                    ),
-                                    items: this
-                                        ._signUpModel
-                                        .kelaminList
-                                        .map((value) => DropdownMenuItem(
-                                              child: Text(value),
-                                              value: value,
-                                            ))
-                                        .toList(),
-                                    onChanged: (value) {
+                                child: TextFormField(
+                                  validator: (value) {
+                                    if (value.isEmpty) {
                                       setState(() {
-                                        this._signUpModel.kelamin = value;
+                                        this._signUpModel.isErrorUsername = true;
+                                        this._signUpModel.usernameError =
+                                            "Nama Lengkap tidak boleh kosong";
                                       });
-                                    },
-                                  ),
-                                )),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width / 1.2,
-                              height: 30,
-                              margin: EdgeInsets.only(
-                                  top: 4, left: 16, bottom: 1, right: 16),
-                              decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  border: Border(
-                                    bottom: BorderSide(
-                                        width: 1, color: Color(0xff2D8EFF)),
-                                  )),
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value.isEmpty) {
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: (str) {
                                     setState(() {
-                                      this._signUpModel.isErrorPassword = true;
-                                      this._signUpModel.passwordError =
-                                          "Password tidak boleh kosong";
+                                      this._signUpModel.isErrorUsername = false;
+                                      this._signUpModel.usernameError = null;
                                     });
-                                  }
-                                  return null;
-                                },
-                                onChanged: (str) {
-                                  setState(() {
-                                    this._signUpModel.isErrorPassword = false;
-                                    this._signUpModel.passwordError = null;
-                                  });
-                                },
-                                controller: this._signUpModel.password,
-                                obscureText: _isPasswordVisible,
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 14),
-                                decoration: InputDecoration(
-                                    icon: Icon(
-                                      Icons.lock,
-                                      color: this._signUpModel.isErrorPassword
-                                          ? Colors.red
-                                          : Color(0xff2D8EFF),
-                                      size: 18,
-                                    ),
-                                    hintText: "Password",
-                                    suffixIcon: IconButton(
-                                        icon: Icon(
-                                          _isPasswordVisible
-                                              ? Icons.visibility_off
-                                              : Icons.visibility,
-                                          color: Colors.black,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            _isPasswordVisible =
-                                                !_isPasswordVisible;
-                                          });
-                                        }),
-                                    border: InputBorder.none,
-                                    errorText: this._signUpModel.passwordError,
-                                    errorStyle: TextStyle(
-                                        color: Colors.red, fontSize: 9),
-                                    fillColor: Colors.grey,
-                                    hintStyle: TextStyle(
-                                        color: Color(0xff2D8EFF),
-                                        fontSize: 12)),
+                                  },
+                                  controller: this._signUpModel.username,
+                                  style:
+                                      TextStyle(color: Colors.grey, fontSize: 14),
+                                  decoration: InputDecoration(
+                                      icon: Icon(
+                                        LineIcons.user,
+                                        color: this._signUpModel.isErrorUsername
+                                            ? Colors.red
+                                            : Color(0xff2D8EFF),
+                                        size: 18,
+                                      ),
+                                      hintText: "Nama Lengkap",
+                                      border: InputBorder.none,
+                                      errorText: this._signUpModel.usernameError,
+                                      errorStyle: TextStyle(
+                                          color: Colors.red, fontSize: 9),
+                                      fillColor: Colors.grey,
+                                      hintStyle: TextStyle(
+                                          color: Color(0xff2D8EFF),
+                                          fontSize: 12)),
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width / 1.2,
-                              height: 30,
-                              margin: EdgeInsets.only(
-                                  top: 4, left: 16, bottom: 1, right: 16),
-                              decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  border: Border(
-                                    bottom: BorderSide(
-                                        width: 1, color: Color(0xff2D8EFF)),
-                                  )),
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    setState(() {
-                                      this._signUpModel.isErrorPasswordRetype =
-                                          true;
-                                      this._signUpModel.passwordErrorRetype =
-                                          "Password tidak boleh kosong";
-                                    });
-                                  }
-                                  if (this._signUpModel.passwordRetype !=
-                                      this._signUpModel.password) {
-                                    setState(() {
-                                      this._signUpModel.isErrorPasswordRetype =
-                                          true;
-                                      this._signUpModel.passwordErrorRetype =
-                                          "Password harus sama!";
-                                    });
-                                  }
-                                  return null;
-                                },
-                                onChanged: (str) {
-                                  setState(() {
-                                    this._signUpModel.isErrorPasswordRetype =
-                                        false;
-                                    this._signUpModel.passwordErrorRetype =
-                                        null;
-                                  });
-                                },
-                                controller: this._signUpModel.passwordRetype,
-                                obscureText: _isPasswordVisibleType,
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 14),
-                                decoration: InputDecoration(
-                                    icon: Icon(
-                                      Icons.lock,
-                                      color: this
-                                              ._signUpModel
-                                              .isErrorPasswordRetype
-                                          ? Colors.red
-                                          : Color(0xff2D8EFF),
-                                      size: 18,
-                                    ),
-                                    hintText: "Masukan ulang Password",
-                                    suffixIcon: IconButton(
-                                        icon: Icon(
-                                          _isPasswordVisibleType
-                                              ? Icons.visibility_off
-                                              : Icons.visibility,
-                                          color: Colors.black,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            _isPasswordVisibleType =
-                                                !_isPasswordVisibleType;
-                                          });
-                                        }),
-                                    border: InputBorder.none,
-                                    errorText:
-                                        this._signUpModel.passwordErrorRetype,
-                                    errorStyle: TextStyle(
-                                        color: Colors.red, fontSize: 9),
-                                    fillColor: Colors.grey,
-                                    hintStyle: TextStyle(
-                                        color: Color(0xff2D8EFF),
-                                        fontSize: 12)),
+                              SizedBox(
+                                height: 30,
                               ),
-                            ),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width / 1.2,
-                              height: 30,
-                              margin: EdgeInsets.only(
-                                  top: 4, left: 16, bottom: 1, right: 16),
-                              decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  border: Border(
-                                    bottom: BorderSide(
-                                        width: 1, color: Color(0xff2D8EFF)),
-                                  )),
-                              child: TextFormField(
-                                // initialValue: new DateFormat("d, MMMM - y").format(this._signUpModel.tanggalLahir.toLocal()).toString(),
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 14),
-                                decoration: InputDecoration(
-                                    icon: Icon(
-                                      Ionicons.school,
-                                      color: Color(0xff2D8EFF),
-                                      size: 18,
-                                    ),
-                                    hintText: "Sekolahmu",
-                                    border: InputBorder.none,
-                                    errorStyle: TextStyle(
-                                        color: Colors.red, fontSize: 9),
-                                    fillColor: Colors.grey,
-                                    hintStyle: TextStyle(
-                                        color: Color(0xff2D8EFF),
-                                        fontSize: 12)),
-                                onTap: (() => {this.areaJenjang()}),
-                                readOnly: true,
-                                controller: this._signUpModel.sekolahController,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            InkWell(
-                              splashColor: Color(0xff7474BF),
-                              onTap: () {
-                                if (_formkey.currentState.validate()) {
-                                  // print('test');
-                                  this._signUpPresenter.register();
-                                }
-                              },
-                              child: Container(
-                                height: 43,
+                              Container(
                                 width: MediaQuery.of(context).size.width / 1.2,
+                                height: 30,
+                                margin: EdgeInsets.only(
+                                    top: 4, left: 16, bottom: 1, right: 16),
                                 decoration: BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.black26,
-                                          offset: Offset(0, 28),
-                                          blurRadius: 40,
-                                          spreadRadius: -12)
-                                    ],
-                                    color: Color(0xff1d63dc),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                                child: Center(
-                                  child: Text(
-                                    "Daftar",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
+                                    color: Colors.transparent,
+                                    border: Border(
+                                      bottom: BorderSide(
+                                          width: 1, color: Color(0xff2D8EFF)),
+                                    )),
+                                child: TextFormField(
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      setState(() {
+                                        this._signUpModel.isErrorEmail = true;
+                                        this._signUpModel.emailError =
+                                            "Email tidak boleh kosong";
+                                      });
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: (str) {
+                                    setState(() {
+                                      this._signUpModel.isErrorEmail = false;
+                                      this._signUpModel.emailError = null;
+                                    });
+                                  },
+                                  controller: this._signUpModel.email,
+                                  style:
+                                      TextStyle(color: Colors.grey, fontSize: 14),
+                                  decoration: InputDecoration(
+                                      icon: Icon(
+                                        Icons.email,
+                                        color: this._signUpModel.isErrorEmail
+                                            ? Colors.red
+                                            : Color(0xff2D8EFF),
+                                        size: 18,
+                                      ),
+                                      hintText: "Email",
+                                      border: InputBorder.none,
+                                      errorText: this._signUpModel.emailError,
+                                      errorStyle: TextStyle(
+                                          color: Colors.red, fontSize: 9),
+                                      fillColor: Colors.grey,
+                                      hintStyle: TextStyle(
+                                          color: Color(0xff2D8EFF),
+                                          fontSize: 12)),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Center(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    "Sudah punya akun ? ",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.grey),
-                                  ),
-                                  InkWell(
-                                    onTap: () =>
-                                        Navigator.pushNamed(context, "/login"),
-                                    child: Text(
-                                      "Masuk disini",
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width / 1.2,
+                                height: 30,
+                                margin: EdgeInsets.only(
+                                    top: 4, left: 16, bottom: 1, right: 16),
+                                decoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    border: Border(
+                                      bottom: BorderSide(
+                                          width: 1, color: Color(0xff2D8EFF)),
+                                    )),
+                                child: TextFormField(
+                                  // initialValue: new DateFormat("d, MMMM - y").format(this._signUpModel.tanggalLahir.toLocal()).toString(),
+                                  style:
+                                      TextStyle(color: Colors.grey, fontSize: 14),
+                                  decoration: InputDecoration(
+                                      icon: Icon(
+                                        Icons.calendar_today,
+                                        color: Color(0xff2D8EFF),
+                                        size: 18,
+                                      ),
+                                      hintText: "Tanggal Lahir",
+                                      border: InputBorder.none,
+                                      errorText: this._signUpModel.emailError,
+                                      errorStyle: TextStyle(
+                                          color: Colors.red, fontSize: 9),
+                                      fillColor: Colors.grey,
+                                      hintStyle: TextStyle(
+                                          color: Color(0xff2D8EFF),
+                                          fontSize: 12)),
+                                  onTap: (() => {this.showCalender()}),
+                                  readOnly: true,
+                                  controller:
+                                      this._signUpModel.tanggalahirController,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Container(
+                                  width: MediaQuery.of(context).size.width / 1.2,
+                                  height: 30,
+                                  margin: EdgeInsets.only(
+                                      top: 4, left: 16, bottom: 1, right: 16),
+                                  decoration: BoxDecoration(
+                                      color: Colors.transparent,
+                                      border: Border(
+                                        bottom: BorderSide(
+                                            width: 1, color: Color(0xff2D8EFF)),
+                                      )),
+                                  child: DropdownButtonHideUnderline(
+                                    child: new DropdownButton(
+                                      isExpanded: true,
+                                      iconEnabledColor: Color(0xff2D8EFF),
                                       style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(0xff200391)),
+                                          color: Colors.grey,
+                                          fontSize: 14,
+                                          decorationColor: Color(0xff2D8EFF)),
+                                      elevation: 0,
+                                      value: this._signUpModel.kelamin,
+                                      hint: Text(
+                                        "Jenis Kelamin",
+                                        style: TextStyle(
+                                            color: Color(0xff2D8EFF),
+                                            fontSize: 12),
+                                      ),
+                                      items: this
+                                          ._signUpModel
+                                          .kelaminList
+                                          .map((value) => DropdownMenuItem(
+                                                child: Text(value),
+                                                value: value,
+                                              ))
+                                          .toList(),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          this._signUpModel.kelamin = value;
+                                        });
+                                      },
+                                    ),
+                                  )),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width / 1.2,
+                                height: 30,
+                                margin: EdgeInsets.only(
+                                    top: 4, left: 16, bottom: 1, right: 16),
+                                decoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    border: Border(
+                                      bottom: BorderSide(
+                                          width: 1, color: Color(0xff2D8EFF)),
+                                    )),
+                                child: TextFormField(
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      setState(() {
+                                        this._signUpModel.isErrorPassword = true;
+                                        this._signUpModel.passwordError =
+                                            "Password tidak boleh kosong";
+                                      });
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: (str) {
+                                    setState(() {
+                                      this._signUpModel.isErrorPassword = false;
+                                      this._signUpModel.passwordError = null;
+                                    });
+                                  },
+                                  controller: this._signUpModel.password,
+                                  obscureText: _isPasswordVisible,
+                                  style:
+                                      TextStyle(color: Colors.grey, fontSize: 14),
+                                  decoration: InputDecoration(
+                                      icon: Icon(
+                                        Icons.lock,
+                                        color: this._signUpModel.isErrorPassword
+                                            ? Colors.red
+                                            : Color(0xff2D8EFF),
+                                        size: 18,
+                                      ),
+                                      hintText: "Password",
+                                      suffixIcon: IconButton(
+                                          icon: Icon(
+                                            _isPasswordVisible
+                                                ? Icons.visibility_off
+                                                : Icons.visibility,
+                                            color: Colors.black,
+                                          ),
+                                          onPressed: () {
+                                            setState(() {
+                                              _isPasswordVisible =
+                                                  !_isPasswordVisible;
+                                            });
+                                          }),
+                                      border: InputBorder.none,
+                                      errorText: this._signUpModel.passwordError,
+                                      errorStyle: TextStyle(
+                                          color: Colors.red, fontSize: 9),
+                                      fillColor: Colors.grey,
+                                      hintStyle: TextStyle(
+                                          color: Color(0xff2D8EFF),
+                                          fontSize: 12)),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width / 1.2,
+                                height: 30,
+                                margin: EdgeInsets.only(
+                                    top: 4, left: 16, bottom: 1, right: 16),
+                                decoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    border: Border(
+                                      bottom: BorderSide(
+                                          width: 1, color: Color(0xff2D8EFF)),
+                                    )),
+                                child: TextFormField(
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      setState(() {
+                                        this._signUpModel.isErrorPasswordRetype =
+                                            true;
+                                        this._signUpModel.passwordErrorRetype =
+                                            "Password tidak boleh kosong";
+                                      });
+                                    }
+                                    if (this._signUpModel.passwordRetype !=
+                                        this._signUpModel.password) {
+                                      setState(() {
+                                        this._signUpModel.isErrorPasswordRetype =
+                                            true;
+                                        this._signUpModel.passwordErrorRetype =
+                                            "Password harus sama!";
+                                      });
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: (str) {
+                                    setState(() {
+                                      this._signUpModel.isErrorPasswordRetype =
+                                          false;
+                                      this._signUpModel.passwordErrorRetype =
+                                          null;
+                                    });
+                                  },
+                                  controller: this._signUpModel.passwordRetype,
+                                  obscureText: _isPasswordVisibleType,
+                                  style:
+                                      TextStyle(color: Colors.grey, fontSize: 14),
+                                  decoration: InputDecoration(
+                                      icon: Icon(
+                                        Icons.lock,
+                                        color: this
+                                                ._signUpModel
+                                                .isErrorPasswordRetype
+                                            ? Colors.red
+                                            : Color(0xff2D8EFF),
+                                        size: 18,
+                                      ),
+                                      hintText: "Masukan ulang Password",
+                                      suffixIcon: IconButton(
+                                          icon: Icon(
+                                            _isPasswordVisibleType
+                                                ? Icons.visibility_off
+                                                : Icons.visibility,
+                                            color: Colors.black,
+                                          ),
+                                          onPressed: () {
+                                            setState(() {
+                                              _isPasswordVisibleType =
+                                                  !_isPasswordVisibleType;
+                                            });
+                                          }),
+                                      border: InputBorder.none,
+                                      errorText:
+                                          this._signUpModel.passwordErrorRetype,
+                                      errorStyle: TextStyle(
+                                          color: Colors.red, fontSize: 9),
+                                      fillColor: Colors.grey,
+                                      hintStyle: TextStyle(
+                                          color: Color(0xff2D8EFF),
+                                          fontSize: 12)),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width / 1.2,
+                                height: 30,
+                                margin: EdgeInsets.only(
+                                    top: 4, left: 16, bottom: 1, right: 16),
+                                decoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    border: Border(
+                                      bottom: BorderSide(
+                                          width: 1, color: Color(0xff2D8EFF)),
+                                    )),
+                                child: TextFormField(
+                                  // initialValue: new DateFormat("d, MMMM - y").format(this._signUpModel.tanggalLahir.toLocal()).toString(),
+                                  style:
+                                      TextStyle(color: Colors.grey, fontSize: 14),
+                                  decoration: InputDecoration(
+                                      icon: Icon(
+                                        Ionicons.school,
+                                        color: Color(0xff2D8EFF),
+                                        size: 18,
+                                      ),
+                                      hintText: "Sekolahmu",
+                                      border: InputBorder.none,
+                                      errorStyle: TextStyle(
+                                          color: Colors.red, fontSize: 9),
+                                      fillColor: Colors.grey,
+                                      hintStyle: TextStyle(
+                                          color: Color(0xff2D8EFF),
+                                          fontSize: 12)),
+                                  onTap: (() => {this.areaJenjang()}),
+                                  readOnly: true,
+                                  controller: this._signUpModel.sekolahController,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              InkWell(
+                                splashColor: Color(0xff7474BF),
+                                onTap: () {
+                                  if (_formkey.currentState.validate()) {
+                                    // print('test');
+                                    this._signUpPresenter.register();
+                                  }
+                                },
+                                child: Container(
+                                  height: 43,
+                                  width: MediaQuery.of(context).size.width / 1.2,
+                                  decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(0, 28),
+                                            blurRadius: 40,
+                                            spreadRadius: -12)
+                                      ],
+                                      color: Color(0xff1d63dc),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10))),
+                                  child: Center(
+                                    child: Text(
+                                      "Daftar",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 40,
-                            ),
-                            Text("Atau, Masuk Pake Akun",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      fontSize: 12, color: Color(0xff383838)),
-                                )),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Badge(
-                                  position:
-                                      BadgePosition.topEnd(top: 0, end: 2),
-                                  elevation: 0,
-                                  shape: BadgeShape.circle,
-                                  badgeColor: Colors.blue,
-                                  borderSide: BorderSide(color: Colors.black),
-                                  child: Icon(
-                                    LineIcons.facebook,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 30,
-                                ),
-                                Badge(
-                                  position:
-                                      BadgePosition.topEnd(top: 0, end: 2),
-                                  elevation: 0,
-                                  shape: BadgeShape.circle,
-                                  badgeColor: Colors.red,
-                                  borderSide: BorderSide(color: Colors.red),
-                                  child: Icon(
-                                    LineIcons.googleLogo,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 30,
-                                ),
-                                Badge(
-                                  position:
-                                      BadgePosition.topEnd(top: 0, end: 2),
-                                  elevation: 0,
-                                  shape: BadgeShape.circle,
-                                  badgeColor: Colors.blueAccent,
-                                  borderSide: BorderSide(color: Colors.red),
-                                  child: Icon(
-                                    LineIcons.linkedin,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      )
-                    ],
+                              // SizedBox(
+                              //   height: 30,
+                              // ),
+                              // Center(
+                              //   child: Row(
+                              //     crossAxisAlignment: CrossAxisAlignment.center,
+                              //     mainAxisAlignment: MainAxisAlignment.center,
+                              //     children: <Widget>[
+                              //       Text(
+                              //         "Sudah punya akun ? ",
+                              //         style: TextStyle(
+                              //             fontWeight: FontWeight.w600,
+                              //             color: Colors.grey),
+                              //       ),
+                              //       InkWell(
+                              //         onTap: () =>
+                              //             Navigator.pushNamed(context, "/login"),
+                              //         child: Text(
+                              //           "Masuk disini",
+                              //           style: TextStyle(
+                              //               fontWeight: FontWeight.w600,
+                              //               color: Color(0xff200391)),
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                              SizedBox(
+                                height: 40,
+                              ),
+                              // Text("Atau, Masuk Pake Akun",
+                              //     textAlign: TextAlign.center,
+                              //     style: GoogleFonts.poppins(
+                              //       textStyle: TextStyle(
+                              //           fontSize: 12, color: Color(0xff383838)),
+                              //     )),
+                              // SizedBox(
+                              //   height: 20,
+                              // ),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: <Widget>[
+                              //     Badge(
+                              //       position:
+                              //           BadgePosition.topEnd(top: 0, end: 2),
+                              //       elevation: 0,
+                              //       shape: BadgeShape.circle,
+                              //       badgeColor: Colors.blue,
+                              //       borderSide: BorderSide(color: Colors.black),
+                              //       child: Icon(
+                              //         LineIcons.facebook,
+                              //         color: Colors.white,
+                              //       ),
+                              //     ),
+                              //     SizedBox(
+                              //       width: 30,
+                              //     ),
+                              //     Badge(
+                              //       position:
+                              //           BadgePosition.topEnd(top: 0, end: 2),
+                              //       elevation: 0,
+                              //       shape: BadgeShape.circle,
+                              //       badgeColor: Colors.red,
+                              //       borderSide: BorderSide(color: Colors.red),
+                              //       child: Icon(
+                              //         LineIcons.googleLogo,
+                              //         color: Colors.white,
+                              //       ),
+                              //     ),
+                              //     SizedBox(
+                              //       width: 30,
+                              //     ),
+                              //     Badge(
+                              //       position:
+                              //           BadgePosition.topEnd(top: 0, end: 2),
+                              //       elevation: 0,
+                              //       shape: BadgeShape.circle,
+                              //       badgeColor: Colors.blueAccent,
+                              //       borderSide: BorderSide(color: Colors.red),
+                              //       child: Icon(
+                              //         LineIcons.linkedin,
+                              //         color: Colors.white,
+                              //       ),
+                              //     ),
+                              //   ],
+                              // )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
+          ),
     );
   }
 

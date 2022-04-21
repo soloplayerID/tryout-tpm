@@ -1,5 +1,6 @@
 import 'package:TesUjian/screen/fragment/profil/profile_header.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
@@ -197,8 +198,16 @@ class _ProfileDetailState extends State<ProfileDetail>
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.pushNamed(
-                                    context, "/profile_edit_profile");
+                                // Navigator.pushNamed(
+                                //     context, "/profile_edit_profile");
+                                Fluttertoast.showToast(
+                                    msg: "Edit Profile sedang dikerjakan",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.red,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0);
                               },
                               child: Container(
                                 child: Row(

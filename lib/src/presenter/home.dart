@@ -41,7 +41,7 @@ class HomePresenter implements HomePresenterAbstract {
           this._homeState.onError('Coba Selain Pondok :)');
         } else {
           // print('bukan');
-          this.save(this._homeModel.idPaket, id);
+          this.save(id, this._homeModel.idPaket);
         }
       }
     }

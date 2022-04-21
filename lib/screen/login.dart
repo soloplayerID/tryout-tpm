@@ -46,300 +46,300 @@ class _LoginUI extends State<Login> implements LoginState {
     return Scaffold(
       body: this._loginModel.isloading
           ? Loading()
-          : SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              physics: ClampingScrollPhysics(),
-              child: Form(
-                key: _formkey,
-                child: Container(
-                  padding: EdgeInsets.only(left: 25, right: 25),
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                          padding: EdgeInsets.only(top: 50, bottom: 20),
+          : SafeArea(
+            child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                physics: ClampingScrollPhysics(),
+                child: Form(
+                  key: _formkey,
+                  child: Container(
+                    padding: EdgeInsets.only(left: 25, right: 25),
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            padding: EdgeInsets.only(top: 50, bottom: 20),
+                            width: MediaQuery.of(context).size.width,
+                            alignment: Alignment.topLeft,
+                            child: InkWell(
+                                onTap: (() => {Navigator.of(context).pop(true)}),
+                                child: Icon(
+                                  LineIcons.arrowLeft,
+                                  color: Color(0xff212121),
+                                  size: 30,
+                                ))),
+                        Text("Masuk",
+                            style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                  fontSize: 34,
+                                  color: Color(0xff212121),
+                                  fontWeight: FontWeight.bold),
+                            )),
+                        Text(
+                            "Ayo masuk, dan kerjakan soal soal yang telah menantimu",
+                            style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                  fontSize: 12, color: Color(0xff383838)),
+                            )),
+                        SizedBox(
+                          height: 50,
+                        ),
+                        Container(
                           width: MediaQuery.of(context).size.width,
-                          alignment: Alignment.topLeft,
-                          child: InkWell(
-                              onTap: (() => {Navigator.of(context).pop(true)}),
-                              child: Icon(
-                                LineIcons.arrowLeft,
-                                color: Color(0xff212121),
-                                size: 30,
-                              ))),
-                      Text("Masuk",
-                          style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                fontSize: 34,
-                                color: Color(0xff212121),
-                                fontWeight: FontWeight.bold),
-                          )),
-                      Text(
-                          "Ayo masuk, dan kerjakan soal soal yang telah menantimu",
-                          style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                fontSize: 12, color: Color(0xff383838)),
-                          )),
-                      SizedBox(
-                        height: 50,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              width: MediaQuery.of(context).size.width / 1.2,
-                              height: 30,
-                              margin: EdgeInsets.only(
-                                  top: 4, left: 16, bottom: 1, right: 16),
-                              decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  border: Border(
-                                    bottom: BorderSide(
-                                        width: 1, color: Color(0xff2D8EFF)),
-                                  )),
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    setState(() {
-                                      this._loginModel.isErrorUsername = true;
-                                      this._loginModel.usernameError =
-                                          "Email tidak boleh kosong";
-                                    });
-                                  }
-                                  return null;
-                                },
-                                onChanged: (str) {
-                                  setState(() {
-                                    this._loginModel.isErrorUsername = false;
-                                    this._loginModel.usernameError = null;
-                                  });
-                                },
-                                controller: this._loginModel.username,
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 14),
-                                decoration: InputDecoration(
-                                    icon: Icon(
-                                      Icons.email,
-                                      color: this._loginModel.isErrorUsername
-                                          ? Colors.red
-                                          : Color(0xff2D8EFF),
-                                      size: 18,
-                                    ),
-                                    hintText: "Email",
-                                    border: InputBorder.none,
-                                    errorText: this._loginModel.usernameError,
-                                    errorStyle: TextStyle(
-                                        color: Colors.red, fontSize: 9),
-                                    fillColor: Colors.grey,
-                                    hintStyle: TextStyle(
-                                        color: Color(0xff2D8EFF),
-                                        fontSize: 12)),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width / 1.2,
-                              height: 30,
-                              margin: EdgeInsets.only(
-                                  top: 4, left: 16, bottom: 1, right: 16),
-                              decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  border: Border(
-                                    bottom: BorderSide(
-                                        width: 1, color: Color(0xff2D8EFF)),
-                                  )),
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    setState(() {
-                                      this._loginModel.isErrorPassword = true;
-                                      this._loginModel.passwordError =
-                                          "Password tidak boleh kosong";
-                                    });
-                                  }
-                                  return null;
-                                },
-                                onChanged: (str) {
-                                  setState(() {
-                                    this._loginModel.isErrorPassword = false;
-                                    this._loginModel.passwordError = null;
-                                  });
-                                },
-                                controller: this._loginModel.password,
-                                obscureText: _isPasswordVisible,
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 14),
-                                decoration: InputDecoration(
-                                    icon: Icon(
-                                      Icons.lock,
-                                      color: this._loginModel.isErrorPassword
-                                          ? Colors.red
-                                          : Color(0xff2D8EFF),
-                                      size: 18,
-                                    ),
-                                    suffixIcon: IconButton(
-                                        icon: Icon(
-                                          _isPasswordVisible
-                                              ? Icons.visibility_off
-                                              : Icons.visibility,
-                                          color: Colors.black,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            _isPasswordVisible =
-                                                !_isPasswordVisible;
-                                          });
-                                        }),
-                                    hintText: "Password",
-                                    border: InputBorder.none,
-                                    errorText: this._loginModel.passwordError,
-                                    errorStyle: TextStyle(
-                                        color: Colors.red, fontSize: 9),
-                                    fillColor: Colors.grey,
-                                    hintStyle: TextStyle(
-                                        color: Color(0xff2D8EFF),
-                                        fontSize: 12)),
-                              ),
-                            ),
-                            InkWell(
-                              splashColor: Color(0xff7474BF),
-                              onTap: () {
-                                if (_formkey.currentState.validate()) {
-                                  this._loginPresenter.loginClicked();
-                                }
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(top: 50.0),
-                                height: 43,
+                          child: Column(
+                            children: <Widget>[
+                              Container(
                                 width: MediaQuery.of(context).size.width / 1.2,
+                                height: 30,
+                                margin: EdgeInsets.only(
+                                    top: 4, left: 16, bottom: 1, right: 16),
                                 decoration: BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.black26,
-                                          offset: Offset(0, 28),
-                                          blurRadius: 40,
-                                          spreadRadius: -12)
-                                    ],
-                                    color: Color(0xff1d63dc),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                                child: Center(
-                                  child: Text(
-                                    "Masuk",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
+                                    color: Colors.transparent,
+                                    border: Border(
+                                      bottom: BorderSide(
+                                          width: 1, color: Color(0xff2D8EFF)),
+                                    )),
+                                child: TextFormField(
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      setState(() {
+                                        this._loginModel.isErrorUsername = true;
+                                        this._loginModel.usernameError =
+                                            "Email tidak boleh kosong";
+                                      });
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: (str) {
+                                    setState(() {
+                                      this._loginModel.isErrorUsername = false;
+                                      this._loginModel.usernameError = null;
+                                    });
+                                  },
+                                  controller: this._loginModel.username,
+                                  style:
+                                      TextStyle(color: Colors.grey, fontSize: 14),
+                                  decoration: InputDecoration(
+                                      icon: Icon(
+                                        Icons.email,
+                                        color: this._loginModel.isErrorUsername
+                                            ? Colors.red
+                                            : Color(0xff2D8EFF),
+                                        size: 18,
+                                      ),
+                                      hintText: "Email",
+                                      border: InputBorder.none,
+                                      errorText: this._loginModel.usernameError,
+                                      errorStyle: TextStyle(
+                                          color: Colors.red, fontSize: 9),
+                                      fillColor: Colors.grey,
+                                      hintStyle: TextStyle(
+                                          color: Color(0xff2D8EFF),
+                                          fontSize: 12)),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width / 1.2,
+                                height: 30,
+                                margin: EdgeInsets.only(
+                                    top: 4, left: 16, bottom: 1, right: 16),
+                                decoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    border: Border(
+                                      bottom: BorderSide(
+                                          width: 1, color: Color(0xff2D8EFF)),
+                                    )),
+                                child: TextFormField(
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      setState(() {
+                                        this._loginModel.isErrorPassword = true;
+                                        this._loginModel.passwordError =
+                                            "Password tidak boleh kosong";
+                                      });
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: (str) {
+                                    setState(() {
+                                      this._loginModel.isErrorPassword = false;
+                                      this._loginModel.passwordError = null;
+                                    });
+                                  },
+                                  controller: this._loginModel.password,
+                                  obscureText: _isPasswordVisible,
+                                  style:
+                                      TextStyle(color: Colors.grey, fontSize: 14),
+                                  decoration: InputDecoration(
+                                      icon: Icon(
+                                        Icons.lock,
+                                        color: this._loginModel.isErrorPassword
+                                            ? Colors.red
+                                            : Color(0xff2D8EFF),
+                                        size: 18,
+                                      ),
+                                      suffixIcon: IconButton(
+                                          icon: Icon(
+                                            _isPasswordVisible
+                                                ? Icons.visibility_off
+                                                : Icons.visibility,
+                                            color: Colors.black,
+                                          ),
+                                          onPressed: () {
+                                            setState(() {
+                                              _isPasswordVisible =
+                                                  !_isPasswordVisible;
+                                            });
+                                          }),
+                                      hintText: "Password",
+                                      border: InputBorder.none,
+                                      errorText: this._loginModel.passwordError,
+                                      errorStyle: TextStyle(
+                                          color: Colors.red, fontSize: 9),
+                                      fillColor: Colors.grey,
+                                      hintStyle: TextStyle(
+                                          color: Color(0xff2D8EFF),
+                                          fontSize: 12)),
+                                ),
+                              ),
+                              InkWell(
+                                splashColor: Color(0xff7474BF),
+                                onTap: () {
+                                  if (_formkey.currentState.validate()) {
+                                    this._loginPresenter.loginClicked();
+                                  }
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(top: 50.0),
+                                  height: 43,
+                                  width: MediaQuery.of(context).size.width / 1.2,
+                                  decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(0, 28),
+                                            blurRadius: 40,
+                                            spreadRadius: -12)
+                                      ],
+                                      color: Color(0xff1d63dc),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10))),
+                                  child: Center(
+                                    child: Text(
+                                      "Masuk",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Center(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    "Belum Memiliki akun ? ",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.grey),
-                                  ),
-                                  InkWell(
-                                    onTap: () =>
-                                        Navigator.pushNamed(context, "/signup"),
-                                    child: Text(
-                                      "Daftar Sekarang ",
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Center(
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      "Belum Memiliki akun ? ",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
-                                          color: Color(0xff200391)),
+                                          color: Colors.grey),
                                     ),
-                                  ),
-                                ],
+                                    InkWell(
+                                      onTap: () =>
+                                          Navigator.pushNamed(context, "/signup"),
+                                      child: Text(
+                                        "Daftar Sekarang ",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            color: Color(0xff200391)),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 40,
-                            ),
-                            // Text("Atau, Masuk Pake Akun",
-                            //     textAlign: TextAlign.center,
-                            //     style: GoogleFonts.poppins(
-                            //       textStyle: TextStyle(
-                            //           fontSize: 12, color: Color(0xff383838)),
-                            //     )),
-                            // SizedBox(
-                            //   height: 20,
-                            // ),
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   children: <Widget>[
-                            //     Badge(
-                            //       position:
-                            //           BadgePosition.topEnd(top: 0, end: 2),
-                            //       elevation: 0,
-                            //       shape: BadgeShape.circle,
-                            //       badgeColor: Colors.blue,
-                            //       borderSide: BorderSide(color: Colors.black),
-                            //       child: Icon(
-                            //         LineIcons.facebook,
-                            //         color: Colors.white,
-                            //       ),
-                            //     ),
-                            //     SizedBox(
-                            //       width: 30,
-                            //     ),
-                            //     Badge(
-                            //       position:
-                            //           BadgePosition.topEnd(top: 0, end: 2),
-                            //       elevation: 0,
-                            //       shape: BadgeShape.circle,
-                            //       badgeColor: Colors.red,
-                            //       borderSide: BorderSide(color: Colors.red),
-                            //       child: Icon(
-                            //         LineIcons.googleLogo,
-                            //         color: Colors.white,
-                            //       ),
-                            //     ),
-                            //     SizedBox(
-                            //       width: 30,
-                            //     ),
-                            //     Badge(
-                            //       position:
-                            //           BadgePosition.topEnd(top: 0, end: 2),
-                            //       elevation: 0,
-                            //       shape: BadgeShape.circle,
-                            //       badgeColor: Colors.blueAccent,
-                            //       borderSide: BorderSide(color: Colors.red),
-                            //       child: Icon(
-                            //         LineIcons.linkedin,
-                            //         color: Colors.white,
-                            //       ),
-                            //     ),
-                            //   ],
-                            // )
-                          ],
-                        ),
-                      )
-                    ],
+                              SizedBox(
+                                height: 40,
+                              ),
+                              // Text("Atau, Masuk Pake Akun",
+                              //     textAlign: TextAlign.center,
+                              //     style: GoogleFonts.poppins(
+                              //       textStyle: TextStyle(
+                              //           fontSize: 12, color: Color(0xff383838)),
+                              //     )),
+                              // SizedBox(
+                              //   height: 20,
+                              // ),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: <Widget>[
+                              //     Badge(
+                              //       position:
+                              //           BadgePosition.topEnd(top: 0, end: 2),
+                              //       elevation: 0,
+                              //       shape: BadgeShape.circle,
+                              //       badgeColor: Colors.blue,
+                              //       borderSide: BorderSide(color: Colors.black),
+                              //       child: Icon(
+                              //         LineIcons.facebook,
+                              //         color: Colors.white,
+                              //       ),
+                              //     ),
+                              //     SizedBox(
+                              //       width: 30,
+                              //     ),
+                              //     Badge(
+                              //       position:
+                              //           BadgePosition.topEnd(top: 0, end: 2),
+                              //       elevation: 0,
+                              //       shape: BadgeShape.circle,
+                              //       badgeColor: Colors.red,
+                              //       borderSide: BorderSide(color: Colors.red),
+                              //       child: Icon(
+                              //         LineIcons.googleLogo,
+                              //         color: Colors.white,
+                              //       ),
+                              //     ),
+                              //     SizedBox(
+                              //       width: 30,
+                              //     ),
+                              //     Badge(
+                              //       position:
+                              //           BadgePosition.topEnd(top: 0, end: 2),
+                              //       elevation: 0,
+                              //       shape: BadgeShape.circle,
+                              //       badgeColor: Colors.blueAccent,
+                              //       borderSide: BorderSide(color: Colors.red),
+                              //       child: Icon(
+                              //         LineIcons.linkedin,
+                              //         color: Colors.white,
+                              //       ),
+                              //     ),
+                              //   ],
+                              // )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
+          ),
     );
   }
 
   @override
   void onError(String error) {
-    // ignore: todo
-    // TODO: implement onError
     print(error);
     Fluttertoast.showToast(
         msg: "$error",
@@ -374,5 +374,18 @@ class _LoginUI extends State<Login> implements LoginState {
     setState(() {
       this._loginModel = loginModel;
     });
+  }
+
+  @override
+  void onMuridOff(String alert) {
+    Fluttertoast.showToast(
+        msg: "$alert",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+    Navigator.pushReplacementNamed(context, "/verify");
   }
 }

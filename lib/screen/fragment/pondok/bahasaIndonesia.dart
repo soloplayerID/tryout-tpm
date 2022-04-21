@@ -10,7 +10,6 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:html/dom.dart' as htmlParser;
 
 import 'package:TesUjian/screen/fragment/loading.dart';
 import 'package:TesUjian/screen/notfound.dart';
@@ -545,12 +544,11 @@ class BahasaIndonesiaScreenState extends State<BahasaIndonesiaScreen>
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   Html(
-                                    data: htmlParser.DocumentFragment.html(this
+                                    data: this
                                             ._soalModel
                                             .tryoutSoalPondok
                                             .data[this._soalModel.currentIndex]
-                                            .soal)
-                                        .text,
+                                            .soal,
                                     style: {
                                       "table": Style(
                                         backgroundColor: Color.fromARGB(
@@ -569,6 +567,10 @@ class BahasaIndonesiaScreenState extends State<BahasaIndonesiaScreen>
                                         padding: EdgeInsets.all(6),
                                       ),
                                       "p": Style(
+                                          fontFamily: 'serif',
+                                          textAlign: TextAlign.justify
+                                      ),
+                                      "br": Style(
                                           fontFamily: 'serif',
                                           textAlign: TextAlign.justify),
                                     },
@@ -703,84 +705,138 @@ class BahasaIndonesiaScreenState extends State<BahasaIndonesiaScreen>
                                         SizedBox(
                                           height: 20,
                                         ),
-                                        Center(
-                                          child: InkWell(
-                                            splashColor: Color(0xff7474BF),
-                                            onTap: () {
-                                              print(pictures);
-                                              print(this
-                                                  ._soalModel
-                                                  .tryoutSoalPondok
-                                                  .data[this
-                                                      ._soalModel
-                                                      .currentIndex]
-                                                  .status);
-                                              this._soalPresenter.submit();
-                                              // this
-                                              //             ._soalModel
-                                              //             .status ==
-                                              //         1
-                                              //     ? this
-                                              //         ._soalPresenter
-                                              //         .jawabVoice(
-                                              //             'test')
-                                              //     : this
-                                              //                 ._soalModel
-                                              //                 .status ==
-                                              //             2
-                                              //         ? this._soalPresenter.jawabGambar(
-                                              //             pictures,
-                                              //             this
-                                              //                 ._soalModel
-                                              //                 .tryoutSoalPondok
-                                              //                 .data[this
-                                              //                     ._soalModel
-                                              //                     .currentIndex]
-                                              //                 .idTryoutDetailSoals)
-                                              //         : this._soalModel.status ==
-                                              //                 3
-                                              //             ? this._soalPresenter.jawabVideo(
-                                              //                 videos,
-                                              //                 this
-                                              //                     ._soalModel
-                                              //                     .tryoutSoalPondok
-                                              //                     .data[this
-                                              //                         ._soalModel
-                                              //                         .currentIndex]
-                                              //                     .idTryoutDetailSoals)
-                                              //             : this.onError(
-                                              //                 'Cek Dulu Soal Dan Jawabannya :)');
-                                            },
-                                            child: Container(
-                                              margin: EdgeInsets.only(top: 10.0),
-                                              height: 35,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  1.4,
-                                              decoration: BoxDecoration(
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                        color: Colors.black26,
-                                                        offset: Offset(0, 28),
-                                                        blurRadius: 40,
-                                                        spreadRadius: -12)
-                                                  ],
-                                                  color: Color(0xff1d63dc),
-                                                  borderRadius: BorderRadius.all(
-                                                      Radius.circular(10))),
-                                              child: Center(
-                                                child: Text(
-                                                  'Next',
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold),
+                                        this._soalModel.currentIndex + 1 !=
+                                                this
+                                                    ._soalModel
+                                                    .tryoutSoalPondok
+                                                    .data
+                                                    .length
+                                            ? Center(
+                                                child: InkWell(
+                                                  splashColor:
+                                                      Color(0xff7474BF),
+                                                  onTap: () {
+                                                    this
+                                                        ._soalPresenter
+                                                        .submitPondok();
+                                                    // this
+                                                    //             ._soalModel
+                                                    //             .status ==
+                                                    //         1
+                                                    //     ? this
+                                                    //         ._soalPresenter
+                                                    //         .jawabVoice(
+                                                    //             'test')
+                                                    //     : this
+                                                    //                 ._soalModel
+                                                    //                 .status ==
+                                                    //             2
+                                                    //         ? this._soalPresenter.jawabGambar(
+                                                    //             pictures,
+                                                    //             this
+                                                    //                 ._soalModel
+                                                    //                 .tryoutSoalPondok
+                                                    //                 .data[this
+                                                    //                     ._soalModel
+                                                    //                     .currentIndex]
+                                                    //                 .idTryoutDetailSoals)
+                                                    //         : this._soalModel.status ==
+                                                    //                 3
+                                                    //             ? this._soalPresenter.jawabVideo(
+                                                    //                 videos,
+                                                    //                 this
+                                                    //                     ._soalModel
+                                                    //                     .tryoutSoalPondok
+                                                    //                     .data[this
+                                                    //                         ._soalModel
+                                                    //                         .currentIndex]
+                                                    //                     .idTryoutDetailSoals)
+                                                    //             : this.onError(
+                                                    //                 'Cek Dulu Soal Dan Jawabannya :)');
+                                                  },
+                                                  child: Container(
+                                                    margin: EdgeInsets.only(
+                                                        top: 10.0),
+                                                    height: 35,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            1.4,
+                                                    decoration: BoxDecoration(
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                              color: Color(
+                                                                  0xff7474BF),
+                                                              offset:
+                                                                  Offset(0, 28),
+                                                              blurRadius: 40,
+                                                              spreadRadius: -12)
+                                                        ],
+                                                        color:
+                                                            Color(0xff1d63dc),
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    10))),
+                                                    child: Center(
+                                                      child: Text(
+                                                        'Next',
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
+                                              )
+                                            : Center(
+                                                child: InkWell(
+                                                  splashColor:
+                                                      Color(0xff7474BF),
+                                                  onTap: () {
+                                                    showAlertDialog(context);
+                                                  },
+                                                  child: Container(
+                                                    margin: EdgeInsets.only(
+                                                        top: 10.0),
+                                                    height: 35,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            1.4,
+                                                    decoration: BoxDecoration(
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                              color: Colors
+                                                                  .black26,
+                                                              offset:
+                                                                  Offset(0, 28),
+                                                              blurRadius: 40,
+                                                              spreadRadius: -12)
+                                                        ],
+                                                        color:
+                                                            Color(0xff68BC98),
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    10))),
+                                                    child: Center(
+                                                      child: Text(
+                                                        'Kumpulkan',
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
                                       ],
                                     ),
                                   )

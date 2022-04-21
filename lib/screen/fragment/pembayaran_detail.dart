@@ -88,13 +88,11 @@ class PembayaranDetailState extends State<PembayaranDetail>
                       Container(
                         child: Text(
                           'Segera lakukan pembayaran sebelum ' +
-                              widget.batasTanggal +
-                              ' - ' +
                               widget.batasWaktu +
-                              ' WIB dengan rincian sebagai berikut.',
+                              ' WIB hari ini, dengan rincian sebagai berikut.',
                           style: GoogleFonts.poppins(
                             color: Colors.black,
-                            fontSize: 14,
+                            fontSize: 16,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -211,10 +209,10 @@ class PembayaranDetailState extends State<PembayaranDetail>
                       ),
                       Container(
                         child: Text(
-                          'Pembelian akan otomatis dibatalkan apabila anda tidak melakukan pembayaran lebih dari 1 hari setelah kode.',
+                          'Pembelian akan otomatis dibatalkan apabila anda tidak melakukan pembayaran lebih dari waktu yang ditentukan.',
                           style: GoogleFonts.poppins(
                             color: Colors.black,
-                            fontSize: 14,
+                            fontSize: 12,
                           ),
                           textAlign: TextAlign.center,
                         ),

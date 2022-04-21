@@ -5,12 +5,13 @@ import 'dart:io';
 
 import 'package:TesUjian/helper/getStorage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_recorder2/flutter_audio_recorder2.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file/local.dart';
 import 'package:http/http.dart' as http;
 import 'package:TesUjian/helper/paths.dart';
+
+import 'package:record/record.dart';
 
 class RecorderPsikotesView extends StatefulWidget {
   final Function onSaved;
@@ -36,16 +37,18 @@ class _RecorderPsikotesViewState extends State<RecorderPsikotesView> {
   IconData _recordIcon = Icons.mic_none;
   String _recordText = 'Click To Start';
   RecordingState _recordingState = RecordingState.UnSet;
+  bool _isRecording = false;
 
-  // Recorder properties
-  FlutterAudioRecorder2 audioRecorder;
+  // Record Properties
+  final _audioRecorder = Record();
+
 
   @override
   void initState() {
     super.initState();
 
-    FlutterAudioRecorder2.hasPermissions.then((hasPermision) {
-      if (hasPermision) {
+    _audioRecorder.hasPermission().then((hasPermission) {
+      if (hasPermission) {
         _recordingState = RecordingState.Set;
         _recordIcon = Icons.mic;
         _recordText = 'Record';
@@ -56,7 +59,7 @@ class _RecorderPsikotesViewState extends State<RecorderPsikotesView> {
   @override
   void dispose() {
     _recordingState = RecordingState.UnSet;
-    audioRecorder = null;
+    _audioRecorder.stop();
     super.dispose();
   }
 
@@ -119,22 +122,35 @@ class _RecorderPsikotesViewState extends State<RecorderPsikotesView> {
   }
 
   _initRecorder() async {
-    Directory appDirectory = await getApplicationDocumentsDirectory();
-    String filePath =
-        appDirectory.path + '/' + widget.number.toString() + '.aac';
-
-    audioRecorder =
-        FlutterAudioRecorder2(filePath, audioFormat: AudioFormat.AAC);
-    await audioRecorder.initialized;
+    // Directory appDirectory = await getApplicationDocumentsDirectory();
+    // String filePath =
+    //     appDirectory.path + '/' + widget.number.toString() + '.aac';
   }
 
   _startRecording() async {
-    await audioRecorder.start();
+    // await audioRecorder.start();
+    Directory appDirectory = await getApplicationDocumentsDirectory();
+    String filePath =
+        appDirectory.path + '/' + widget.number.toString() + '.aac';
+    await _audioRecorder.start(
+      path: filePath, // required
+      encoder: AudioEncoder.AAC, // by default
+      bitRate: 128000, // by default
+    );
+
+    bool isRecording = await _audioRecorder.isRecording();
+    setState(() {
+      _isRecording = isRecording;
+    });
     // await audioRecorder.current(channel: 0);
   }
 
   _stopRecording() async {
-    await audioRecorder.stop();
+    await _audioRecorder.stop();
+    setState(() {
+      _isRecording = false;
+    });
+    // await audioRecorder.stop();
     Directory appDirectory = await getApplicationDocumentsDirectory();
     String filePath =
         appDirectory.path + '/' + widget.number.toString() + '.aac';
@@ -164,7 +180,7 @@ class _RecorderPsikotesViewState extends State<RecorderPsikotesView> {
   }
 
   Future<void> _recordVoice() async {
-    if (await FlutterAudioRecorder2.hasPermissions) {
+    if (await _audioRecorder.hasPermission()) {
       Directory appDirectory = await getApplicationDocumentsDirectory();
       String filePath =
           appDirectory.path + '/' + widget.number.toString() + '.aac';

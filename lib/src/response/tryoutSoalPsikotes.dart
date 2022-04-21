@@ -28,6 +28,8 @@ class Data {
   int idTryoutDetailSoals;
   int id;
   String soal;
+  String soalDua;
+  String soalTiga;
   String jawabanUser;
   String jawabanBenar;
   int status;
@@ -36,6 +38,8 @@ class Data {
       {this.idTryoutDetailSoals,
       this.id,
       this.soal,
+      this.soalDua,
+      this.soalTiga,
       this.jawabanUser,
       this.jawabanBenar,
       this.status});
@@ -44,6 +48,8 @@ class Data {
     idTryoutDetailSoals = json['id_tryoutDetailSoals'];
     id = json['id'];
     soal = json['soal'];
+    soalDua = json['soal_dua'] != null ? json['soal_dua'] : null;
+    soalTiga = json['soal_tiga'] != null ? json['soal_tiga'] : null;
     jawabanUser = json['jawaban_user'];
     jawabanBenar = json['jawaban_benar'];
     status = json['status'];
@@ -54,6 +60,8 @@ class Data {
     data['id_tryoutDetailSoals'] = this.idTryoutDetailSoals;
     data['id'] = this.id;
     data['soal'] = this.soal;
+    data['soal_dua'] = this.soalDua;
+    data['soal_tiga'] = this.soalTiga;
     data['jawaban_user'] = this.jawabanUser;
     data['jawaban_benar'] = this.jawabanBenar;
     data['status'] = this.status;

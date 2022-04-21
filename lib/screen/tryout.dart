@@ -139,7 +139,8 @@ class _TryoutScreenState extends State<TryoutScreen>
                                     ),
                                     iconSize: 24,
                                     onPressed: () {
-                                      Navigator.pop(context);
+                                      Navigator.popAndPushNamed(
+                                          context, '/home');
                                     },
                                   )),
                               Positioned(

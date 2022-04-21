@@ -324,4 +324,12 @@ class _TotalNilaiScreenState extends State<TotalNilaiScreen>
   void removeDataBayar(String error) {
     this._bayarModel.bayars.clear();
   }
+
+  @override
+  void onCheckBayarSilver(BayarModel bayarModel) {
+  }
+
+  @override
+  void onCheckStatusSilver(int idMurid, int idTryout, int harga) {
+  }
 }

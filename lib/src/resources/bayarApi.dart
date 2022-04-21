@@ -1,7 +1,5 @@
 import 'package:TesUjian/src/response/bayarCheck.dart';
 import 'package:TesUjian/src/response/bayarGet.dart';
-import 'package:TesUjian/src/response/bayarPost.dart';
-import 'package:TesUjian/src/response/cekPembayaran.dart';
 import 'package:TesUjian/src/response/cekStatus.dart';
 import 'package:TesUjian/src/response/hargaGetResponse.dart';
 import 'package:dio/dio.dart';

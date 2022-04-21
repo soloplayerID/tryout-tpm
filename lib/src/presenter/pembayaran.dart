@@ -60,6 +60,7 @@ class PembayaranPresenter implements PembayaranPresenterAbstract {
   @override
   void checkout(int idMurid, int idTryout, String metode, String jumlah) {
     print('bayar step:2');
+    print(jumlah);
     this._bayarModel.isloading = true;
     this._pembayaranState.refreshData(this._bayarModel);
     // this._pembayaranModel.isloading = true;

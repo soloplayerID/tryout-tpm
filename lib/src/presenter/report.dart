@@ -1,8 +1,9 @@
+// ignore_for_file: unused_local_variable, deprecated_member_use
+
 import 'dart:convert';
 
 import 'package:TesUjian/src/model/bayar.dart';
 import 'package:TesUjian/src/model/overall_stat.dart';
-import 'package:TesUjian/src/model/total_nilai.dart';
 import 'package:TesUjian/src/model/total_nilai_detail.dart';
 import 'package:TesUjian/src/model/tryout.dart';
 import 'package:TesUjian/src/resources/TryoutApi.dart';
@@ -19,6 +20,7 @@ abstract class ReportPresenterAbstract {
   void getMatpels(int idTryout) {}
   void setMatpel(id, BuildContext context) {}
   void checkPembayaranStatus(String idBayar) {}
+  void checkStatus(int idMurid, int idTryout, int harga) {}
 }
 
 class ReportPresenter implements ReportPresenterAbstract {
@@ -40,9 +42,17 @@ class ReportPresenter implements ReportPresenterAbstract {
   }
 
   @override
-  void check(int idMurid, int idTryout,int harga) {
+  void check(int idMurid, int idTryout, int harga) {
+    // print('harga :$harga');
+    this._tryoutModel.isloading = true;
     this._bayarApi.checkStatus(idMurid, idTryout, harga).then((value) {
-      this._totalNilaiState.onCheck(value);
+      this._tryoutModel.isloading = false;
+      if (value == 'false') {
+        this._totalNilaiState.onCheck(value, harga);
+      } else {
+        print('true');
+        this._totalNilaiState.onCheckStatus(idMurid, idTryout, harga);
+      }
     }).catchError((err) {
       this._totalNilaiState.onError(err.toString());
     });
@@ -66,6 +76,47 @@ class ReportPresenter implements ReportPresenterAbstract {
       this._totalNilaiState.onCheckBayar(this._bayarModel);
     }).catchError((err) {
       this._tryoutModel.isloading = false;
+      this._totalNilaiState.onError(err.toString());
+    });
+  }
+
+  @override
+  void checkStatus(int idMurid, int idTryout, int harga) {
+    this._tryoutModel.isloading = true;
+    this._bayarModel.bayars.clear();
+    this._totalNilaiState.refreshDataBayar(this._bayarModel);
+    // this._totalNilaiState.removeDataBayar('test');
+
+    this._bayarApi.checkPembayaran(idMurid, idTryout, harga).then((value) {
+      this._tryoutModel.isloading = false;
+      String tanggal = DateFormat("d, MMMM - y")
+          .format(DateTime.parse(value.dataBayar.tgl))
+          .toString();
+      List<String> time = value.dataBayar.batasWaktu.split("T");
+      List<String> times = time[1].split(".");
+      String batasTanggal = DateFormat("d, MMMM - y")
+          .format(DateTime.parse(value.dataBayar.batasWaktu))
+          .toString();
+      this._bayarModel.bayars.add(new Bayar(
+          amount: value.dataBayar.jumlah,
+          bank: value.dataBayar.metodePembayaran,
+          batasTanggal: batasTanggal,
+          batasWaktu: times[0].substring(1, 5),
+          idTryout: value.dataBayar.idTryout,
+          orderId: value.dataBayar.id,
+          status: value.dataBayar.status,
+          transactionStatus: 'Pending',
+          transactionTime: tanggal,
+          deepLink: value.dataBayar.deeplink != null
+              ? value.dataBayar.deeplink
+              : null,
+          vaNumber: value.dataBayar.vaNumber));
+      this._tryoutModel.isloading = false;
+      this._totalNilaiState.refreshDataBayar(this._bayarModel);
+      this._totalNilaiState.onCheckBayar(this._bayarModel);
+    }).catchError((err) {
+      this._tryoutModel.isloading = false;
+      this._totalNilaiState.refreshDataModel(this._tryoutModel);
       this._totalNilaiState.onError(err.toString());
     });
   }
@@ -141,6 +192,5 @@ class ReportPresenter implements ReportPresenterAbstract {
 
   @override
   void setMatpel(id, BuildContext context) {
-    // TODO: implement setMatpel
   }
 }
