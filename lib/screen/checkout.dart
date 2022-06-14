@@ -184,6 +184,49 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                             GestureDetector(
                               onTap: () {
                                 setState(() {
+                                  selected = 'bsi';
+                                });
+                              },
+                              child: Container(
+                                height: 50,
+                                width: MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.only(
+                                    left: 20, right: 20, bottom: 7.5, top: 7.5),
+                                decoration: BoxDecoration(
+                                    color: selected == 'bsi'
+                                        ? Colors.grey[400]
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 2,
+                                        blurRadius: 7,
+                                        offset: Offset(
+                                            0, 3), // changes position of shadow
+                                      ),
+                                    ]),
+                                padding: EdgeInsets.all(10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Center(
+                                      child: Container(
+                                          width: 60,
+                                          margin: EdgeInsets.all(5),
+                                          child: ClipRRect(
+                                            // borderRadius: BorderRadius.circular(10),
+                                            child: Image.asset(
+                                                'assets/img/bsi.png'),
+                                          )),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
                                   selected = 'bri';
                                 });
                               },
@@ -391,6 +434,149 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                                             // borderRadius: BorderRadius.circular(10),
                                             child: Image.asset(
                                                 'assets/img/mandiri.png'),
+                                          )),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              margin: EdgeInsets.only(left: 20, bottom: 10),
+                              child: Text(
+                                'E-Wallet',
+                                style: GoogleFonts.poppins(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  selected = 'ovo';
+                                });
+                              },
+                              child: Container(
+                                height: 50,
+                                width: MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.only(
+                                    left: 20, right: 20, bottom: 7.5, top: 7.5),
+                                decoration: BoxDecoration(
+                                    color: selected == 'ovo'
+                                        ? Colors.grey[400]
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 2,
+                                        blurRadius: 7,
+                                        offset: Offset(
+                                            0, 3), // changes position of shadow
+                                      ),
+                                    ]),
+                                padding: EdgeInsets.all(10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Center(
+                                      child: Container(
+                                          width: 60,
+                                          margin: EdgeInsets.all(5),
+                                          child: ClipRRect(
+                                            // borderRadius: BorderRadius.circular(10),
+                                            child: Image.asset(
+                                                'assets/img/ovo.png'),
+                                          )),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  selected = 'dana';
+                                });
+                              },
+                              child: Container(
+                                height: 50,
+                                width: MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.only(
+                                    left: 20, right: 20, bottom: 7.5, top: 7.5),
+                                decoration: BoxDecoration(
+                                    color: selected == 'dana'
+                                        ? Colors.grey[400]
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 2,
+                                        blurRadius: 7,
+                                        offset: Offset(
+                                            0, 3), // changes position of shadow
+                                      ),
+                                    ]),
+                                padding: EdgeInsets.all(10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Center(
+                                      child: Container(
+                                          width: 60,
+                                          margin: EdgeInsets.all(5),
+                                          child: ClipRRect(
+                                            // borderRadius: BorderRadius.circular(10),
+                                            child: Image.asset(
+                                                'assets/img/dana.png'),
+                                          )),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  selected = 'shopeepay';
+                                });
+                              },
+                              child: Container(
+                                height: 50,
+                                width: MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.only(
+                                    left: 20, right: 20, bottom: 7.5, top: 7.5),
+                                decoration: BoxDecoration(
+                                    color: selected == 'shopeepay'
+                                        ? Colors.grey[400]
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 2,
+                                        blurRadius: 7,
+                                        offset: Offset(
+                                            0, 3), // changes position of shadow
+                                      ),
+                                    ]),
+                                padding: EdgeInsets.all(10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Center(
+                                      child: Container(
+                                          width: 43,
+                                          margin: EdgeInsets.all(5),
+                                          child: ClipRRect(
+                                            // borderRadius: BorderRadius.circular(10),
+                                            child: Image.network(
+                                                'https://storage.googleapis.com/go-merchant-production.appspot.com/uploads/2020/10/f7fb2e0ab8572355142dba33ddc7b8d6_0747205be87147c03d04217ad4eb06c3_compressed.png'),
                                           )),
                                     ),
                                   ],

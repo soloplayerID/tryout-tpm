@@ -1,5 +1,4 @@
 import 'package:TesUjian/src/model/bayar.dart';
-import 'package:TesUjian/src/model/total_nilai.dart';
 import 'package:TesUjian/src/model/total_nilai_detail.dart';
 import 'package:TesUjian/src/model/tryout.dart';
 import 'package:flutter/material.dart';

@@ -199,37 +199,37 @@ class TagihanState extends State<Tagihan>
                                                                 )
                                                               : Row(
                                                                   children: [
-                                                                    Container(
-                                                                      padding: EdgeInsets
-                                                                          .only(
-                                                                              top: 10),
-                                                                      child:
-                                                                          RaisedButton(
-                                                                        padding:
-                                                                            EdgeInsets.all(1),
-                                                                        color: Color(
-                                                                            0xff2e97f2),
-                                                                        disabledColor:
-                                                                            Colors.red,
-                                                                        onPressed:
-                                                                            () {},
-                                                                        shape: RoundedRectangleBorder(
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(18.0),
-                                                                            side: BorderSide(color: Colors.white)),
-                                                                        child:
-                                                                            Text(
-                                                                          'Bayar',
-                                                                          style:
-                                                                              GoogleFonts.poppins(
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontSize:
-                                                                                12,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
+                                                                    // Container(
+                                                                    //   padding: EdgeInsets
+                                                                    //       .only(
+                                                                    //           top: 10),
+                                                                    //   child:
+                                                                    //       RaisedButton(
+                                                                    //     padding:
+                                                                    //         EdgeInsets.all(1),
+                                                                    //     color: Color(
+                                                                    //         0xff2e97f2),
+                                                                    //     disabledColor:
+                                                                    //         Colors.red,
+                                                                    //     onPressed:
+                                                                    //         () {},
+                                                                    //     shape: RoundedRectangleBorder(
+                                                                    //         borderRadius:
+                                                                    //             BorderRadius.circular(18.0),
+                                                                    //         side: BorderSide(color: Colors.white)),
+                                                                    //     child:
+                                                                    //         Text(
+                                                                    //       'Bayar',
+                                                                    //       style:
+                                                                    //           GoogleFonts.poppins(
+                                                                    //         color:
+                                                                    //             Colors.white,
+                                                                    //         fontSize:
+                                                                    //             12,
+                                                                    //       ),
+                                                                    //     ),
+                                                                    //   ),
+                                                                    // ),
                                                                     Container(
                                                                       padding: EdgeInsets
                                                                           .only(
@@ -243,8 +243,10 @@ class TagihanState extends State<Tagihan>
                                                                         disabledColor:
                                                                             Colors.red,
                                                                         onPressed:
-                                                                            () {
-                                                                          this._tagihanPresenter.cancel(this
+                                                                            () async {
+                                                                              this._bayarModel.bayars[itemIndex].metodePembayaran == 'bri'
+                                                                          ? this._tagihanPresenter.cancelXendit(this._bayarModel.bayars[itemIndex].orderId)
+                                                                          : this._tagihanPresenter.cancel(this
                                                                               ._bayarModel
                                                                               .bayars[itemIndex]
                                                                               .orderId);
@@ -398,37 +400,37 @@ class TagihanState extends State<Tagihan>
                                                                   )
                                                                 : Row(
                                                                     children: [
-                                                                      Container(
-                                                                        padding: EdgeInsets
-                                                                            .only(
-                                                                                top: 20),
-                                                                        child:
-                                                                            RaisedButton(
-                                                                          padding:
-                                                                              EdgeInsets.all(1),
-                                                                          color: Color(
-                                                                              0xff2e97f2),
-                                                                          disabledColor:
-                                                                              Colors.red,
-                                                                          onPressed:
-                                                                              () {},
-                                                                          shape: RoundedRectangleBorder(
-                                                                              borderRadius:
-                                                                                  BorderRadius.circular(18.0),
-                                                                              side: BorderSide(color: Colors.white)),
-                                                                          child:
-                                                                              Text(
-                                                                            'Bayar',
-                                                                            style:
-                                                                                GoogleFonts.poppins(
-                                                                              color:
-                                                                                  Colors.white,
-                                                                              fontSize:
-                                                                                  12,
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
+                                                                      // Container(
+                                                                      //   padding: EdgeInsets
+                                                                      //       .only(
+                                                                      //           top: 20),
+                                                                      //   child:
+                                                                      //       RaisedButton(
+                                                                      //     padding:
+                                                                      //         EdgeInsets.all(1),
+                                                                      //     color: Color(
+                                                                      //         0xff2e97f2),
+                                                                      //     disabledColor:
+                                                                      //         Colors.red,
+                                                                      //     onPressed:
+                                                                      //         () {},
+                                                                      //     shape: RoundedRectangleBorder(
+                                                                      //         borderRadius:
+                                                                      //             BorderRadius.circular(18.0),
+                                                                      //         side: BorderSide(color: Colors.white)),
+                                                                      //     child:
+                                                                      //         Text(
+                                                                      //       'Bayar',
+                                                                      //       style:
+                                                                      //           GoogleFonts.poppins(
+                                                                      //         color:
+                                                                      //             Colors.white,
+                                                                      //         fontSize:
+                                                                      //             12,
+                                                                      //       ),
+                                                                      //     ),
+                                                                      //   ),
+                                                                      // ),
                                                                       Container(
                                                                         padding: EdgeInsets
                                                                             .only(
@@ -567,23 +569,23 @@ class TagihanState extends State<Tagihan>
                                                                           )
                                                                         : Row(
                                                                             children: [
-                                                                              Container(
-                                                                                padding: EdgeInsets.only(top: 20),
-                                                                                child: RaisedButton(
-                                                                                  padding: EdgeInsets.all(1),
-                                                                                  color: Color(0xff2e97f2),
-                                                                                  disabledColor: Colors.red,
-                                                                                  onPressed: () {},
-                                                                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0), side: BorderSide(color: Colors.white)),
-                                                                                  child: Text(
-                                                                                    'Bayar',
-                                                                                    style: GoogleFonts.poppins(
-                                                                                      color: Colors.white,
-                                                                                      fontSize: 12,
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ),
+                                                                              // Container(
+                                                                              //   padding: EdgeInsets.only(top: 20),
+                                                                              //   child: RaisedButton(
+                                                                              //     padding: EdgeInsets.all(1),
+                                                                              //     color: Color(0xff2e97f2),
+                                                                              //     disabledColor: Colors.red,
+                                                                              //     onPressed: () {},
+                                                                              //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0), side: BorderSide(color: Colors.white)),
+                                                                              //     child: Text(
+                                                                              //       'Bayar',
+                                                                              //       style: GoogleFonts.poppins(
+                                                                              //         color: Colors.white,
+                                                                              //         fontSize: 12,
+                                                                              //       ),
+                                                                              //     ),
+                                                                              //   ),
+                                                                              // ),
                                                                               Container(
                                                                                 padding: EdgeInsets.only(top: 20),
                                                                                 child: RaisedButton(
@@ -622,9 +624,10 @@ class TagihanState extends State<Tagihan>
 
   @override
   void onError(String error) {
+    // print(error);
     Fluttertoast.showToast(
         msg: "$error",
-        toastLength: Toast.LENGTH_SHORT,
+        toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.red,

@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 class BayarGetResponse {
   bool success;
   DataBayar dataBayar;
@@ -82,7 +84,7 @@ class Data {
     id = json['id'];
     transactionId = json['transaction_id'];
     vaNumber = json['va_number'];
-    deepLink = json['deeplink'] != null ? json['deeplink'] : null;
+    deepLink = json['deeplink'] != null ? json['deeplink'] : '0';
     paymentType = json['payment_type'];
     batasWaktu = json['batas_waktu'];
     idMurid = json['id_murid'];

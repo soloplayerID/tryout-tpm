@@ -3,6 +3,7 @@
 import 'package:TesUjian/helper/getStorage.dart';
 import 'package:TesUjian/helper/harga.dart';
 import 'package:TesUjian/screen/checkout.dart';
+import 'package:TesUjian/screen/fragment/average_nilai.dart';
 import 'package:TesUjian/screen/fragment/pembayaran_detail.dart';
 import 'package:TesUjian/screen/fragment/report/pie_detail_chart.dart';
 import 'package:TesUjian/screen/pembahasan.dart';
@@ -92,453 +93,478 @@ class ReportAppState extends State<ReportApp>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: double.infinity,
-        child: this._totalNilaiDetailModel.isloading
-            ? Container(
-                child: Center(child: CircularProgressIndicator()),
-              )
-            : Column(
-                children: [
-                  Container(
-                      padding: EdgeInsets.only(top: 30, left: 20, right: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context).pop(true);
-                            },
-                            child: Icon(LineIcons.arrowLeft),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            'Analysis Report',
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          SizedBox(
-                            height: 50,
-                          ),
-                          Icon(LineIcons.bell)
-                        ],
-                      )),
-                  Expanded(
-                      child: Container(
-                    padding: EdgeInsets.all(20),
-                    width: MediaQuery.of(context).size.width,
-                    height: double.infinity,
-                    color: Color(0xffecedf2),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 110,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Image.asset("assets/img/paket.png",
-                                    color: Colors.blue, fit: BoxFit.fill),
-                                Container(
-                                    margin:
-                                        EdgeInsets.only(top: 10.0, left: 5.0),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          widget.namaPaket +
-                                              ' ' +
-                                              widget.jenjang,
-                                          style: TextStyle(
-                                              fontFamily: 'Roboto',
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
-                                        ),
-                                        Divider(
-                                          color: Colors.black,
-                                          height: 10,
-                                          thickness: 5,
-                                          indent: 20,
-                                          endIndent: 0,
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(
-                                          widget.tanggalPengerjaan,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 14),
-                                        )
-                                      ],
-                                    )),
-                              ],
+      body: SafeArea(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: double.infinity,
+          child: this._totalNilaiDetailModel.isloading
+              ? Container(
+                  child: Center(child: CircularProgressIndicator()),
+                )
+              : Column(
+                  children: [
+                    Container(
+                        padding: EdgeInsets.only(top: 30, left: 20, right: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).pop(true);
+                              },
+                              child: Icon(LineIcons.arrowLeft),
                             ),
-                          ),
-                          Container(
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              'Analysis Report',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Icon(LineIcons.bell)
+                          ],
+                        )),
+                    Expanded(
+                        child: Container(
+                      padding: EdgeInsets.all(20),
+                      width: MediaQuery.of(context).size.width,
+                      height: double.infinity,
+                      color: Color(0xffecedf2),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 110,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Image.asset("assets/img/paket.png",
+                                      color: Colors.blue, fit: BoxFit.fill),
+                                  Container(
+                                      margin:
+                                          EdgeInsets.only(top: 10.0, left: 5.0),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            widget.namaPaket +
+                                                ' ' +
+                                                widget.jenjang,
+                                            style: TextStyle(
+                                                fontFamily: 'Roboto',
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16),
+                                          ),
+                                          Divider(
+                                            color: Colors.black,
+                                            height: 10,
+                                            thickness: 5,
+                                            indent: 20,
+                                            endIndent: 0,
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            widget.tanggalPengerjaan,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 14),
+                                          )
+                                        ],
+                                      )),
+                                ],
+                              ),
+                            ),
+                            Container(
+                                padding: EdgeInsets.only(top: 10, bottom: 10),
+                                child: ListView.builder(
+                                    itemCount: 1,
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, nilaiIndex) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            selectedPelajaran = "Semua";
+                                            for (var i = 0;
+                                                i <
+                                                    this
+                                                        ._totalNilaiDetailModel
+                                                        .overallStat
+                                                        .length;
+                                                i++) {
+                                              dataMap.putIfAbsent(
+                                                  this
+                                                      ._totalNilaiDetailModel
+                                                      .overallStat[i]
+                                                      .namaPelajaran,
+                                                  () => this
+                                                      ._totalNilaiDetailModel
+                                                      .overallStat[i]
+                                                      .nilai
+                                                      .toDouble());
+                                            }
+                                            // _overallStat = [
+                                            //   charts.Series<OverallStatModel, String>(
+                                            //       id: 'all',
+                                            //       domainFn: (OverallStatModel overallstat, _) =>
+                                            //           overallstat.namaPelajaran,
+                                            //       measureFn:
+                                            //           (OverallStatModel overallstat,
+                                            //                   _) =>
+                                            //               overallstat.nilai,
+                                            //       labelAccessorFn:
+                                            //           (OverallStatModel overallstat,
+                                            //                   _) =>
+                                            //               overallstat.nilai
+                                            //                   .toString(),
+                                            //       colorFn: (OverallStatModel overallstat,
+                                            //               _) =>
+                                            //           charts.ColorUtil.fromDartColor(
+                                            //               overallstat.color),
+                                            //       data: [
+                                            //         OverallStatModel(),
+                                            //       ])
+                                            // ];
+                                          });
+                                        },
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                          margin: EdgeInsets.only(left: 8),
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                              color: selectedPelajaran == "Semua"
+                                                  ? Colors.blue
+                                                  : Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(30)),
+                                          child: Text(
+                                            "Nilai Semua Pelajaran",
+                                            style: TextStyle(
+                                                color:
+                                                    selectedPelajaran == "Semua"
+                                                        ? Colors.white
+                                                        : Color(0xffA1A1A1)),
+                                          ),
+                                        ),
+                                      );
+                                    })),
+                            Container(
                               padding: EdgeInsets.only(top: 10, bottom: 10),
+                              height: 50,
+                              color: Color(0xffecedf2),
                               child: ListView.builder(
-                                  itemCount: 1,
+                                  itemCount: this
+                                      ._totalNilaiDetailModel
+                                      .paketDetails
+                                      .length,
                                   shrinkWrap: true,
-                                  itemBuilder: (context, nilaiIndex) {
+                                  physics: ClampingScrollPhysics(),
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, itemIndex) {
                                     return GestureDetector(
                                       onTap: () {
                                         setState(() {
-                                          selectedPelajaran = "Semua";
-                                          for (var i = 0;
-                                              i <
-                                                  this
-                                                      ._totalNilaiDetailModel
-                                                      .overallStat
-                                                      .length;
-                                              i++) {
-                                            dataMap.putIfAbsent(
-                                                this
-                                                    ._totalNilaiDetailModel
-                                                    .overallStat[i]
-                                                    .namaPelajaran,
-                                                () => this
-                                                    ._totalNilaiDetailModel
-                                                    .overallStat[i]
-                                                    .nilai
-                                                    .toDouble());
-                                          }
-                                          // _overallStat = [
-                                          //   charts.Series<OverallStatModel, String>(
-                                          //       id: 'all',
-                                          //       domainFn: (OverallStatModel overallstat, _) =>
-                                          //           overallstat.namaPelajaran,
-                                          //       measureFn:
-                                          //           (OverallStatModel overallstat,
-                                          //                   _) =>
-                                          //               overallstat.nilai,
-                                          //       labelAccessorFn:
-                                          //           (OverallStatModel overallstat,
-                                          //                   _) =>
-                                          //               overallstat.nilai
-                                          //                   .toString(),
-                                          //       colorFn: (OverallStatModel overallstat,
-                                          //               _) =>
-                                          //           charts.ColorUtil.fromDartColor(
-                                          //               overallstat.color),
-                                          //       data: [
-                                          //         OverallStatModel(),
-                                          //       ])
-                                          // ];
+                                          selectedPelajaran = this
+                                              ._totalNilaiDetailModel
+                                              .overallStat[itemIndex]
+                                              .namaPelajaran;
+                                          _namaChart = this
+                                              ._totalNilaiDetailModel
+                                              .overallStat[itemIndex]
+                                              .namaPelajaran;
+                                          _totalBenarChart = this
+                                              ._totalNilaiDetailModel
+                                              .overallStat[itemIndex]
+                                              .totalBenar;
+                                          _totalSalahChart = this
+                                              ._totalNilaiDetailModel
+                                              .overallStat[itemIndex]
+                                              .totalSalah;
+                                          _totalDilewatiChart = this
+                                              ._totalNilaiDetailModel
+                                              .overallStat[itemIndex]
+                                              .totalDilewati;
                                         });
                                       },
                                       child: Container(
                                         alignment: Alignment.center,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 20),
+                                        padding:
+                                            EdgeInsets.symmetric(horizontal: 20),
                                         margin: EdgeInsets.only(left: 8),
                                         height: 30,
                                         decoration: BoxDecoration(
-                                            color: selectedPelajaran == "Semua"
-                                                ? Colors.blue
-                                                : Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(30)),
-                                        child: Text(
-                                          "Nilai Semua Pelajaran",
-                                          style: TextStyle(
-                                              color:
-                                                  selectedPelajaran == "Semua"
-                                                      ? Colors.white
-                                                      : Color(0xffA1A1A1)),
-                                        ),
-                                      ),
-                                    );
-                                  })),
-                          Container(
-                            padding: EdgeInsets.only(top: 10, bottom: 10),
-                            height: 50,
-                            color: Color(0xffecedf2),
-                            child: ListView.builder(
-                                itemCount: this
-                                    ._totalNilaiDetailModel
-                                    .paketDetails
-                                    .length,
-                                shrinkWrap: true,
-                                physics: ClampingScrollPhysics(),
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, itemIndex) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        selectedPelajaran = this
-                                            ._totalNilaiDetailModel
-                                            .overallStat[itemIndex]
-                                            .namaPelajaran;
-                                        _namaChart = this
-                                            ._totalNilaiDetailModel
-                                            .overallStat[itemIndex]
-                                            .namaPelajaran;
-                                        _totalBenarChart = this
-                                            ._totalNilaiDetailModel
-                                            .overallStat[itemIndex]
-                                            .totalBenar;
-                                        _totalSalahChart = this
-                                            ._totalNilaiDetailModel
-                                            .overallStat[itemIndex]
-                                            .totalSalah;
-                                        _totalDilewatiChart = this
-                                            ._totalNilaiDetailModel
-                                            .overallStat[itemIndex]
-                                            .totalDilewati;
-                                      });
-                                    },
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 20),
-                                      margin: EdgeInsets.only(left: 8),
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                          color: selectedPelajaran ==
-                                                  this
-                                                      ._totalNilaiDetailModel
-                                                      .overallStat[itemIndex]
-                                                      .namaPelajaran
-                                              ? Colors.blue
-                                              : Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(30)),
-                                      child: Text(
-                                        this
-                                            ._totalNilaiDetailModel
-                                            .overallStat[itemIndex]
-                                            .namaPelajaran,
-                                        style: TextStyle(
                                             color: selectedPelajaran ==
                                                     this
                                                         ._totalNilaiDetailModel
                                                         .overallStat[itemIndex]
                                                         .namaPelajaran
-                                                ? Colors.white
-                                                : Color(0xffA1A1A1)),
-                                      ),
-                                    ),
-                                  );
-                                }),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Divider(
-                            color: Colors.blueGrey,
-                            height: 1,
-                            thickness: 1,
-                            indent: 1,
-                            endIndent: 2,
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Container(
-                              height: 200,
-                              child: selectedPelajaran == ""
-                                  ? Container(
-                                      padding: EdgeInsets.all(20),
-                                      width: MediaQuery.of(context).size.width,
-                                      height: double.infinity,
-                                      color: Color(0xffecedf2),
-                                      child: SingleChildScrollView(
-                                        scrollDirection: Axis.vertical,
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              width: 150,
-                                              height: 130,
-                                              padding: EdgeInsets.all(1),
-                                              child: Image.asset(
-                                                  "assets/img/check.png"),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Container(
-                                              child: Text(
-                                                'Pilih Mata Pelajaran Diatas',
-                                                style: GoogleFonts.poppins(
-                                                  color: Colors.black,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                                                ? Colors.blue
+                                                : Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(30)),
+                                        child: Text(
+                                          this
+                                              ._totalNilaiDetailModel
+                                              .overallStat[itemIndex]
+                                              .namaPelajaran,
+                                          style: TextStyle(
+                                              color: selectedPelajaran ==
+                                                      this
+                                                          ._totalNilaiDetailModel
+                                                          .overallStat[itemIndex]
+                                                          .namaPelajaran
+                                                  ? Colors.white
+                                                  : Color(0xffA1A1A1)),
                                         ),
                                       ),
-                                    )
-                                  : selectedPelajaran == "Semua"
-                                      ? PieChart(
-                                          dataMap: dataMap,
-                                          animationDuration:
-                                              Duration(milliseconds: 800),
-                                          chartLegendSpacing: 32,
-                                          chartRadius: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              3.2,
-                                          colorList: [
-                                            Colors.purple[500],
-                                            Colors.teal[500],
-                                            Colors.red[500],
-                                            Colors.lightBlue
-                                          ],
-                                          initialAngleInDegree: 0,
-                                          chartType: ChartType.ring,
-                                          ringStrokeWidth: 32,
-                                          // centerText: "HYBRID",
-                                          legendOptions: LegendOptions(
-                                            showLegendsInRow: false,
-                                            legendPosition:
-                                                LegendPosition.right,
-                                            showLegends: true,
-                                            // legendShape: _BoxShape.circle,
-                                            legendTextStyle: TextStyle(
-                                              fontWeight: FontWeight.bold,
+                                    );
+                                  }),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Divider(
+                              color: Colors.blueGrey,
+                              height: 1,
+                              thickness: 1,
+                              indent: 1,
+                              endIndent: 2,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                                height: 200,
+                                child: selectedPelajaran == ""
+                                    ? Container(
+                                        padding: EdgeInsets.all(20),
+                                        width: MediaQuery.of(context).size.width,
+                                        height: double.infinity,
+                                        color: Color(0xffecedf2),
+                                        child: SingleChildScrollView(
+                                          scrollDirection: Axis.vertical,
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                width: 150,
+                                                height: 130,
+                                                padding: EdgeInsets.all(1),
+                                                child: Image.asset(
+                                                    "assets/img/check.png"),
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Container(
+                                                child: Text(
+                                                  'Pilih Mata Pelajaran Diatas',
+                                                  style: GoogleFonts.poppins(
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    : selectedPelajaran == "Semua"
+                                        ? PieChart(
+                                            dataMap: dataMap,
+                                            animationDuration:
+                                                Duration(milliseconds: 800),
+                                            chartLegendSpacing: 32,
+                                            chartRadius: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.2,
+                                            colorList: [
+                                              Colors.purple[500],
+                                              Colors.teal[500],
+                                              Colors.red[500],
+                                              Colors.lightBlue
+                                            ],
+                                            initialAngleInDegree: 0,
+                                            chartType: ChartType.ring,
+                                            ringStrokeWidth: 32,
+                                            // centerText: "HYBRID",
+                                            legendOptions: LegendOptions(
+                                              showLegendsInRow: false,
+                                              legendPosition:
+                                                  LegendPosition.right,
+                                              showLegends: true,
+                                              // legendShape: _BoxShape.circle,
+                                              legendTextStyle: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
-                                          ),
-                                          chartValuesOptions:
-                                              ChartValuesOptions(
-                                            showChartValueBackground: true,
-                                            showChartValues: true,
-                                            showChartValuesInPercentage: false,
-                                            showChartValuesOutside: false,
-                                          ),
-                                        )
-                                      : OverallDetailWidget(
-                                          namaChart: _namaChart,
-                                          totalBenarChart: _totalBenarChart,
-                                          totalSalahChart: _totalSalahChart,
-                                          totalDilewatiChart:
-                                              _totalDilewatiChart,
-                                        )),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          Divider(
-                            color: Colors.blueGrey,
-                            height: 1,
-                            thickness: 1,
-                            indent: 1,
-                            endIndent: 2,
-                          ),
-                          // Container(
-                          //   child: Row(
-                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //     children: [
-                          //       Column(
-                          //         children: [
-                          //           Text('Correct'),
-                          //           Text(
-                          //             this
-                          //                 ._totalNilaiDetailModel
-                          //                 .overallStat[0]
-                          //                 .nilai
-                          //                 .toString(),
-                          //             style: GoogleFonts.poppins(
-                          //               color: Colors.black,
-                          //               fontSize: 14,
-                          //               fontWeight: FontWeight.bold,
-                          //             ),
-                          //           ),
-                          //         ],
-                          //       ),
-                          //       Column(
-                          //         children: [
-                          //           Text('Attempted'),
-                          //           Text(
-                          //             '4/40',
-                          //             style: GoogleFonts.poppins(
-                          //               color: Colors.black,
-                          //               fontSize: 14,
-                          //               fontWeight: FontWeight.bold,
-                          //             ),
-                          //           ),
-                          //         ],
-                          //       ),
-                          //       Column(
-                          //         children: [
-                          //           Text('Avg.Speed'),
-                          //           Text(
-                          //             '150+ Q/HR',
-                          //             style: GoogleFonts.poppins(
-                          //               color: Colors.black,
-                          //               fontSize: 14,
-                          //               fontWeight: FontWeight.bold,
-                          //             ),
-                          //           ),
-                          //         ],
-                          //       )
-                          //     ],
-                          //   ),
-                          // ),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          // Divider(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                child: RaisedButton(
-                                  padding: EdgeInsets.all(10),
-                                  color: Colors.orange,
-                                  disabledColor: Colors.red,
-                                  onPressed: () async {},
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(18.0)),
-                                  child: Text(
-                                    'cek standar sekolah',
-                                    style: GoogleFonts.poppins(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
+                                            chartValuesOptions:
+                                                ChartValuesOptions(
+                                              showChartValueBackground: true,
+                                              showChartValues: true,
+                                              showChartValuesInPercentage: false,
+                                              showChartValuesOutside: false,
+                                            ),
+                                          )
+                                        : OverallDetailWidget(
+                                            namaChart: _namaChart,
+                                            totalBenarChart: _totalBenarChart,
+                                            totalSalahChart: _totalSalahChart,
+                                            totalDilewatiChart:
+                                                _totalDilewatiChart,
+                                          )),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            Divider(
+                              color: Colors.blueGrey,
+                              height: 1,
+                              thickness: 1,
+                              indent: 1,
+                              endIndent: 2,
+                            ),
+                            // Container(
+                            //   child: Row(
+                            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //     children: [
+                            //       Column(
+                            //         children: [
+                            //           Text('Correct'),
+                            //           Text(
+                            //             this
+                            //                 ._totalNilaiDetailModel
+                            //                 .overallStat[0]
+                            //                 .nilai
+                            //                 .toString(),
+                            //             style: GoogleFonts.poppins(
+                            //               color: Colors.black,
+                            //               fontSize: 14,
+                            //               fontWeight: FontWeight.bold,
+                            //             ),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //       Column(
+                            //         children: [
+                            //           Text('Attempted'),
+                            //           Text(
+                            //             '4/40',
+                            //             style: GoogleFonts.poppins(
+                            //               color: Colors.black,
+                            //               fontSize: 14,
+                            //               fontWeight: FontWeight.bold,
+                            //             ),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //       Column(
+                            //         children: [
+                            //           Text('Avg.Speed'),
+                            //           Text(
+                            //             '150+ Q/HR',
+                            //             style: GoogleFonts.poppins(
+                            //               color: Colors.black,
+                            //               fontSize: 14,
+                            //               fontWeight: FontWeight.bold,
+                            //             ),
+                            //           ),
+                            //         ],
+                            //       )
+                            //     ],
+                            //   ),
+                            // ),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            // Divider(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  child: RaisedButton(
+                                    padding: EdgeInsets.all(10),
+                                    color: Colors.orange,
+                                    disabledColor: Colors.red,
+                                    onPressed: () async {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AverageNilai(
+                                                    title: this._tryoutModel.tryoutInfoResponse.dataTryout.jenjang,
+                                                    idTryout: this
+                                                        ._tryoutModel
+                                                        .tryoutInfoResponse
+                                                        .dataTryout
+                                                        .id,
+                                                    idArea: this._tryoutModel.idArea,
+                                                    idSekolahTujuan: this
+                                                        ._tryoutModel
+                                                        .tryoutInfoResponse
+                                                        .dataTryout
+                                                        .idSekolahTujuan,
+                                                   idMurid: GetStorage()
+                                                        .read(ID_MURID),
+      
+                                                  )
+                                          ));
+                                    },
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(18.0)),
+                                    child: Text(
+                                      'cek standar sekolah',
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Container(
-                                child: RaisedButton(
-                                  padding: EdgeInsets.all(10),
-                                  color: Colors.blue,
-                                  disabledColor: Colors.red,
-                                  onPressed: () async {
-                                    print(widget.idTryout);
-                                    showMatpel(context);
-                                  },
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(18.0)),
-                                  child: Text(
-                                    'Cek Pembahasan',
-                                    style: GoogleFonts.poppins(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Container(
+                                  child: RaisedButton(
+                                    padding: EdgeInsets.all(10),
+                                    color: Colors.blue,
+                                    disabledColor: Colors.red,
+                                    onPressed: () async {
+                                      print(widget.idTryout);
+                                      showMatpel(context);
+                                    },
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(18.0)),
+                                    child: Text(
+                                      'Cek Pembahasan',
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          )
-                        ],
+                              ],
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  )),
-                ],
-              ),
+                    )),
+                  ],
+                ),
+        ),
       ),
     );
   }
@@ -912,7 +938,8 @@ class ReportAppState extends State<ReportApp>
   @override
   void onCheckBayar(BayarModel bayarModel) {
     switch (bayarModel.bayars[0].transactionStatus) {
-      case 'pending':
+      case 'Pending':
+      print('pending');
         Navigator.push(
             context,
             MaterialPageRoute(

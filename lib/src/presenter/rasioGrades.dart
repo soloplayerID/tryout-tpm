@@ -31,6 +31,7 @@ class RasioGradesPresenter implements RasioGradesPresenterAbstract {
   @override
   void getData(int idMurid, int idTryout, int idTujuanSekolah) {
     print('test');
+    print('idmurid:'+idMurid.toString() + ' idTryout'+ idTryout.toString()+' idTujuan'+idTujuanSekolah.toString());
     this._rasioGradeModel.isloading = true;
     this._rasioGradeState.refreshData(this._rasioGradeModel);
     this

@@ -14,6 +14,7 @@ abstract class TagihanPresenterAbstract {
   set view(TagihanBayarState view) {}
   void getBayars(int idMurid) {}
   void cancel(String orderId) {}
+  void cancelXendit(String orderId) {}
 }
 
 class TagihanPresenter implements TagihanPresenterAbstract {
@@ -47,6 +48,7 @@ class TagihanPresenter implements TagihanPresenterAbstract {
         String batasTanggal = DateFormat("d, MMMM - y")
             .format(DateTime.parse(element.batasWaktu))
             .toString();
+        print(times[0].substring(1, 5));
         this._bayarModel.bayars.add(new Bayar(
             amount: element.jumlah,
             bank: element.metodePembayaran,
@@ -58,7 +60,6 @@ class TagihanPresenter implements TagihanPresenterAbstract {
             status: element.status,
             metodePembayaran: element.metodePembayaran,
             transactionStatus: payment[0] + ' ' + payment[1],
-            deepLink: element.deepLink,
             vaNumber: element.vaNumber == null ? 'gopay' : element.vaNumber));
       });
       this._bayarModel.isloading = false;
@@ -76,6 +77,22 @@ class TagihanPresenter implements TagihanPresenterAbstract {
     this._bayarModel.isloading = true;
     this._tagihanBayarState.refreshData(this._bayarModel);
     this._bayarApi.bayarCancel(orderId).then((value) {
+      this._bayarModel.isloading = false;
+      this._tagihanBayarState.refreshData(this._bayarModel);
+      this._tagihanBayarState.onCancel(value);
+    }).catchError((err) {
+      this._bayarModel.isloading = false;
+      this._tagihanBayarState.refreshData(this._bayarModel);
+      this._tagihanBayarState.onError(err.toString());
+    });
+  }
+
+  @override
+  void cancelXendit(String orderId) {
+    print('test' + orderId + ' BRI');
+    this._bayarModel.isloading = true;
+    this._tagihanBayarState.refreshData(this._bayarModel);
+    this._bayarApi.bayarCancelXendit(orderId).then((value) {
       this._bayarModel.isloading = false;
       this._tagihanBayarState.refreshData(this._bayarModel);
       this._tagihanBayarState.onCancel(value);

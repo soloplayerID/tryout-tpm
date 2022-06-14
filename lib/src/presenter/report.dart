@@ -51,6 +51,7 @@ class ReportPresenter implements ReportPresenterAbstract {
         this._totalNilaiState.onCheck(value, harga);
       } else {
         print('true');
+        print('check status');
         this._totalNilaiState.onCheckStatus(idMurid, idTryout, harga);
       }
     }).catchError((err) {
@@ -105,7 +106,7 @@ class ReportPresenter implements ReportPresenterAbstract {
           idTryout: value.dataBayar.idTryout,
           orderId: value.dataBayar.id,
           status: value.dataBayar.status,
-          transactionStatus: 'Pending',
+          transactionStatus: value.dataBayar.status == true ? 'Success' : 'Pending',
           transactionTime: tanggal,
           deepLink: value.dataBayar.deeplink != null
               ? value.dataBayar.deeplink

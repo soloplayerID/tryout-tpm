@@ -1,4 +1,5 @@
 import 'package:TesUjian/screen/fragment/pembayaran_detail.dart';
+import 'package:TesUjian/screen/fragment/profil/edit_profile_screen.dart';
 // ignore: unused_import
 import 'package:TesUjian/screen/fragment/profile_detail_nilai.dart';
 import 'package:TesUjian/screen/fragment/profile_edit_profile.dart';
@@ -34,6 +35,7 @@ final routes = {
   '/profile_nilai': (BuildContext context) => new ProfileNilai(),
   // '/profile_detail_nilai': (BuildContext context) => new ProfileDetailNilai(),
   '/profile_edit_profile': (BuildContext context) => new EditProfile(),
+  '/profile_edit_screen': (BuildContext context) => new EditProfileScreen(),
   '/profile_tagihan': (BuildContext context) => new Tagihan(),
   '/profile_info_app': (BuildContext context) => new ProfileInfoApp(),
   '/profile_kebijakan_privacy': (BuildContext context) => new ProfilePrivacy(),

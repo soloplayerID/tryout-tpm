@@ -140,4 +140,21 @@ class BayarApi {
       Future.error("Yah, Internet Kamu error!");
     }
   }
+
+  // ignore: missing_return
+  Future<String> bayarCancelXendit(String orderId) async {
+    // dynamic _data = json.encode({"id": orderId});
+    final response = await _client.post(
+        Uri.parse("${Paths.BASEURL}${Paths.ENDPOINT_BAYARCANCELXENDIT}?id=$orderId"));
+    if (response.statusCode == 200) {
+      Map<String, dynamic> res = jsonDecode(response.body);
+      if (res['success']) {
+        return res['data_bayar'];
+      } else {
+        return 'false';
+      }
+    } else {
+      Future.error("Yah, Internet Kamu error!");
+    }
+  }
 }

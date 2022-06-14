@@ -37,6 +37,7 @@ class Paths {
   static const String ENDPOINT_HARGA_GET = "bayar/hargaGet";
   static const String ENDPOINT_CHECKPEMBAYARAN = "bayar/check";
   static const String ENDPOINT_BAYARCANCEL = "bayar/cancel";
+  static const String ENDPOINT_BAYARCANCELXENDIT = "bayar/cancelXendit";
   static const String ENDPOINT_CHECKSTATUSPEMBAYARAN = "CheckStatus";
   static const String ENDPOINT_UPLOAD = "upload";
 
